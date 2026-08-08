@@ -117,16 +117,37 @@ orphan page:
 
 ---
 
+## Saving to GitHub (private repo)
+
+This folder is already a git repo with one commit. To get it onto GitHub without the
+terminal:
+
+1. Install **GitHub Desktop**: <https://desktop.github.com>
+2. Sign in to your GitHub account when prompted.
+3. `File → Add Local Repository…` → choose this `portfolio` folder. It will recognise the
+   existing repo and commit.
+4. Click **Publish repository**. **Leave "Keep this code private" ticked.**
+
+After that, any future changes show up in GitHub Desktop as a diff — write a short summary,
+click Commit, then Push.
+
 ## Deploying
 
-The folder is a plain static site — any static host works. Two easy options:
+The folder is a plain static site, so any static host works.
 
-**Netlify (no git needed):** go to <https://app.netlify.com/drop> and drag the
-`portfolio` folder onto the page. You get a live URL immediately, and a custom domain
-can be attached in Site settings → Domain management.
+**Netlify is the right choice here**, because it deploys from **private** repos on the free
+tier and supports custom domains.
 
-**GitHub Pages:** push this repo, then Settings → Pages → deploy from `main` /
-`root`.
+- *Fastest, no git at all:* drag the `portfolio` folder onto <https://app.netlify.com/drop>.
+  You get a live URL immediately. Attach your domain under Site settings → Domain management.
+- *Better long-term:* in Netlify, "Add new site → Import an existing project" → connect
+  GitHub → pick this repo. Leave the build command empty and set the publish directory to
+  `/`. Every push then redeploys automatically.
+
+**A note on GitHub Pages:** it only serves **public** repositories on the free GitHub plan —
+publishing Pages from a private repo requires GitHub Pro. Since this repo is private
+(it contains client Slack screenshots and internal product UI), use Netlify rather than
+Pages, or accept making the repo public.
 
 Once you have a real URL, set `BASE_URL` near the top of `build.py` and re-run it —
 that switches on canonical tags, Open Graph/social preview tags, `sitemap.xml`, and
