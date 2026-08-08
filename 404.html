@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found — Maxine Zhou</title>
+  <meta name="description" content="Page not found.">
+  <meta name="author" content="Maxine Zhou">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">Maxine Zhou <span>· Product Designer</span></a>
+    <nav class="nav" aria-label="Primary"><a href="index.html">Home</a><a href="projects.html">Work</a><a href="about.html">About</a><a class="nav-resume" href="assets/doc/maxine-zhou-resume.pdf" target="_blank" rel="noopener">Résumé</a><a class="nav-cta" href="mailto:maxinezhou0302@outlook.com"><span class="cta-long">Get in touch</span><span class="cta-short">Email</span></a></nav>
+  </div>
+</header>
+  <main id="main">
+<div class="center-page">
+  <div class="wrap">
+    <h1>Page not found</h1>
+    <p>That link doesn't lead anywhere. Let's get you back to the work.</p>
+    <a class="btn btn-primary" href="/">Back to home</a>
+  </div>
+</div>
+  </main>
+  <section class="contact" id="contact">
+  <div class="wrap">
+    <h2>Feeling that I might be a good fit for your team?</h2>
+    <p>I'm open to product design roles. The fastest way to reach me is email — I reply to everything.</p>
+    <div class="contact-actions">
+      <a class="btn btn-primary" href="mailto:maxinezhou0302@outlook.com">maxinezhou0302@outlook.com</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/maxine-z-90281422b/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</section>
+  <footer class="site-footer">
+  <div class="wrap">
+    <p>© <span id="yr">2026</span> Maxine Zhou</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="projects.html">Work</a>
+      <a href="about.html">About</a>
+      <a href="assets/doc/maxine-zhou-resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      <a href="https://www.linkedin.com/in/maxine-z-90281422b/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+  <script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// header hairline on scroll
+var hd = document.querySelector('.site-header');
+var onScroll = function () { hd.classList.toggle('is-stuck', window.scrollY > 8); };
+onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+
+// reveal on scroll
+var els = document.querySelectorAll('.reveal');
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+  els.forEach(function (el) { io.observe(el); });
+} else {
+  els.forEach(function (el) { el.classList.add('in'); });
+}
+</script>
+</body>
+</html>

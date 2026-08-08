@@ -1,0 +1,1636 @@
+{
+ "proj_launchpad": [
+  [
+   "h1",
+   "Improving Underwriting Efficiency Through Behaviour-Driven Design"
+  ],
+  [
+   "h2",
+   "Turning user data into a smarter navigation model + dynamic view port to provide a better decision environment"
+  ],
+  [
+   "IMG",
+   "429fa4_a3c6ed0d39d248f0980b00bc153ab122.jpg"
+  ],
+  [
+   "h2",
+   "Overview"
+  ],
+  [
+   "h2",
+   "My Role"
+  ],
+  [
+   "p",
+   "Product Designer (Sole Designer)"
+  ],
+  [
+   "h2",
+   "Responsibilities"
+  ],
+  [
+   "li",
+   "Next version of this product"
+  ],
+  [
+   "li",
+   "UX analysis & insight synthesis"
+  ],
+  [
+   "li",
+   "Interaction design"
+  ],
+  [
+   "li",
+   "Information architecture"
+  ],
+  [
+   "li",
+   "Stakeholder alignment"
+  ],
+  [
+   "h2",
+   "The Product"
+  ],
+  [
+   "p",
+   "An internal underwriting application for insurance teams to review and triage submissions, manage workflows, and make faster and more confident decisions"
+  ],
+  [
+   "h2",
+   "The Product"
+  ],
+  [
+   "p",
+   "An internal underwriting application for insurance teams to review and triage submissions, manage workflows, and make faster and more confident decisions"
+  ],
+  [
+   "h2",
+   "Usage at a glance (in a typical month):"
+  ],
+  [
+   "h4",
+   "2,720"
+  ],
+  [
+   "p",
+   "Review sessions"
+  ],
+  [
+   "h4",
+   "224h"
+  ],
+  [
+   "p",
+   "Total time spent of active usage"
+  ],
+  [
+   "h4",
+   "26mins"
+  ],
+  [
+   "p",
+   "Average session length"
+  ],
+  [
+   "h4",
+   "18"
+  ],
+  [
+   "p",
+   "Teams actively using"
+  ],
+  [
+   "h2",
+   "Background & Context"
+  ],
+  [
+   "p",
+   "Underwriters work in a high-volume, high-stakes environment where speed and accuracy are essential. The application\u2019s workflow centered around two primary pages:"
+  ],
+  [
+   "p",
+   "Pipeline View : A table-based workspace for filtering, triaging, and updating submissions"
+  ],
+  [
+   "p",
+   "Submission Detail : A deep-dive view containing full submission context, documents, analysis, and activity history"
+  ],
+  [
+   "h2",
+   "Pipeline View Page"
+  ],
+  [
+   "h2",
+   "Submission Detail Page (deeper dive)"
+  ],
+  [
+   "h3",
+   "Start at UX audit"
+  ],
+  [
+   "p",
+   "As the sole product designer brought in to shape the next version of this product, I began with a structured UX audit to identify improvement opportunities."
+  ],
+  [
+   "IMG",
+   "429fa4_cb15cf892bcf444488324e341f870dbc.jpg"
+  ],
+  [
+   "h3",
+   "Understanding Real Usage"
+  ],
+  [
+   "p",
+   "Following the UX audit, I analysed the funnel behaviour, heat maps, feature usage and session data to understand how underwriters actually worked."
+  ],
+  [
+   "h3",
+   "Where does decision-making actually happen?"
+  ],
+  [
+   "h3",
+   "What information do users need during triage?"
+  ],
+  [
+   "h3",
+   "How can the interface better support comparison across submissions?"
+  ],
+  [
+   "h3",
+   "Are users navigating efficiently or compensating for missing context?"
+  ],
+  [
+   "h3",
+   "What the Data Revealed"
+  ],
+  [
+   "p",
+   "1. Only 46.1% of users entered the submission detail page"
+  ],
+  [
+   "p",
+   "2. The Back button was the most-used interaction on submission detail"
+  ],
+  [
+   "p",
+   "3. Users frequently looped between pipeline and submission detail"
+  ],
+  [
+   "p",
+   "4. Submission detail was used selectively to access specific context, especially summaries and notes"
+  ],
+  [
+   "h3",
+   "Why Back button dominance?"
+  ],
+  [
+   "p",
+   "The answer: fast comprehension first, depth on demand"
+  ],
+  [
+   "p",
+   "The pipeline view functioned as the true decision workspace, while the submission detail page acted as a short-term inspection layer."
+  ],
+  [
+   "p",
+   "Underwriters relied on the pipeline page for orientation and comparison, opening submission detail primarily to verify context before returning to continue their review."
+  ],
+  [
+   "h2",
+   "Design Direction"
+  ],
+  [
+   "p",
+   "1. Rebalanced information hierarchy to surface key signals closer to the pipeline"
+  ],
+  [
+   "p",
+   "2. Cut navigation overhead with pre-filtered views and a 'filters-on-demand' system"
+  ],
+  [
+   "p",
+   "3. Introduced a contextual Details drawer for files, AI insights, activity history, and notes"
+  ],
+  [
+   "p",
+   "4. Implemented an adaptive viewport to support dense data analysis without losing workflow context"
+  ],
+  [
+   "h3",
+   "I proposed a design direction that improved the workflow and resolved key UX friction points:"
+  ],
+  [
+   "IMG",
+   "429fa4_d350c620e78b43f4a027b3db0547d249.jpg"
+  ],
+  [
+   "h3",
+   "Reducing Noise, Preserving Control"
+  ],
+  [
+   "p",
+   "I designed a \u2018filters-on-demand\u2019 system that reduced visual complexity while maintaining flexibility. Frequently used filters were prioritised, and reusable filter presets allowed underwriters to quickly re-establish context across sessions."
+  ],
+  [
+   "p",
+   "I proposed consolidating key submission information into a contextual drawer accessible from the pipeline page."
+  ],
+  [
+   "h2",
+   "Adaptive Viewport for High-Density Data"
+  ],
+  [
+   "p",
+   "To accommodate high-density data, I designed an adaptive viewport that supports uninterrupted data analysis while preserving quick access to workflow context and collaboration tools."
+  ],
+  [
+   "h2",
+   "Impact"
+  ],
+  [
+   "p",
+   "With over 224 hours of monthly usage, even small improvements could scale quickly. Reducing just one minute per session could save over 45 hours per month across underwriting teams."
+  ],
+  [
+   "p",
+   "Due to roadmap priorities, this work was positioned as a future optimisation, establishing a clear, data-backed direction for improving underwriting efficiency at scale."
+  ],
+  [
+   "h2",
+   "Other projects I\u2019ve enjoyed working on"
+  ],
+  [
+   "h3",
+   "Enterprise Design System Migration"
+  ],
+  [
+   "h3",
+   "AI-powered Contract Review Platform"
+  ],
+  [
+   "h3",
+   "Feeling that I might be a good fit for your team?"
+  ],
+  [
+   "h2",
+   "Get in touch"
+  ]
+ ],
+ "proj_designsystemmigration": [
+  [
+   "h1",
+   "Enterprise Design System Migration Challenge"
+  ],
+  [
+   "h2",
+   "Led design system migration across a 16-product insurance ecosystem, cutting custom components by 94% and establishing governance across three design agencies."
+  ],
+  [
+   "IMG",
+   "429fa4_d9606ddbf3a445d2b3b2e8975b3fcf70.jpg"
+  ],
+  [
+   "h2",
+   "Overview"
+  ],
+  [
+   "h3",
+   "Our Design Team"
+  ],
+  [
+   "p",
+   "Design System Designer (me)"
+  ],
+  [
+   "p",
+   "+ Design Manager"
+  ],
+  [
+   "h3",
+   "Timeline"
+  ],
+  [
+   "p",
+   "March - December 2025"
+  ],
+  [
+   "p",
+   "(10 months)"
+  ],
+  [
+   "h3",
+   "My Core Deliverables"
+  ],
+  [
+   "li",
+   "Four products migrated with three in active progress"
+  ],
+  [
+   "li",
+   "Design library fully built, aligned with storybook"
+  ],
+  [
+   "li",
+   "Documentation and governance frameworks established"
+  ],
+  [
+   "li",
+   "Design team culture transformed from siloed to collaborative"
+  ],
+  [
+   "li",
+   "Client set up to scale the system independently after the engagement ended"
+  ],
+  [
+   "h2",
+   "The Product"
+  ],
+  [
+   "p",
+   "An internal underwriting application for insurance teams to review and triage submissions, manage workflows, and make faster and more confident decisions"
+  ],
+  [
+   "h2",
+   "Impacts"
+  ],
+  [
+   "h4",
+   "49"
+  ],
+  [
+   "h3",
+   "with full tokenization and documentation"
+  ],
+  [
+   "h4",
+   "35% \u2192 2%"
+  ],
+  [
+   "h3",
+   "reduction in custom components (core product pilot)"
+  ],
+  [
+   "h4",
+   "10"
+  ],
+  [
+   "h3",
+   "designers across three agencies aligned and collaborative"
+  ],
+  [
+   "h3",
+   "Migrated or in-progress within engagement period"
+  ],
+  [
+   "IMG",
+   "429fa4_1c3a8c2e3fb5442bb06d134f647be1cf.jpg"
+  ],
+  [
+   "h3",
+   "The Challenge"
+  ],
+  [
+   "p",
+   "The client operated 16+ products built by multiple contractors with significant operational challenges:"
+  ],
+  [
+   "li",
+   "83% of design work required custom components due to system limitations of the existing design system"
+  ],
+  [
+   "li",
+   "Three separate design agencies worked in silos with inconsistent practices"
+  ],
+  [
+   "li",
+   "Designers skipped collaboration meetings and worked independently"
+  ],
+  [
+   "li",
+   "Fragmented user experiences across the product portfolio"
+  ],
+  [
+   "li",
+   "No clear governance on when/how to extend the design system"
+  ],
+  [
+   "h3",
+   "What my role brought"
+  ],
+  [
+   "li",
+   "Build and organise the design library and documentation"
+  ],
+  [
+   "li",
+   "Provide design system services and support to designers across agencies"
+  ],
+  [
+   "li",
+   "Establish governance processes for consistent adoption"
+  ],
+  [
+   "li",
+   "Lead pilot migration to demonstrate value and approach"
+  ],
+  [
+   "li",
+   "Transform team culture from siloed to collaborative"
+  ],
+  [
+   "IMG",
+   "429fa4_b5944372986c431380a22c98f4eb852d.jpg"
+  ],
+  [
+   "IMG",
+   "429fa4_4d33c3c898b64582bb5f1bfa7c316c82.jpg"
+  ],
+  [
+   "p",
+   "After"
+  ],
+  [
+   "p",
+   "Before"
+  ],
+  [
+   "h3",
+   "My Approach"
+  ],
+  [
+   "h6",
+   "Phase 1"
+  ],
+  [
+   "h2",
+   "Foundation Building"
+  ],
+  [
+   "p",
+   "1. Built the Design Library covering full product ecosystem"
+  ],
+  [
+   "p",
+   "2. Tokenised Design Foundations + Component Documentation"
+  ],
+  [
+   "p",
+   "3. Established the cleaned-up version of Storybook as the single source of truth"
+  ],
+  [
+   "p",
+   "4. Provided designer support infrastructure across all three agencies"
+  ],
+  [
+   "h6",
+   "Phase 2"
+  ],
+  [
+   "h2",
+   "Governance & Quality Assurance"
+  ],
+  [
+   "p",
+   "1. Conducted UX audits + regular design checkin across agencies to identify drift"
+  ],
+  [
+   "p",
+   "2. Documented Exception Framework (on the right) for when deviations make sense, balancing system integrity with design flexibility"
+  ],
+  [
+   "p",
+   "3. Created 3-4 week component prioritisation pipeline"
+  ],
+  [
+   "p",
+   "4. Hosted Pattern Workshops across agencies to identify reusable patterns"
+  ],
+  [
+   "h2",
+   "The Challenge I faced at phase 2"
+  ],
+  [
+   "p",
+   "What happened"
+  ],
+  [
+   "p",
+   "While reviewing some mockups, I noticed many components were heavily customised \u2014 spacing, padding, and text weights differed from the DS."
+  ],
+  [
+   "p",
+   "The tension"
+  ],
+  [
+   "p",
+   "Product designers wanted to preserve user familiarity."
+  ],
+  [
+   "p",
+   "The DS manager questioned the purpose of migration if visuals remain unchanged."
+  ],
+  [
+   "p",
+   "What I did to solve the underlying conflict"
+  ],
+  [
+   "p",
+   "1. Clarified intent: Migration = technical adoption + gradual alignment, not forced visual conformity."
+  ],
+  [
+   "p",
+   "2. Defined path forward:"
+  ],
+  [
+   "p",
+   "Phase 1 \u2013 DS components with overrides;"
+  ],
+  [
+   "p",
+   "Phase 2 \u2013 reassess after research and user acceptance testing."
+  ],
+  [
+   "p",
+   "3. Process improvement: Proposed an Exceptional Framework to document justified divergences from the DS."
+  ],
+  [
+   "h3",
+   "Phase 3"
+  ],
+  [
+   "h2",
+   "Strategic Migration"
+  ],
+  [
+   "p",
+   "We ran a low-risk pilot on a simple product to validate the process and build team confidence. Then, we migrated the essential product to showcase impact."
+  ],
+  [
+   "p",
+   "During migration, we fixed some UX issues, applied semantic tokens, and improved predictability with a unified visual language."
+  ],
+  [
+   "p",
+   "(Result: 35% \u2192 2% custom components)"
+  ],
+  [
+   "h3",
+   "Phase 4"
+  ],
+  [
+   "h2",
+   "Scaling & Enablement"
+  ],
+  [
+   "p",
+   "1. Transformed siloed agencies into collaborative community"
+  ],
+  [
+   "p",
+   "2. Completed four product migrations, three in progress (planned completion by end of year)"
+  ],
+  [
+   "p",
+   "3. Client equipped to continue independently with established processes"
+  ],
+  [
+   "h3",
+   "Impact for the business"
+  ],
+  [
+   "li",
+   "Drastic reduction in design/handoff time as DS coverage increased"
+  ],
+  [
+   "li",
+   "Migration approach proven through pilot that other teams can replicate"
+  ],
+  [
+   "li",
+   "Team now owns and evolves the design system together"
+  ],
+  [
+   "h3",
+   "Reflection and learnings"
+  ],
+  [
+   "li",
+   "I've learned that DS migration is as much about people and process as components, building trust among design teams by providing supports proactively is the key."
+  ],
+  [
+   "li",
+   "I also understood the importance of change management: balancing consistency with designers' needs."
+  ],
+  [
+   "li",
+   "Stakeholder communication and systems thinking are essential!!"
+  ],
+  [
+   "li",
+   "Finally, I've learnt to choose the battle. We decided to pause the migration on one product which only has less than 10 active users as we feel designers of this product is reluctant do the migration in our suggested way, and it\u2019s time consuming to repeat and try to onboard them at every design check-in meeting."
+  ],
+  [
+   "h2",
+   "Other projects I\u2019ve enjoyed working on"
+  ],
+  [
+   "h3",
+   "Improving Underwriting Efficiency Through Behaviour-Driven Design"
+  ],
+  [
+   "h3",
+   "AI-powered Contract Review Platform"
+  ],
+  [
+   "h3",
+   "Feeling that I might be a good fit for your team?"
+  ],
+  [
+   "h2",
+   "Get in touch"
+  ]
+ ],
+ "proj_analyser": [
+  [
+   "h1",
+   "AI-Augmented Contract documents Analysis Platform"
+  ],
+  [
+   "h2",
+   "Designed trust into AI-powered contract analysis for high-pressure insurance workflows"
+  ],
+  [
+   "IMG",
+   "429fa4_82c4d33150404b6da68fb9b32b4b621c.jpg"
+  ],
+  [
+   "h2",
+   "Overview"
+  ],
+  [
+   "h2",
+   "My Role"
+  ],
+  [
+   "p",
+   "Product Designer (Sole Designer)"
+  ],
+  [
+   "h2",
+   "Key Outcomes"
+  ],
+  [
+   "li",
+   "Streamlined contract review during critical renewal periods"
+  ],
+  [
+   "li",
+   "Designed Continuous AI Training in workflow that felt natural to users"
+  ],
+  [
+   "li",
+   "Built user trust through transparent AI verification design"
+  ],
+  [
+   "h2",
+   "Additional Complexity"
+  ],
+  [
+   "li",
+   "Remote collaboration with a dev team in France"
+  ],
+  [
+   "li",
+   "Tech constraints: LLM latency and inability to build a specific layout"
+  ],
+  [
+   "li",
+   "Ecosystem consistency: aligned with two products and fed insights into a core product"
+  ],
+  [
+   "h2",
+   "The Product"
+  ],
+  [
+   "p",
+   "An internal underwriting application for insurance teams to review and triage submissions, manage workflows, and make faster and more confident decisions"
+  ],
+  [
+   "h2",
+   "The Problem"
+  ],
+  [
+   "h3",
+   "Fragmented, High-Stakes Workflows"
+  ],
+  [
+   "p",
+   "During busy renewal periods, underwriters analyse hundreds of reinsurance and insurance contracts under tight deadlines. Their workflow is chaotic\u2014constantly switching between:"
+  ],
+  [
+   "li",
+   "Contract PDFs"
+  ],
+  [
+   "li",
+   "Email chains"
+  ],
+  [
+   "li",
+   "Notes documents"
+  ],
+  [
+   "li",
+   "Slack conversations"
+  ],
+  [
+   "li",
+   "Dropbox files"
+  ],
+  [
+   "h3",
+   "Need a solution that could"
+  ],
+  [
+   "li",
+   "Make contract review instantaneous, not time-consuming"
+  ],
+  [
+   "li",
+   "Simplify checking against complex underwriting rules"
+  ],
+  [
+   "li",
+   "Reduce compliance risk and financial exposure"
+  ],
+  [
+   "h3",
+   "How might we accelerate contract analysis without compromising thoroughness, accuracy, or user confidence in AI-generated insights?"
+  ],
+  [
+   "IMG",
+   "429fa4_b94d91ef55624a489746c184b68237d0.jpg"
+  ],
+  [
+   "h2",
+   "Research and Discovery"
+  ],
+  [
+   "p",
+   "I conducted stakeholder interviews with underwriters and product managers to understand their workflows, pain points, and needs during high-pressure renewal periods."
+  ],
+  [
+   "h3",
+   "Key Insights that shaped design"
+  ],
+  [
+   "li",
+   "Navigation must be instantaneous and mirror document\u2019s natural flow"
+  ],
+  [
+   "li",
+   "Users question AI accuracy, design should communicate transparency and verifiable sources"
+  ],
+  [
+   "li",
+   "AI assistance should feel like productive work, not extra overhead"
+  ],
+  [
+   "h2",
+   "Design Evolution"
+  ],
+  [
+   "p",
+   "I went through three distinct layout approaches, testing each with PMs and users to land on the optimal information hierarchy that also fit within the dev team's technical constraints."
+  ],
+  [
+   "h3",
+   "Early Prototype"
+  ],
+  [
+   "p",
+   "This is what the UI looked like when I first joined the project."
+  ],
+  [
+   "p",
+   "#Christmas tree #Unclear IA #Long scroll #Content gets lost"
+  ],
+  [
+   "h3",
+   "Explored Modal-Based Details (users\u2019 fav)"
+  ],
+  [
+   "p",
+   "Rebalanced the information hierarchy across multiple layers of detail"
+  ],
+  [
+   "p",
+   "Consolidated all detailed information in a modal to minimise visual noise"
+  ],
+  [
+   "p",
+   "(blocked by dev team due to tech constrains)"
+  ],
+  [
+   "h3",
+   "Hybrid Tabs + Accordion (final)"
+  ],
+  [
+   "p",
+   "Parent accordions organised by document section (mirroring contract order)"
+  ],
+  [
+   "p",
+   "Enable users to do side-by-side comparison with one click"
+  ],
+  [
+   "h2",
+   "Design Decision"
+  ],
+  [
+   "p",
+   "Detected wording is compared against preferred language in a clear side-by-side view with concise risk summaries, enabling decisions in seconds."
+  ],
+  [
+   "h3",
+   "AI-Powered Comparison with Source Verification"
+  ],
+  [
+   "h3",
+   "Human-in-the-Loop Machine Training"
+  ],
+  [
+   "p",
+   "Underwriters can quickly verify or relink AI-detected text within the \u201cText\u201d view, embedding feedback directly into their normal review workflow. Each correction improves model accuracy over time, ensuring the system evolves with real user judgement."
+  ],
+  [
+   "IMG",
+   "429fa4_9c3a533b37524cd9860f17fcaf4a96a0.jpg"
+  ],
+  [
+   "h2",
+   "Natural Review Workflow"
+  ],
+  [
+   "p",
+   "Key validation actions are surfaced at the point of review, enabling one-step decisions and preserving underwriters\u2019 analytical flow."
+  ],
+  [
+   "h2",
+   "Action List for Faster Collaboration"
+  ],
+  [
+   "p",
+   "Instead of jumping between components to recall what needs discussion, underwriters get a consolidated view of every flagged item, suggested alternative, and comment at a glance. When everything checks out, a single 'Finish Validation' click closes the loop."
+  ],
+  [
+   "IMG",
+   "429fa4_2689de7cd4c0485b92114afb43ee54c7.jpg"
+  ],
+  [
+   "h2",
+   "Other projects I\u2019ve enjoyed working on"
+  ],
+  [
+   "h3",
+   "Improving Underwriting Efficiency Through Behaviour-Driven Design"
+  ],
+  [
+   "h3",
+   "Enterprise Design System Migration"
+  ],
+  [
+   "h3",
+   "Feeling that I might be a good fit for your team?"
+  ],
+  [
+   "h2",
+   "Get in touch"
+  ]
+ ],
+ "proj_convexai": [
+  [
+   "h1",
+   "Building a Smarter, More Connected Workplace AI Assistant"
+  ],
+  [
+   "h2",
+   "Transformed internal productivity through enterprise-grade security, personalisation, accessibility and deep tool integration"
+  ],
+  [
+   "IMG",
+   "429fa4_a7cb45d325b64320bee32e057ae91d09.jpg"
+  ],
+  [
+   "h3",
+   "Product Strategy"
+  ],
+  [
+   "p",
+   "This product represents a significant step forward in our client\u2019s digital strategy. By combining personalisation, deep tool integration, and enterprise-grade security, it addresses the real-world needs of a modern insurance business \u2014 empowering employees to work faster, smarter, and with greater confidence in the tools they use."
+  ],
+  [
+   "h3",
+   "Product Strategy"
+  ],
+  [
+   "p",
+   "Users can easily revisit past interactions and build on previous work, with prior conversations grouped by time. This setup helps the organisation retain knowledge, cutting down on repeated questions and the need to reconstruct context."
+  ],
+  [
+   "IMG",
+   "429fa4_b94d91ef55624a489746c184b68237d0.jpg"
+  ],
+  [
+   "h2",
+   "Research and Discovery"
+  ],
+  [
+   "p",
+   "I conducted stakeholder interviews with underwriters and product managers to understand their workflows, pain points, and needs during high-pressure renewal periods."
+  ],
+  [
+   "h3",
+   "Key Insights that shaped design"
+  ],
+  [
+   "li",
+   "Navigation must be instantaneous and mirror document\u2019s natural flow"
+  ],
+  [
+   "li",
+   "Users question AI accuracy, design should communicate transparency and verifiable sources"
+  ],
+  [
+   "li",
+   "AI assistance should feel like productive work, not extra overhead"
+  ],
+  [
+   "h2",
+   "Design Evolution"
+  ],
+  [
+   "p",
+   "We've been through three distinct layout approaches, testing each with PMs and users to land on the optimal information hierarchy that also fits within the dev team's bandwidth."
+  ],
+  [
+   "h3",
+   "Early Prototype"
+  ],
+  [
+   "p",
+   "This is what the UI looked like when I first joined the early project #Christmas tree #Unclear IA #Long scroll #Risk of losing contents"
+  ],
+  [
+   "h3",
+   "Explored Modal-Based Details (users\u2019 fav)"
+  ],
+  [
+   "p",
+   "Rebalanced the hierarchy of multi-layered information"
+  ],
+  [
+   "p",
+   "Consolidated all detailed information in a modal to minimise the visual noise"
+  ],
+  [
+   "p",
+   "(nixed by dev team due to tech constrains)"
+  ],
+  [
+   "h3",
+   "Hybrid Tabs + Accordion (final)"
+  ],
+  [
+   "p",
+   "Parent accordions organised by document section (mirroring contract order)"
+  ],
+  [
+   "p",
+   "Enable users to do side-by-side comparison with one click"
+  ],
+  [
+   "h2",
+   "Design Decision"
+  ],
+  [
+   "p",
+   "Detected wording is compared against preferred language in a clear side-by-side view with concise risk summaries, enabling decisions in seconds."
+  ],
+  [
+   "h3",
+   "AI-Powered Comparison with Source Verification"
+  ],
+  [
+   "h3",
+   "Human-in-the-Loop Machine Training"
+  ],
+  [
+   "p",
+   "Underwriters can quickly verify or relink AI-detected text within the \u201cText\u201d view, embedding feedback directly into their normal review workflow. Each correction improves model accuracy over time, ensure the system evolves with the real user judgement."
+  ],
+  [
+   "IMG",
+   "429fa4_9c3a533b37524cd9860f17fcaf4a96a0.jpg"
+  ],
+  [
+   "h2",
+   "Natural Review Workflow"
+  ],
+  [
+   "p",
+   "Key validation actions are surfaced at the point of review, enabling one-step decisions and preserving underwriters\u2019 analytical flow."
+  ],
+  [
+   "h2",
+   "Action List for Faster Collaboration"
+  ],
+  [
+   "p",
+   "Instead of jumping between components to recall what needs discussion, underwriters get a consolidated view of every flagged item, suggested alternative, and comment at a glance. And when everything checks out, one \"Finish Validation\" click closes the loop."
+  ],
+  [
+   "IMG",
+   "429fa4_2689de7cd4c0485b92114afb43ee54c7.jpg"
+  ],
+  [
+   "h2",
+   "Other projects I\u2019ve enjoyed working on"
+  ],
+  [
+   "h3",
+   "Improving Underwriting Efficiency Through Behaviour-Driven Design"
+  ],
+  [
+   "h3",
+   "Enterprise Design System Migration"
+  ],
+  [
+   "h3",
+   "Feeling that I might be a good fit for your team?"
+  ],
+  [
+   "h2",
+   "Get in touch"
+  ]
+ ],
+ "jcdcasestudy": [
+  [
+   "IMG",
+   "429fa4_d291a90d5f564735b1e964621fc2e2d5.jpg"
+  ],
+  [
+   "h6",
+   "The team"
+  ],
+  [
+   "p",
+   "Senior designer"
+  ],
+  [
+   "p",
+   "Junior designer (me)"
+  ],
+  [
+   "p",
+   "Product manager"
+  ],
+  [
+   "h6",
+   "What I did"
+  ],
+  [
+   "p",
+   "UX Audit Competitive analysis Prototyping"
+  ],
+  [
+   "h6",
+   "Limitations"
+  ],
+  [
+   "p",
+   "Direct access to end users is unavailable"
+  ],
+  [
+   "p",
+   "No brand guidelines"
+  ],
+  [
+   "h6",
+   "Timeline"
+  ],
+  [
+   "p",
+   "2 weeks"
+  ],
+  [
+   "h6",
+   "Tools"
+  ],
+  [
+   "p",
+   "Figma Miro Hybrid workshops"
+  ],
+  [
+   "h6",
+   "How their product look like before"
+  ],
+  [
+   "p",
+   "While our client has great and insightful content, accessibility issues such as a lack of visual cues and other UX concerns, like an unclear value proposition in the hero section, may lead users to feel confused during interactions with the product. Additionally, it is not easy for them to stay engaged."
+  ],
+  [
+   "h6",
+   "The client"
+  ],
+  [
+   "h2",
+   "The client is a global outdoor advertising company that wants to leverage the digital hub to attract and inspire experts to build their marketing cases."
+  ],
+  [
+   "h6",
+   "Catagory"
+  ],
+  [
+   "p",
+   "Marketing Self-contained platform"
+  ],
+  [
+   "h6",
+   "Service"
+  ],
+  [
+   "p",
+   "App design"
+  ],
+  [
+   "h6",
+   "The Challenge"
+  ],
+  [
+   "h2",
+   "Help the client redesign their content hub to attract more visitors, inspiring them to explore our client's services and build cases based on the content."
+  ],
+  [
+   "p",
+   "To assist our clients in securing more deals, we have been assigned the task of crafting an inclusive and intuitive user experience to elevate overall user engagement."
+  ],
+  [
+   "h6",
+   "Demonstration"
+  ],
+  [
+   "p",
+   "- New hero section with clear CTA that invites users to explore further - A delightful signup progress"
+  ],
+  [
+   "IMG",
+   "429fa4_9ffea35f9b754ab0b71df9ce33a77f8d.jpg"
+  ],
+  [
+   "h6",
+   "Initial exploration & research"
+  ],
+  [
+   "h2",
+   "UX Audit"
+  ],
+  [
+   "p",
+   "We conducted a UX audit to address usability issues, heuristic problems, and pain points. Given the deadline and limited resources for conducting additional user research, a UX audit is the best way to identify design opportunities."
+  ],
+  [
+   "h6",
+   "Problem Identification"
+  ],
+  [
+   "p",
+   "After synthesising our research findings, we identified three major UX problems on the previous content hub."
+  ],
+  [
+   "h6",
+   "Unclear Value Proposition in Hero Section"
+  ],
+  [
+   "p",
+   "Users lack a clear understanding of what the content hub offers and how it meets their needs, leading to a potentially high bouncing rate."
+  ],
+  [
+   "h6",
+   "Poor usability with unattractive contents"
+  ],
+  [
+   "p",
+   "The absence of filtering and sorting features hinders users from locating their desired content."
+  ],
+  [
+   "p",
+   "Additionally, the product lacks personalized content, further limiting the user experience."
+  ],
+  [
+   "h6",
+   "Lacks Visual Cues of contents"
+  ],
+  [
+   "p",
+   "The client has really great and desirable content, however due to the lacking visual cues of interactive contents and contents hosting layers of information, users cannot explore further."
+  ],
+  [
+   "h6",
+   "Design explorations"
+  ],
+  [
+   "h2",
+   "Interactive interests selection"
+  ],
+  [
+   "p",
+   "To address reduced satisfaction when users select diverse content types during onboarding, we explored creating a simple and interactive onboarding process and found the best solution."
+  ],
+  [
+   "h6",
+   "Design explorations"
+  ],
+  [
+   "h2",
+   "Podcast episode page"
+  ],
+  [
+   "p",
+   "We held varying opinions on the podcast episode page UI. To decide, we conducted a brief dot voting process and chose the design that prioritizes consistency."
+  ],
+  [
+   "h6",
+   "Design solutions"
+  ],
+  [
+   "h2",
+   "A dynamic and engaling user experience"
+  ],
+  [
+   "p",
+   "- Design with mobile optimization in mind"
+  ],
+  [
+   "p",
+   "- Clear and compelling CTAs"
+  ],
+  [
+   "p",
+   "- Personalized Dashboard with interactive widgets"
+  ],
+  [
+   "h6",
+   "Design solutions"
+  ],
+  [
+   "h2",
+   "A captivating swipe-down animation"
+  ],
+  [
+   "p",
+   "By transforming the podcasts page into an interactive and visually appealing hub, we anticipate an increase in user engagement, longer session durations, and higher retention rates."
+  ],
+  [
+   "IMG",
+   "429fa4_c6b17cbd7f3446b2a6ef47923b5b6729.jpg"
+  ],
+  [
+   "h6",
+   "The result"
+  ],
+  [
+   "h2",
+   "After completing Immersion, we were re-engaged by the client to build the MVP!!!"
+  ],
+  [
+   "h2",
+   "Other projects I\u2019ve enjoyed working on"
+  ],
+  [
+   "h3",
+   "Improving Underwriting Efficiency Through Behaviour-Driven Design"
+  ],
+  [
+   "h3",
+   "Enterprise Design System Migration"
+  ],
+  [
+   "h3",
+   "Feeling that I might be a good fit for your team?"
+  ],
+  [
+   "h2",
+   "Get in touch"
+  ]
+ ],
+ "graffiti": [
+  [
+   "h2",
+   "Diago"
+  ],
+  [
+   "p",
+   "Increase hospital efficiency, cover more families and provide daily physical condition monitoring as well"
+  ],
+  [
+   "h3",
+   "OVER VIEW"
+  ],
+  [
+   "p",
+   "A healthcare app with wearable devices for families in the US"
+  ],
+  [
+   "p",
+   "Because of the pandemic, many drawbacks of the healthcare system in the US are exposed. The shortage of medical resources made patients getting treatment harder, especially for patients who don\u2019t have any medical insurance. So I was wondering to relieve the pressure on the US healthcare system and provide a better and quicker diagnosis experience for patients."
+  ],
+  [
+   "h2",
+   "Type"
+  ],
+  [
+   "p",
+   "Individual project"
+  ],
+  [
+   "h2",
+   "Time"
+  ],
+  [
+   "p",
+   "January 2020"
+  ],
+  [
+   "h2",
+   "Tools"
+  ],
+  [
+   "p",
+   "Sketch, Axture, Figma"
+  ],
+  [
+   "h2",
+   "The full functionality cannot be conveyed fully in this pdf format due to the failure of the previous MacBook."
+  ],
+  [
+   "h2",
+   "Discover more that are worth seeing"
+  ],
+  [
+   "h3",
+   "Feeling that I might be a good fit for your team?"
+  ],
+  [
+   "h2",
+   "Get in touch"
+  ]
+ ],
+ "graffiti-1": [
+  [
+   "IMG",
+   "429fa4_e1c54e9e1f914ac2bbde7c42884bdc6e.jpg"
+  ],
+  [
+   "h2",
+   "Problems & constrains"
+  ],
+  [
+   "h2",
+   "Radically Digital is a startup tech consultancy that offers product design and development services in London. The website requires an iteration, as the outdated UI does not represent the current branding and value. Additionally, there are usability issues preventing users from exploring content further. This could act as a gatekeeper, hindering their ability to reach more clients."
+  ],
+  [
+   "p",
+   "The team"
+  ],
+  [
+   "h2",
+   "Senior designer junior designer (me)"
+  ],
+  [
+   "p",
+   "What did I do"
+  ],
+  [
+   "h2",
+   "Usability research, High Fedility wireframe, Prototype"
+  ],
+  [
+   "p",
+   "Timeline"
+  ],
+  [
+   "h2",
+   "1 week"
+  ],
+  [
+   "p",
+   "Constrains"
+  ],
+  [
+   "h2",
+   "No access to Hotjar, Icons and corner radius are not welcomed by business stakeholders"
+  ],
+  [
+   "IMG",
+   "429fa4_a3ef5be81c0141bab90171c6e5a51992.jpg"
+  ],
+  [
+   "h2",
+   "Other projects I\u2019ve enjoyed working on"
+  ],
+  [
+   "h3",
+   "Improving Underwriting Efficiency Through Behaviour-Driven Design"
+  ],
+  [
+   "h3",
+   "Enterprise Design System Migration"
+  ],
+  [
+   "h3",
+   "Feeling that I might be a good fit for your team?"
+  ],
+  [
+   "h2",
+   "Get in touch"
+  ]
+ ],
+ "know-all": [
+  [
+   "h2",
+   "Know-all"
+  ],
+  [
+   "p",
+   "Enabling all residents to browse updated information easily, while encourage aged residents to participate in community activities more often"
+  ],
+  [
+   "h3",
+   "OVER VIEW"
+  ],
+  [
+   "p",
+   "Information Kiosk Design"
+  ],
+  [
+   "p",
+   "China currently faces an ageing population, many old communities in my cities are mainly elderly residents. However, most infrastructure in existing old communities is not user-friendly, especially for the elderly."
+  ],
+  [
+   "p",
+   "After research, I decided to use the bulletin board built in every old community as a touchpoint to provide updated information, notification and news. This could enable more interaction among residents and bring fun and happiness to the elderly in their retirement."
+  ],
+  [
+   "h2",
+   "Type"
+  ],
+  [
+   "p",
+   "Individual project"
+  ],
+  [
+   "h2",
+   "Time"
+  ],
+  [
+   "p",
+   "July 2020"
+  ],
+  [
+   "h2",
+   "Tools"
+  ],
+  [
+   "p",
+   "Sketch, Axture, Figma"
+  ],
+  [
+   "h2",
+   "The full functionality cannot be conveyed fully in this pdf format due to the failure of the previous MacBook."
+  ],
+  [
+   "h3",
+   "Feeling that I might be a good fit for your team?"
+  ],
+  [
+   "h2",
+   "Get in touch"
+  ]
+ ],
+ "home": [
+  [
+   "h1",
+   "Designing honest products that get jobs done, with no fuss."
+  ],
+  [
+   "h2",
+   "Product designer with hands-on experience owning end-to-end design for AI-powered SaaS products in fast-moving environments."
+  ],
+  [
+   "h3",
+   "Over the past two years, I\u2019ve designed products for a global insurance organisation, including an AI contract analysis product, a design system migration across 10+ designers from multiple agencies (which reduced custom component work by 94%), and a redesigned insurance platform used by 68 underwriters across 18 teams (2,700+ monthly sessions).  I particularly enjoy working on AI products where clarity, consistency and long-term scalability are as crucial as usability."
+  ],
+  [
+   "h3",
+   "I work hard so my pets can live a better life."
+  ],
+  [
+   "h3",
+   "Curious to see those projects?"
+  ],
+  [
+   "h2",
+   "Featured Recent Work (2023-2025)"
+  ],
+  [
+   "h3",
+   "Improving Underwriting Efficiency Through Behaviour-Driven Design"
+  ],
+  [
+   "h3",
+   "Enterprise Design System Migration"
+  ],
+  [
+   "h3",
+   "AI-powered Contract Review Platform"
+  ],
+  [
+   "h3",
+   "Feeling that I might be a good fit for your team?"
+  ],
+  [
+   "h2",
+   "Get in touch"
+  ]
+ ],
+ "projects": [
+  [
+   "h2",
+   "Featured Recent Work (2023-2025)"
+  ],
+  [
+   "h3",
+   "Improving Underwriting Efficiency Through Behaviour-Driven Design"
+  ],
+  [
+   "h3",
+   "Enterprise Design System Migration"
+  ],
+  [
+   "h3",
+   "AI-powered Contract Review Platform"
+  ],
+  [
+   "h2",
+   "Old works (2022-2023)"
+  ],
+  [
+   "p",
+   "Stay Tuned"
+  ],
+  [
+   "h3",
+   "Feeling that I might be a good fit for your team?"
+  ],
+  [
+   "h2",
+   "Get in touch"
+  ]
+ ],
+ "self-introduction-video": [
+  [
+   "h2",
+   "Who am I outside of university/ work?"
+  ],
+  [
+   "h2",
+   "(This vid has been made two years ago)"
+  ],
+  [
+   "h2",
+   "During work?"
+  ],
+  [
+   "h2",
+   "\u2022 PROTOTYPE \u2022 PROACTIVE \u2022 CURIOUS \u2022 TEAMPLAYER \u2022"
+  ],
+  [
+   "h2",
+   "Curious about my design skills?"
+  ],
+  [
+   "p",
+   "Take a peek at the cool projects I've worked on in my case studies!"
+  ],
+  [
+   "h3",
+   "Feeling that I might be a good fit for your team?"
+  ],
+  [
+   "h2",
+   "Get in touch"
+  ]
+ ]
+}
