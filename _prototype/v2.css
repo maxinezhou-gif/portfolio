@@ -19,8 +19,18 @@
   --ink-muted:   #76767B;   /* captions, meta                           */
   --ink-faint:   #A0A0A6;   /* separators, disabled                     */
 
-  /* ---- type -------------------------------------------------------- */
-  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  /* ---- type --------------------------------------------------------
+     The reference site pairs two families:
+       Maison Neue Book  → display title, wordmark, "About"
+       Inter             → everything else
+     Maison Neue is a commercial licence (Milieu Grotesque), so it can't be
+     embedded here. Switzer is the closest free neo-grotesque and is used as
+     the stand-in. If Maxine licenses Maison Neue, this is a one-line swap:
+       --font-display: 'Maison Neue', 'Switzer', sans-serif;
+     ------------------------------------------------------------------ */
+  --font-display: 'Switzer', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-ui:      'Inter',   -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font: var(--font-ui);
 
   --t-display: clamp(44px, 8.5vw, 92px);   /* the big product name      */
   --t-h2:      clamp(26px, 3.4vw, 40px);
@@ -37,7 +47,7 @@
   --r-pill: 40px;
 
   /* ---- layout ------------------------------------------------------ */
-  --max:     1120px;
+  --max:     1272px;   /* → 1160px inner at 1440, matching the reference */
   --measure:  680px;   /* reading column                                */
   --gutter:  clamp(20px, 5vw, 56px);
 
@@ -100,7 +110,10 @@ p:last-child { margin-bottom: 0; }
   display: flex; align-items: center; justify-content: space-between;
   height: 56px;
 }
-.topbar a { text-decoration: none; font-size: var(--t-small); font-weight: 500; color: var(--ink); }
+.topbar a {
+  text-decoration: none; font-size: 16px; color: var(--ink);
+  font-family: var(--font-display); font-weight: 400; letter-spacing: -0.02em;
+}
 .topbar .tb-right { color: var(--ink-muted); }
 .topbar .tb-right:hover { color: var(--ink); }
 
@@ -137,8 +150,10 @@ p:last-child { margin-bottom: 0; }
    =========================================================================== */
 .hero { padding: clamp(46px, 8vw, 92px) 0 clamp(28px, 4vw, 44px); }
 .hero h1 {
+  font-family: var(--font-display);
+  font-weight: 400;               /* Maison Neue Book / Switzer Regular */
   font-size: var(--t-display);
-  letter-spacing: -0.042em;
+  letter-spacing: -0.032em;
   line-height: .98;
   margin: 22px 0 0;
 }
@@ -198,7 +213,58 @@ p:last-child { margin-bottom: 0; }
 .prose > * + * { margin-top: 1.05em; }
 
 /* ===========================================================================
-   7 · Figures
+   7 · Sticky split  — text sticks left, media scrolls right
+   Mirrors the "Panel States" section on the reference site:
+   flex row, 48px gap, align-items:start, left column sticky at top:0 with
+   80px padding-top so it clears the sticky header. Ratio ~1fr / 2fr.
+   =========================================================================== */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 48px;
+  align-items: start;
+  margin: clamp(30px, 5vw, 56px) 0;
+}
+
+.split-text {
+  position: sticky;
+  top: 0;
+  padding-top: 80px;
+  padding-bottom: 40px;
+}
+.split-text h2 { font-size: var(--t-h2); margin-bottom: 14px; }
+.split-text h3 { font-size: var(--t-h3); margin-bottom: 12px; }
+.split-text .kicker {
+  display: block; font-size: var(--t-micro); font-weight: 600;
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--ink-faint); margin-bottom: 12px;
+}
+.split-text p { color: var(--ink-body); font-size: 15.5px; }
+.split-text > * + * { margin-top: 1em; }
+.split-text strong { color: var(--ink); font-weight: 600; }
+
+/* the scrolling column */
+.split-media { display: grid; gap: 16px; min-width: 0; }
+.split-media > figure,
+.split-media > .fig { margin: 0; }
+
+/* nested grids inside the media column */
+.split-media .stats { grid-template-columns: repeat(2, 1fr); margin: 0; }
+.split-media .fig-2up { grid-template-columns: 1fr 1fr; margin: 0; }
+
+/* collapse to a single column below ~1040px — sticky is released.
+   Above this the left column is >=350px, which the text needs to read well. */
+@media (max-width: 1040px) {
+  .split { grid-template-columns: 1fr; gap: 22px; }
+  .split-text { position: static; padding-top: 0; padding-bottom: 0; }
+  .split-media .fig-2up { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .split-media .stats { grid-template-columns: 1fr 1fr; }
+}
+
+/* ===========================================================================
+   8 · Figures
    =========================================================================== */
 figure { margin: 0; }
 .fig { margin: clamp(26px, 4vw, 44px) 0; }
