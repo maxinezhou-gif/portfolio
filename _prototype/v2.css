@@ -192,8 +192,8 @@ strong  { color: var(--ink); font-weight: 600; }
   align-items: start;
 }
 .split-text {
-  position: sticky; top: 0;
-  padding-top: 80px; padding-bottom: 40px;
+  position: sticky; top: 80px;
+  padding-bottom: 40px;
 }
 .split-text > * + * { margin-top: 14px; }
 .split-text .body { font-size: var(--t-body); }
@@ -208,6 +208,9 @@ strong  { color: var(--ink); font-weight: 600; }
 /* a labelled sub-block inside a text column ("Pipeline View" + description) */
 .def > * + * { margin-top: 6px; }
 .def .body-2 { color: var(--ink-body); }
+/* a heading followed by a group of question chips needs more air than a
+   heading followed by a single line of body copy */
+.def > h3 + .q-list { margin-top: 22px; }
 
 /* ===========================================================================
    Scrolly split — one sticky text block per media item, each COVERING the last
@@ -233,9 +236,11 @@ strong  { color: var(--ink); font-weight: 600; }
   grid-column: 1;
   align-self: start;
   position: sticky;
-  top: 0;
+  /* Offset the pin rather than padding the box: at rest the first line of
+     text sits flush with the top of its paired image (alignment), and when
+     pinned it clears the 55px sticky top bar. */
+  top: 80px;
   z-index: 1;
-  padding-top: 80px;
   padding-bottom: 32px;
 }
 .scrolly > .st > * + * { margin-top: 14px; }
@@ -282,7 +287,7 @@ strong  { color: var(--ink); font-weight: 600; }
   .scrolly > figure { grid-column: 1; grid-row: auto !important; }
   .scrolly > .st {
     position: static;
-    padding-top: 0; padding-bottom: 0;
+    padding-bottom: 0;
   }
   .scrolly > .st::before { display: none; }
 }
@@ -307,12 +312,15 @@ figure { margin: 0; }
   border-radius: var(--r-lg);
   padding: 20px;
 }
+/* 16px, not 8px: the source screenshots have a ~16px rounded corner baked
+   into the pixels, so a smaller radius here leaves the dark corner of the
+   image poking out past the mask. Matching the radius hides it. */
 .fig .frame > img,
-.fig .frame > video { width: 100%; border-radius: var(--r-sm); background: var(--surface-2); }
-
-/* caption above the media, as in the reference and the Figma file */
-.fig.cap-top { display: flex; flex-direction: column; }
-.fig.cap-top figcaption { order: -1; margin-top: 0; margin-bottom: 12px; }
+.fig .frame > video {
+  width: 100%;
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
 
 /* video slots keep the 742x479 proportion from the Figma frame */
 .fig .frame > video { aspect-ratio: 702 / 439; object-fit: cover; }
@@ -456,6 +464,11 @@ figure { margin: 0; }
 .rv { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s cubic-bezier(.2,.7,.3,1); }
 .rv.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; } }
+
+/* Media fades in but never MOVES. A translate here would leave every image
+   and video sitting 14px below the top of its paired sticky text until the
+   reveal fires — i.e. misaligned exactly while it is being read. */
+figure.rv { transform: none; }
 
 @media print {
   .dock, .topbar { display: none !important; }
