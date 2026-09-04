@@ -82,7 +82,11 @@ body {
   padding-bottom: 112px;   /* clearance for the floating dock */
 }
 
-img, video { max-width: 100%; display: block; }
+/* width/height attributes on <img> reserve space before load (no layout
+   shift, and the scrolly row heights are correct from the first paint).
+   height:auto keeps the aspect ratio once CSS sets the width. */
+img { max-width: 100%; height: auto; display: block; }
+video { max-width: 100%; display: block; }
 a { color: inherit; }
 
 h1, h2, h3 {
@@ -204,6 +208,84 @@ strong  { color: var(--ink); font-weight: 600; }
 /* a labelled sub-block inside a text column ("Pipeline View" + description) */
 .def > * + * { margin-top: 6px; }
 .def .body-2 { color: var(--ink-body); }
+
+/* ===========================================================================
+   Scrolly split — one sticky text block per media item, each COVERING the last
+   ---------------------------------------------------------------------------
+   Every .st spans from its own row down to the last row of the grid, so all
+   of their sticky ranges overlap. Each one is opaque and later in the DOM, so
+   as media item N reaches the top of the viewport its text slides up over the
+   previous one — and reverses cleanly on the way back up.
+
+   Source order is interleaved (text, media, text, media…) so the single-column
+   mobile layout reads in the right order with no duplicated markup.
+   Set --pairs on the container to the number of pairs: style="--pairs:2"
+   =========================================================================== */
+.scrolly {
+  display: grid;
+  grid-template-columns: var(--col-text) minmax(0, 1fr);
+  grid-template-rows: repeat(var(--pairs, 2), auto);
+  column-gap: var(--col-gap);
+  row-gap: 16px;
+}
+
+.scrolly > .st {
+  grid-column: 1;
+  align-self: start;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding-top: 80px;
+  padding-bottom: 32px;
+}
+.scrolly > .st > * + * { margin-top: 14px; }
+
+/* Opaque backdrop, painted via a pseudo-element so it can be tall enough to
+   hide the block underneath WITHOUT adding layout height. Height comes from
+   --cover (set in JS to the tallest block in this .scrolly). Using min-height
+   on .st instead would shorten how long each block stays pinned. */
+.scrolly > .st::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: var(--cover, 100%);
+  background: var(--bg);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.scrolly > figure { grid-column: 2; }
+
+/* pair placement — text spans to the end of the grid, media sits in its row */
+.scrolly > div.st:nth-of-type(1)  { grid-row: 1 / -1; }
+.scrolly > div.st:nth-of-type(2)  { grid-row: 2 / -1; }
+.scrolly > div.st:nth-of-type(3)  { grid-row: 3 / -1; }
+.scrolly > div.st:nth-of-type(4)  { grid-row: 4 / -1; }
+.scrolly > figure:nth-of-type(1)  { grid-row: 1; }
+.scrolly > figure:nth-of-type(2)  { grid-row: 2; }
+.scrolly > figure:nth-of-type(3)  { grid-row: 3; }
+.scrolly > figure:nth-of-type(4)  { grid-row: 4; }
+
+/* later blocks paint over earlier ones */
+.scrolly > div.st:nth-of-type(2) { z-index: 2; }
+.scrolly > div.st:nth-of-type(3) { z-index: 3; }
+.scrolly > div.st:nth-of-type(4) { z-index: 4; }
+
+/* collapse: stack in source order, release the sticky */
+@media (max-width: 1040px) {
+  .scrolly {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    row-gap: 24px;
+  }
+  .scrolly > .st,
+  .scrolly > figure { grid-column: 1; grid-row: auto !important; }
+  .scrolly > .st {
+    position: static;
+    padding-top: 0; padding-bottom: 0;
+  }
+  .scrolly > .st::before { display: none; }
+}
 
 /* stacked variant: narrow intro text, then a full-width figure */
 .stack > * + * { margin-top: 32px; }
