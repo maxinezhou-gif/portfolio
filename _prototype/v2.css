@@ -61,6 +61,13 @@
   --col-text:  370px;   /* sticky text column   */
   --col-gap:    48px;
   --gutter:   clamp(20px, 9.72vw, 140px);
+
+  /* ---- sticky label swap ------------------------------------------------
+     Variant B from _prototype/sticky-lab.html: fade + rise at 600ms.
+     ---------------------------------------------------------------------- */
+  --swap-dur:  600ms;
+  --swap-rise: 6px;
+  --swap-ease: cubic-bezier(.2, .7, .3, 1);
 }
 
 /* ---------- reset ---------- */
@@ -254,9 +261,27 @@ strong  { color: var(--accent); font-weight: 600; }
    blocks pin and unpin at different moments, so scrolling either way could
    briefly expose the one behind. JS marks the active block and the rest are
    hidden outright, which makes bleed-through impossible in both directions.
-   The .swap class is added by JS, so with no JS the blocks simply all show. */
-.scrolly.swap > .st { opacity: 0; pointer-events: none; transition: opacity .18s ease; }
-.scrolly.swap > .st.is-on { opacity: 1; pointer-events: auto; }
+   The .swap class is added by JS, so with no JS the blocks simply all show.
+
+   Fade + rise, 600ms — chosen from the variants in sticky-lab.html. The
+   labels are parallel (same heading offset, so 0px drift at the swap), which
+   is what stops it reading as a jump; the rise then gives the change a
+   direction rather than a dead crossfade. */
+.scrolly.swap > .st {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(var(--swap-rise));
+  transition: opacity var(--swap-dur) var(--swap-ease),
+              transform var(--swap-dur) var(--swap-ease);
+}
+.scrolly.swap > .st.is-on {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scrolly.swap > .st { transition: opacity 1ms linear; transform: none; }
+}
 
 .scrolly > figure { grid-column: 2; }
 
@@ -527,6 +552,11 @@ figure { margin: 0; }
    and video sitting 14px below the top of its paired sticky text until the
    reveal fires — i.e. misaligned exactly while it is being read. */
 figure.rv { transform: none; }
+
+/* Same for section headings: the body they introduce (a .scrolly, a stat
+   grid) has no reveal of its own, so a heading that slides would change the
+   40px gap while it animates. Fade only. */
+.sec-head.rv { transform: none; }
 
 @media print {
   .dock, .topbar { display: none !important; }
