@@ -140,7 +140,8 @@ p  { margin: 0; }
 .body   { font-size: var(--t-body);  line-height: var(--lh-body); color: var(--ink-body); }
 .body-2 { font-size: var(--t-body2); line-height: 22px;           color: var(--ink-body); }
 .small  { font-size: var(--t-small); line-height: 24px;           color: var(--ink-body); }
-strong  { color: var(--ink); font-weight: 600; }
+/* emphasis carries the Launchpad accent, per the design */
+strong  { color: var(--accent); font-weight: 600; }
 
 /* ===========================================================================
    Pills — two variants, as in the refined hero
@@ -178,8 +179,12 @@ strong  { color: var(--ink); font-weight: 600; }
 .section > * + * { margin-top: 56px; }
 .section.gap-lg > * + * { margin-top: 112px; }
 
+/* eyebrow -> heading stays tight; heading -> body is 40px, per the design */
 .sec-head > * + * { margin-top: 12px; }
+.sec-head > :is(h1, h2, h3) + :is(p, .body, .body-2) { margin-top: 40px; }
 .sec-head .body { max-width: 680px; }
+/* and 40px from a section heading block to whatever body follows it */
+.section > .sec-head + * { margin-top: 40px; }
 
 /* ===========================================================================
    Sticky split — text left, media scrolls right
@@ -245,19 +250,13 @@ strong  { color: var(--ink); font-weight: 600; }
 }
 .scrolly > .st > * + * { margin-top: 14px; }
 
-/* Opaque backdrop, painted via a pseudo-element so it can be tall enough to
-   hide the block underneath WITHOUT adding layout height. Height comes from
-   --cover (set in JS to the tallest block in this .scrolly). Using min-height
-   on .st instead would shorten how long each block stays pinned. */
-.scrolly > .st::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: var(--cover, 100%);
-  background: var(--bg);
-  z-index: -1;
-  pointer-events: none;
-}
+/* Only ONE block is ever visible. An opaque backdrop was not enough: the
+   blocks pin and unpin at different moments, so scrolling either way could
+   briefly expose the one behind. JS marks the active block and the rest are
+   hidden outright, which makes bleed-through impossible in both directions.
+   The .swap class is added by JS, so with no JS the blocks simply all show. */
+.scrolly.swap > .st { opacity: 0; pointer-events: none; transition: opacity .18s ease; }
+.scrolly.swap > .st.is-on { opacity: 1; pointer-events: auto; }
 
 .scrolly > figure { grid-column: 2; }
 
@@ -289,7 +288,9 @@ strong  { color: var(--ink); font-weight: 600; }
     position: static;
     padding-bottom: 0;
   }
-  .scrolly > .st::before { display: none; }
+  /* stacked layout shows every block in source order — no swapping */
+  .scrolly.swap > .st,
+  .scrolly.swap > .st.is-on { opacity: 1; pointer-events: auto; }
 }
 
 /* stacked variant: narrow intro text, then a full-width figure */
@@ -312,19 +313,56 @@ figure { margin: 0; }
   border-radius: var(--r-lg);
   padding: 20px;
 }
-/* 16px, not 8px: the source screenshots have a ~16px rounded corner baked
-   into the pixels, so a smaller radius here leaves the dark corner of the
-   image poking out past the mask. Matching the radius hides it. */
-.fig .frame > img,
-.fig .frame > video {
-  width: 100%;
+/* ---------------------------------------------------------------------------
+   The black corner, properly.
+
+   The source screenshots and recordings have a rounded corner baked into the
+   pixels, with black outside the curve. A border-radius on the media cannot
+   remove it: the baked radius is larger than the mask, so the dark arc sits
+   just inside and shows through.
+
+   Fix: clip in a wrapper at 16px and scale the media up by 2.1%, which pushes
+   the baked corner outside the clip. Measured against the real assets — a 7px
+   inset is the smallest that leaves zero dark pixels in all four corners of
+   all five videos; 1.021 gives that at the rendered 702px width. Costs 2% of
+   each edge, which on a UI screenshot is nothing.
+   --------------------------------------------------------------------------- */
+.fig .frame > .clip {
   border-radius: var(--r-lg);
+  overflow: hidden;
   background: var(--surface-2);
+  line-height: 0;
+}
+.fig .frame > .clip > img,
+.fig .frame > .clip > video {
+  width: 100%;
+  border-radius: 0;
+  transform: scale(1.021);
+  transform-origin: center center;
 }
 
-/* video slots keep the 742x479 proportion from the Figma frame */
-.fig .frame > video { aspect-ratio: 702 / 439; object-fit: cover; }
-.fig .frame > video.tall { aspect-ratio: 702 / 800; object-fit: contain; }
+/* ---------------------------------------------------------------------------
+   Video framing — this is what removes the black corner.
+
+   The source recordings carry black letterbox bars along the top (53-83px at
+   1500px wide) and a rounded corner baked into the pixels. Two things were
+   going wrong:
+     - a 16px mask cannot hide a black BAR, it just rounds it;
+     - object-fit:contain letterboxes the media inside the box, so the box's
+       border-radius never reaches the media's own corners at all.
+
+   Fix: give each video a box whose aspect ratio matches its CONTENT (frame
+   minus the bar) and use object-fit:cover with object-position:bottom, so the
+   overflow is taken entirely off the top — exactly the bar. The media then
+   fills the box edge to edge, so the 16px radius does clip its corners.
+
+   --ar and --op are set per video in the markup from measured pixel values.
+   --------------------------------------------------------------------------- */
+.fig .frame > .clip > video {
+  aspect-ratio: var(--ar, 702 / 439);
+  object-fit: cover;
+  object-position: center var(--op, center);
+}
 
 /* an empty slot Maxine left in the design with no source yet */
 .slot-empty {
@@ -371,27 +409,37 @@ figure { margin: 0; }
 /* ===========================================================================
    Numbered lists
    =========================================================================== */
-/* plain numbered findings, as one flowing block */
+/* numbered findings — the number reads inline, no hanging indent */
 .findings { margin: 0; padding: 0; list-style: none; max-width: 760px; counter-reset: f; }
 .findings li {
-  counter-increment: f; position: relative; padding-left: 26px;
+  counter-increment: f;
   font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body);
 }
-.findings li + li { margin-top: 14px; }
-.findings li::before {
-  content: counter(f) ".";
-  position: absolute; left: 0; color: var(--ink-muted);
-}
+.findings li + li { margin-top: 28px; }
+.findings li::before { content: counter(f) ". "; color: var(--ink-body); }
 
-/* big-number direction list (38px Semi Bold, as refined) */
-.big-steps { display: grid; gap: 28px; margin: 0; padding: 0; list-style: none; }
-@media (min-width: 900px) { .big-steps { grid-template-columns: repeat(2, 1fr); column-gap: 48px; } }
-.big-steps li { display: grid; grid-template-columns: 56px minmax(0,1fr); align-items: start; gap: 4px; }
-.big-steps .n {
-  font-size: var(--t-num); font-weight: 600; line-height: 40px;
-  letter-spacing: -0.04em; color: var(--ink);
+/* Design direction — four cards, each with a large muted numeral */
+.step-cards {
+  display: grid; gap: 16px; margin: 0; padding: 0; list-style: none;
+  grid-template-columns: 1fr;
 }
-.big-steps .t { font-size: var(--t-body); line-height: 26px; color: var(--ink-body); padding-top: 6px; }
+@media (min-width: 700px)  { .step-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .step-cards { grid-template-columns: repeat(4, 1fr); } }
+
+.step-cards li {
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  padding: 28px;
+}
+.step-cards .n {
+  display: block;
+  font-size: var(--t-num); font-weight: 500; line-height: 44px;
+  letter-spacing: -0.03em; color: var(--ink-faint);
+}
+.step-cards .t {
+  display: block; margin-top: 12px;
+  font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body);
+}
 
 /* question chips */
 .q-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
@@ -407,8 +455,18 @@ figure { margin: 0; }
 .pull {
   font-size: var(--t-h1); font-weight: 500;
   line-height: var(--lh-head); letter-spacing: var(--ls-tight);
-  color: var(--ink); max-width: 30ch;
+  color: var(--ink);
 }
+
+/* the "Why Back button dominance?" block: heading and quote centred, the
+   body a narrower centred column that is still left-aligned for reading */
+.centred { text-align: center; }
+.centred .sec-head h2 { max-width: none; }
+.centred > * + * { margin-top: 40px; }
+.centred .prose {
+  max-width: 680px; margin-inline: auto; text-align: left;
+}
+.centred .prose > * + * { margin-top: 28px; }
 
 /* ===========================================================================
    Floating dock
