@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sticky swap lab — Launchpad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#F6F6F8; --surface-2:#F2F4F5; --white:#fff;
+  --line:#ECECEC; --line-strong:#E0E0E0;
+  --ink:#111112; --ink-body:#3D3D40; --ink-muted:#76767B; --ink-faint:#A0A0A6;
+  --accent:#674FA3;
+  --r-lg:16px; --r-sm:8px;
+  --col-text:370px; --col-gap:48px; --content:1160px;
+  --pin:80px;
+  /* tuned live by the panel */
+  --dur:260ms; --ease:cubic-bezier(.2,.7,.3,1); --rise:6px;
+  font-family:'Inter',-apple-system,system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink-body);font-size:16px;line-height:29px;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+h1,h2,h3{margin:0;color:var(--ink);font-weight:500;line-height:33px;letter-spacing:-.02em}
+h2{font-size:20px} h3{font-size:18px}
+p{margin:0}
+.wrap{max-width:calc(var(--content) + 280px);margin-inline:auto;padding-inline:140px}
+.eyebrow{display:block;font-size:12px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint)}
+
+/* ---------- fake top bar, so the 80px pin has something to clear ---------- */
+.topbar{position:sticky;top:0;z-index:90;height:55px;display:flex;align-items:center;
+  background:rgba(250,250,250,.85);backdrop-filter:saturate(180%) blur(14px)}
+.topbar .wrap{width:100%;display:flex;justify-content:space-between;align-items:center}
+.topbar b{font-weight:500;font-size:16px;color:var(--ink)}
+.topbar span{font-size:14px;color:var(--ink-muted)}
+
+/* ---------- intro sits ABOVE the sticky column, not inside it ---------- */
+.intro{padding-top:96px}
+.intro > * + *{margin-top:40px}
+.intro p{max-width:680px}
+
+/* ---------- the scrolly ---------- */
+.scrolly{
+  display:grid;
+  grid-template-columns:var(--col-text) minmax(0,1fr);
+  grid-template-rows:repeat(var(--pairs,3),auto);
+  column-gap:var(--col-gap); row-gap:16px;
+  margin-top:56px;
+}
+.scrolly > .st{
+  grid-column:1; align-self:start;
+  position:sticky; top:var(--pin);
+  padding-bottom:32px;
+}
+.scrolly > figure{grid-column:2;margin:0}
+.scrolly > div.st:nth-of-type(1){grid-row:1 / -1;z-index:1}
+.scrolly > div.st:nth-of-type(2){grid-row:2 / -1;z-index:2}
+.scrolly > div.st:nth-of-type(3){grid-row:3 / -1;z-index:3}
+.scrolly > figure:nth-of-type(1){grid-row:1}
+.scrolly > figure:nth-of-type(2){grid-row:2}
+.scrolly > figure:nth-of-type(3){grid-row:3}
+
+.st .label > * + *{margin-top:6px}
+.st .body-2{font-size:14px;line-height:22px}
+
+figure .frame{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px}
+figure .clip{border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2);line-height:0}
+figure .clip > img{width:100%;transform:scale(1.021)}
+figcaption{margin-top:12px;font-size:14px;line-height:22px;color:var(--ink-muted)}
+
+/* =========================================================================
+   VARIANTS — the thing we are comparing
+   ========================================================================= */
+
+/* C · occlusion only (what the page did originally, kept to show the fault) */
+body[data-variant="C"] .scrolly > .st::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:var(--cover,100%);
+  background:var(--bg);z-index:-1;
+}
+
+/* A · crossfade in place */
+body[data-variant="A"] .scrolly.swap > .st{
+  opacity:0;pointer-events:none;
+  transition:opacity var(--dur) var(--ease);
+}
+body[data-variant="A"] .scrolly.swap > .st.is-on{opacity:1;pointer-events:auto}
+
+/* B · crossfade + a short rise */
+body[data-variant="B"] .scrolly.swap > .st{
+  opacity:0;pointer-events:none;
+  transform:translateY(var(--rise));
+  transition:opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+body[data-variant="B"] .scrolly.swap > .st.is-on{opacity:1;transform:none;pointer-events:auto}
+
+/* D · crossfade, and the outgoing block leaves upward (a true hand-off) */
+body[data-variant="D"] .scrolly.swap > .st{
+  opacity:0;pointer-events:none;
+  transform:translateY(var(--rise));
+  transition:opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+body[data-variant="D"] .scrolly.swap > .st.is-on{opacity:1;transform:none;pointer-events:auto}
+body[data-variant="D"] .scrolly.swap > .st.is-past{transform:translateY(calc(-1 * var(--rise)))}
+
+/* E · sequenced — out first, then in. Because drift is now 0 the two labels
+   sit in exactly the same place, so a plain crossfade makes them ghost over
+   each other. Sequencing removes the overlap entirely. */
+body[data-variant="E"] .scrolly.swap > .st{
+  opacity:0;pointer-events:none;
+  transition:opacity calc(var(--dur) * .4) var(--ease);
+}
+body[data-variant="E"] .scrolly.swap > .st.is-on{
+  opacity:1;pointer-events:auto;
+  transition:opacity calc(var(--dur) * .6) var(--ease) calc(var(--dur) * .4);
+}
+
+/* F · sequenced + a small rise on the incoming label only */
+body[data-variant="F"] .scrolly.swap > .st{
+  opacity:0;pointer-events:none;
+  transition:opacity calc(var(--dur) * .4) var(--ease);
+}
+body[data-variant="F"] .scrolly.swap > .st.is-on{
+  opacity:1;pointer-events:auto;
+  animation:riseIn var(--dur) var(--ease) both;
+  animation-delay:calc(var(--dur) * .4);
+}
+@keyframes riseIn{
+  from{opacity:0;transform:translateY(var(--rise))}
+  to  {opacity:1;transform:none}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .scrolly.swap > .st{transition:none !important;animation:none !important}
+}
+
+/* ---------- control panel ---------- */
+.panel{
+  position:fixed;right:16px;bottom:16px;z-index:200;width:290px;
+  background:var(--white);border:1px solid var(--line-strong);border-radius:14px;
+  box-shadow:0 10px 30px -10px rgba(17,17,18,.25);padding:14px 16px;
+  font-size:13px;line-height:19px;color:var(--ink-body)
+}
+.panel h4{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--ink)}
+.panel label{display:block;margin:10px 0 4px;font-size:11.5px;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--ink-faint)}
+.panel .vbtns{display:flex;gap:6px;flex-wrap:wrap}
+.panel .vbtns button{
+  flex:1 0 auto;padding:7px 9px;border:1px solid var(--line-strong);background:var(--surface);
+  border-radius:8px;font:inherit;font-size:12px;cursor:pointer;color:var(--ink)
+}
+.panel .vbtns button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.panel input[type=range]{width:100%}
+.panel .read{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);
+  font-variant-numeric:tabular-nums;font-size:12px}
+.panel .read b{color:var(--ink);font-weight:600}
+.panel .warn{color:#b3261e;font-weight:600}
+.panel .ok{color:#1b7f4b;font-weight:600}
+.panel .hint{margin-top:10px;font-size:11.5px;color:var(--ink-muted);line-height:16px}
+.spacer{height:90vh}
+</style>
+</head>
+<body data-variant="E">
+
+<header class="topbar"><div class="wrap"><b>Maxine Zhou</b><span>About</span></div></header>
+
+<div class="wrap">
+  <section class="intro">
+    <span class="eyebrow">Research</span>
+    <h2>Two pages, one workflow</h2>
+    <p>Underwriters work in a high-volume, high-stakes environment where speed and accuracy are essential.
+       The application's workflow centered around two primary pages. <strong style="color:var(--accent);font-weight:600">
+       The intro lives here, above the sticky column</strong> — so the per-image labels below are parallel to
+       each other and swap without moving.</p>
+  </section>
+
+  <!-- three pairs so we get two swaps in each direction -->
+  <div class="scrolly" style="--pairs:3">
+
+    <div class="st">
+      <div class="label">
+        <h3>Pipeline View</h3>
+        <p class="body-2">A table-based workspace for filtering, triaging and updating submissions.</p>
+      </div>
+    </div>
+    <figure>
+      <div class="frame"><div class="clip">
+        <img src="../assets/img/429fa4_4e748c80fe2f43b29017c32d9d3b0fa5.jpg" width="2000" height="1552" alt="Pipeline view">
+      </div></div>
+      <figcaption>Pipeline View: the triage workspace.</figcaption>
+    </figure>
+
+    <div class="st">
+      <div class="label">
+        <h3>Submission Detail</h3>
+        <p class="body-2">A deep-dive view with full context, documents, analysis and activity history.</p>
+      </div>
+    </div>
+    <figure>
+      <div class="frame"><div class="clip">
+        <img src="../assets/img/429fa4_d416b84ddeca45fc8e1cf939f55f68a8.jpg" width="2000" height="1551" alt="Submission detail">
+      </div></div>
+      <figcaption>Submission Detail: the deep-dive view.</figcaption>
+    </figure>
+
+    <div class="st">
+      <div class="label">
+        <h3>Funnel analysis</h3>
+        <p class="body-2">Where underwriters actually dropped off between the two pages.</p>
+      </div>
+    </div>
+    <figure>
+      <div class="frame"><div class="clip">
+        <img src="../assets/img/429fa4_184c0642d417480f8554f3bb6d79b93e.jpg" width="1648" height="1232" alt="Funnel analysis">
+      </div></div>
+      <figcaption>Funnel analysis across 7.09K sessions.</figcaption>
+    </figure>
+
+  </div>
+</div>
+<div class="spacer"></div>
+
+<div class="panel" role="region" aria-label="Interaction controls">
+  <h4>Sticky swap lab</h4>
+
+  <label>Variant</label>
+  <div class="vbtns" id="vbtns">
+    <button data-v="E" aria-pressed="true">E sequenced</button>
+    <button data-v="F" aria-pressed="false">F seq+rise</button>
+    <button data-v="A" aria-pressed="false">A fade</button>
+    <button data-v="B" aria-pressed="false">B fade+rise</button>
+    <button data-v="D" aria-pressed="false">D hand-off</button>
+    <button data-v="C" aria-pressed="false">C occlusion</button>
+  </div>
+
+  <label>Duration <span id="durv">260</span>ms</label>
+  <input type="range" id="dur" min="0" max="600" step="20" value="260">
+
+  <label>Rise <span id="risev">6</span>px</label>
+  <input type="range" id="rise" min="0" max="24" step="1" value="6">
+
+  <label>Trigger offset from pin <span id="offv">0</span>px</label>
+  <input type="range" id="off" min="-40" max="60" step="2" value="0">
+
+  <div class="read">
+    active <b id="r-active">–</b> · visible <b id="r-vis">–</b>
+    <span id="r-flag" class="ok">ok</span><br>
+    label y <b id="r-y">–</b> · drift <b id="r-drift">–</b>px<br>
+    max drift seen <b id="r-max">0</b>px
+  </div>
+  <p class="hint">Drift is how far the visible label moves at a swap. 0 means it changes in
+  place — that is what stops it looking like a jump.</p>
+</div>
+
+<script>
+(function () {
+  var body = document.body;
+  var root = document.documentElement;
+  var sc = document.querySelector('.scrolly');
+  var texts  = [].filter.call(sc.children, function (c) { return c.classList.contains('st'); });
+  var medias = [].filter.call(sc.children, function (c) { return c.tagName === 'FIGURE'; });
+  sc.classList.add('swap');
+
+  var PIN = 80, offset = 0, maxDrift = 0, lastY = null, lastActive = null;
+
+  function pinPx() { return PIN; }
+
+  function activeIndex() {
+    if (window.innerWidth <= 1040) return 0;
+    var a = 0;
+    for (var i = 0; i < medias.length; i++) {
+      if (medias[i].getBoundingClientRect().top <= pinPx() + offset) a = i;
+    }
+    return a;
+  }
+
+  function measureCover() {
+    var max = 0;
+    texts.forEach(function (t) { max = Math.max(max, t.offsetHeight); });
+    sc.style.setProperty('--cover', max + 'px');
+  }
+
+  function paint() {
+    var a = activeIndex();
+    texts.forEach(function (t, i) {
+      t.classList.toggle('is-on', i === a);
+      t.classList.toggle('is-past', i < a);
+    });
+
+    // readouts
+    var on = texts[a];
+    var h3 = on.querySelector('h3');
+    var y = h3 ? Math.round(h3.getBoundingClientRect().top) : 0;
+    var visible = texts.filter(function (t) {
+      return parseFloat(getComputedStyle(t).opacity) > 0.05;
+    }).length;
+
+    if (lastActive !== null && a !== lastActive && lastY !== null) {
+      var d = Math.abs(y - lastY);
+      if (d > maxDrift) { maxDrift = d; document.getElementById('r-max').textContent = maxDrift; }
+      document.getElementById('r-drift').textContent = d;
+    }
+    lastActive = a; lastY = y;
+
+    document.getElementById('r-active').textContent = a;
+    document.getElementById('r-vis').textContent = visible;
+    var flag = document.getElementById('r-flag');
+    if (visible > 1) { flag.textContent = 'BLEED'; flag.className = 'warn'; }
+    else { flag.textContent = 'ok'; flag.className = 'ok'; }
+    document.getElementById('r-y').textContent = y;
+  }
+
+  var queued = false;
+  function schedule() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function () { queued = false; paint(); });
+  }
+
+  // IntersectionObserver on a 1px band at the pin line, plus scroll as backup
+  var io = null;
+  function observe() {
+    if (io) io.disconnect();
+    var below = Math.max(0, window.innerHeight - pinPx() - 1);
+    io = new IntersectionObserver(schedule, {
+      rootMargin: '-' + pinPx() + 'px 0px -' + below + 'px 0px', threshold: 0
+    });
+    medias.forEach(function (m) { io.observe(m); });
+  }
+
+  // controls
+  document.getElementById('vbtns').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    body.dataset.variant = b.dataset.v;
+    [].forEach.call(this.querySelectorAll('button'), function (x) {
+      x.setAttribute('aria-pressed', String(x === b));
+    });
+    maxDrift = 0; lastY = null; lastActive = null;
+    document.getElementById('r-max').textContent = '0';
+    measureCover(); paint();
+  });
+  function bind(id, cssVar, unit, out) {
+    var el = document.getElementById(id);
+    el.addEventListener('input', function () {
+      document.getElementById(out).textContent = el.value;
+      if (cssVar) root.style.setProperty(cssVar, el.value + unit);
+      if (id === 'off') { offset = +el.value; paint(); }
+    });
+  }
+  bind('dur', '--dur', 'ms', 'durv');
+  bind('rise', '--rise', 'px', 'risev');
+  bind('off', null, '', 'offv');
+
+  window.addEventListener('scroll', schedule, { passive: true });
+  var rt;
+  window.addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () { observe(); measureCover(); paint(); }, 120);
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { measureCover(); paint(); });
+  }
+  observe(); measureCover(); paint();
+
+  // expose for automated checks
+  window.__lab = {
+    texts: texts, medias: medias, paint: paint, measureCover: measureCover,
+    activeIndex: activeIndex,
+    setOffset: function (v) { offset = v; paint(); },
+    labelY: function () {
+      var a = activeIndex(), h3 = texts[a].querySelector('h3');
+      return Math.round(h3.getBoundingClientRect().top);
+    },
+    visibleCount: function () {
+      return texts.filter(function (t) { return parseFloat(getComputedStyle(t).opacity) > 0.05; }).length;
+    }
+  };
+})();
+</script>
+</body>
+</html>
