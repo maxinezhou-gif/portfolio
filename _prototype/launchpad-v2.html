@@ -4,14 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Launchpad — Maxine Zhou</title>
-<meta name="description" content="Turning user data into a smarter navigation model and a dynamic viewport, giving underwriters a better decision environment.">
+<meta name="description" content="Improving underwriting efficiency through behaviour-driven design. Turning user data into a smarter navigation model and dynamic viewport.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-<!-- Inter — body, headings, UI (same as the reference site) -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Switzer — stand-in for Maison Neue (commercial licence) on display type -->
-<link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="v2.css">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 </head>
@@ -20,269 +16,271 @@
 
 <header class="topbar">
   <div class="wrap">
-    <a href="../index.html">Maxine Zhou</a>
+    <a class="tb-name" href="../index.html">Maxine Zhou</a>
     <a class="tb-right" href="../about.html">About</a>
   </div>
 </header>
 
-<div class="announce">
-  <a href="mailto:maxinezhou0302@outlook.com">Open to product design roles — let's talk <span class="arrow">→</span></a>
-</div>
-
 <main id="main">
 
-  <!-- hero -->
-  <section class="hero">
-    <div class="wrap">
-      <ul class="pills">
-        <li>Sole Product Designer</li>
-        <li>UX + Workflow</li>
-        <li>InsurTech</li>
-        <li>2025</li>
-      </ul>
+  <!-- ─────────────── Hero ─────────────── -->
+  <section class="hero wrap">
+    <ul class="pills">
+      <li class="is-key">B2B SaaS</li>
+      <li class="is-key">UX/UI</li>
+      <li class="is-key">InsurTech</li>
+      <li>Product Design</li>
+      <li>2025</li>
+    </ul>
+    <p class="project-label">Launchpad</p>
+    <h1>Improving underwriting efficiency through behaviour-driven design</h1>
+    <p class="hero-sub">Turning user data into a smarter navigation model + dynamic viewport to provide a better decision environment.</p>
+  </section>
 
-      <h1>Launchpad</h1>
+  <!-- ─────────────── 01 · Overview ─────────────── -->
+  <section class="section pad-lg wrap" id="context">
+    <div class="sec-head rv">
+      <span class="eyebrow">Context</span>
+      <h2>Overview</h2>
+    </div>
 
-      <p class="subtitle">Improving underwriting efficiency through behaviour-driven design.</p>
-
-      <div class="intro">
-        <p>I was brought in as the sole designer to shape the next version of Launchpad — an internal underwriting application where insurance teams review and triage submissions, manage workflows, and make faster, more confident decisions.</p>
-        <p>Rather than redesign on instinct, I started with what 2,720 monthly sessions of real behaviour could tell us. The data pointed somewhere unexpected, and it reframed the whole navigation model.</p>
+    <div class="overview rv">
+      <div class="ov">
+        <h3>My Role</h3>
+        <p class="body">Product Designer (Sole Designer)</p>
       </div>
-
-      <div class="fact-row">
-        <div class="fact">
-          <div class="fact-visual"><span class="big">18</span></div>
-          <div>
-            <h3>Teams in active use</h3>
-            <p>68 underwriters across 18 teams, every working day.</p>
-          </div>
-        </div>
-        <div class="fact">
-          <div class="fact-visual"><span class="big">224h</span></div>
-          <div>
-            <h3>Monthly active usage</h3>
-            <p>One minute saved per session is 45+ hours a month.</p>
-          </div>
-        </div>
+      <div class="ov">
+        <h3>Responsibilities</h3>
+        <ul>
+          <li>Next version of this product</li>
+          <li>UX analysis &amp; insight synthesis</li>
+          <li>Interaction design</li>
+          <li>Information architecture</li>
+          <li>Stakeholder alignment</li>
+        </ul>
+      </div>
+      <div class="ov">
+        <h3>The Product</h3>
+        <p class="body">An internal underwriting application for insurance teams to review and triage submissions, manage workflows, and make faster and more confident decisions.</p>
       </div>
     </div>
   </section>
 
-  <!-- 01 · CONTEXT -->
-  <section class="section section-tight" id="context">
-    <div class="wrap">
-
-      <div class="split">
-        <div class="split-text">
-          <span class="kicker">01 — Context</span>
-          <h2>Usage at a glance</h2>
-          <p>Launchpad is not a product people dip into. It is where underwriting teams spend their working day, in a high-volume, high-stakes environment where speed and accuracy both matter.</p>
-          <p>That scale is what made behavioural data worth trusting — and what made small inefficiencies expensive.</p>
-        </div>
-        <div class="split-media">
-          <div class="stats">
-            <div class="stat"><span class="n">2,720</span><span class="l">Review sessions per month</span></div>
-            <div class="stat"><span class="n">224h</span><span class="l">Total active usage</span></div>
-            <div class="stat"><span class="n">26min</span><span class="l">Average session length</span></div>
-            <div class="stat"><span class="n">18</span><span class="l">Teams actively using</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="split">
-        <div class="split-text">
-          <h2>Two pages, one workflow</h2>
-          <p>The workflow centred on two screens, and almost everything happened between them.</p>
-          <p><strong>Pipeline View</strong> — a table-based workspace for filtering, triaging and updating submissions.</p>
-          <p><strong>Submission Detail</strong> — a deep-dive view with full context, documents, analysis and activity history.</p>
-        </div>
-        <div class="split-media">
-          <figure class="fig">
-            <figcaption>Pipeline View — the triage workspace.</figcaption>
-            <div class="frame"><img src="../assets/img/429fa4_4e748c80fe2f43b29017c32d9d3b0fa5.jpg" alt="Pipeline view showing a dense table of insurance submissions with filters" loading="lazy" decoding="async"></div>
-          </figure>
-          <figure class="fig">
-            <figcaption>Submission Detail — the deep-dive view.</figcaption>
-            <div class="frame"><img src="../assets/img/429fa4_d416b84ddeca45fc8e1cf939f55f68a8.jpg" alt="Submission detail page showing full context for a single submission" loading="lazy" decoding="async"></div>
-          </figure>
-        </div>
-      </div>
-
+  <!-- ─────────────── Usage at a glance ─────────────── -->
+  <section class="section wrap">
+    <div class="sec-head rv">
+      <h2>Usage at a glance</h2>
+      <p class="body-2">(In a typical month)</p>
+    </div>
+    <div class="stats rv">
+      <div class="stat"><span class="n">2,720</span><span class="l">Review sessions per month</span></div>
+      <div class="stat"><span class="n">224h</span><span class="l">Total active usage</span></div>
+      <div class="stat"><span class="n">26min</span><span class="l">Average session length</span></div>
+      <div class="stat"><span class="n">18</span><span class="l">Teams actively using</span></div>
     </div>
   </section>
 
-  <!-- 02 · RESEARCH -->
-  <section class="section section-tight" id="research">
-    <div class="wrap">
+  <!-- ─────────────── 02 · Research ─────────────── -->
+  <section class="section pad-lg gap-lg wrap" id="research">
 
-      <div class="split">
-        <div class="split-text">
-          <span class="kicker">02 — Research</span>
-          <h2>Start at the UX audit</h2>
-          <p>As the sole product designer on the next version, I began with a structured UX audit to find where the interface was costing people time.</p>
-          <p>I annotated friction directly on the live screens, then clustered findings into themes before touching any analytics — so the data would answer questions I had actually formed.</p>
+    <div class="split">
+      <div class="split-text">
+        <h2>Two pages, one workflow</h2>
+        <p class="body">Underwriters work in a high-volume, high-stakes environment where speed and accuracy are essential. The application's workflow centered around two primary pages:</p>
+        <div class="def">
+          <h3>Pipeline View</h3>
+          <p class="body-2">A table-based workspace for filtering, triaging and updating submissions.</p>
         </div>
-        <div class="split-media">
-          <figure class="fig">
-            <figcaption>Annotating friction points directly on the existing screens.</figcaption>
-            <div class="frame"><img src="../assets/img/429fa4_a8c14759cdd74c84822e9e887ffc0a65.jpg" alt="UX audit with annotations marked across the submission detail screen" loading="lazy" decoding="async"></div>
-          </figure>
-          <figure class="fig">
-            <figcaption>Findings clustered into themes before moving into behavioural analysis.</figcaption>
-            <div class="frame"><img src="../assets/img/429fa4_cb15cf892bcf444488324e341f870dbc.jpg" alt="Audit findings organised into clustered notes on a board" loading="lazy" decoding="async"></div>
-          </figure>
+        <div class="def">
+          <h3>Submission Detail</h3>
+          <p class="body-2">A deep-dive view with full context, documents, analysis and activity history.</p>
         </div>
       </div>
+      <div class="split-media">
+        <figure class="fig cap-top rv">
+          <figcaption>Pipeline View: the triage workspace.</figcaption>
+          <div class="frame"><img src="../assets/img/429fa4_4e748c80fe2f43b29017c32d9d3b0fa5.jpg" alt="Pipeline view showing a table of insurance submissions with filters and grouping" loading="lazy" decoding="async"></div>
+        </figure>
+        <figure class="fig cap-top rv">
+          <figcaption>Submission Detail: the deep-dive view.</figcaption>
+          <div class="frame"><img src="../assets/img/429fa4_d416b84ddeca45fc8e1cf939f55f68a8.jpg" alt="Submission detail page showing summary, ranking and activity panels" loading="lazy" decoding="async"></div>
+        </figure>
+      </div>
+    </div>
 
-      <div class="split">
-        <div class="split-text">
-          <h2>Understanding real usage</h2>
-          <p>I analysed funnel behaviour, heat maps, feature usage and session data to understand how underwriters actually worked — not how the product assumed they did.</p>
+    <div class="stack">
+      <div class="stack-text rv">
+        <span class="eyebrow">Research</span>
+        <h2>Start at the UX audit</h2>
+        <p class="body">As the sole product designer on the next version, I began with a structured UX audit to find where the interface was costing people time.</p>
+      </div>
+      <figure class="fig rv">
+        <div class="frame"><img src="../assets/img/429fa4_cb15cf892bcf444488324e341f870dbc.jpg" alt="UX audit findings clustered into themes across the product screens" loading="lazy" decoding="async"></div>
+        <figcaption>Identify and prioritise UX issues by conducting UX Audit.</figcaption>
+      </figure>
+    </div>
+
+    <div class="split">
+      <div class="split-text">
+        <h2>Understanding real usage</h2>
+        <p class="body">I analysed funnel behaviour, heat maps, feature usage and session data to understand how underwriters actually worked.</p>
+        <div class="def">
+          <h3>Questions for funnel analysis</h3>
           <ul class="q-list">
             <li>Where does decision-making actually happen?</li>
             <li>What information do users need during triage?</li>
-            <li>How can the interface support comparison across submissions?</li>
-            <li>Are users navigating efficiently, or compensating for missing context?</li>
           </ul>
         </div>
-        <div class="split-media">
-          <figure class="fig">
-            <figcaption>Funnel analysis across 7.09K sessions.</figcaption>
-            <div class="frame"><img src="../assets/img/429fa4_184c0642d417480f8554f3bb6d79b93e.jpg" alt="Funnel chart showing session drop-off between pipeline and submission detail" loading="lazy" decoding="async"></div>
-          </figure>
+        <div class="def">
+          <h3>Questions for heat map</h3>
+          <ul class="q-list">
+            <li>Are users navigating efficiently, or compensating for missing context?</li>
+            <li>How can the interface support comparison across submissions?</li>
+          </ul>
         </div>
       </div>
+      <div class="split-media">
+        <figure class="fig cap-top rv">
+          <figcaption>Funnel analysis across 7.09K sessions.</figcaption>
+          <div class="frame"><img src="../assets/img/429fa4_184c0642d417480f8554f3bb6d79b93e.jpg" alt="Funnel chart showing session drop-off between pipeline and submission detail" loading="lazy" decoding="async"></div>
+        </figure>
+        <figure class="fig cap-top rv">
+          <figcaption>Heat map to understand what contents users care the most.</figcaption>
+          <div class="frame"><img src="../assets/img/429fa4_a8c14759cdd74c84822e9e887ffc0a65.jpg" alt="Annotated analysis of which areas of the submission screen users engage with" loading="lazy" decoding="async"></div>
+        </figure>
+      </div>
+    </div>
 
+  </section>
+
+  <!-- ─────────────── 03 · Insight ─────────────── -->
+  <section class="section pad-lg wrap" id="insight">
+    <div class="sec-head rv">
+      <span class="eyebrow">Insight</span>
+      <h2>What the data revealed</h2>
+    </div>
+    <ol class="findings rv">
+      <li>Only <strong>46.1%</strong> of users entered the submission detail page</li>
+      <li>The <strong>Back button</strong> was the most-used interaction on submission detail</li>
+      <li>Users frequently <strong>looped</strong> between pipeline and submission detail</li>
+      <li>Submission detail was used selectively to access specific context, especially <strong>summaries and notes</strong></li>
+    </ol>
+  </section>
+
+  <section class="section wrap">
+    <div class="sec-head rv">
+      <h2>Why Back button dominance?</h2>
+    </div>
+    <p class="pull rv">Fast comprehension first, depth on demand.</p>
+    <div class="sec-head rv">
+      <p class="body">The pipeline view functioned as the <strong>true decision workspace</strong>, while the submission detail page acted as a short-term inspection layer.</p>
+      <p class="body">Underwriters relied on the pipeline page for orientation and comparison, opening submission detail primarily to verify context before returning to continue their review.</p>
     </div>
   </section>
 
-  <!-- 03 · INSIGHT (text only) -->
-  <section class="section section-tight" id="insight">
-    <div class="wrap">
-      <div class="sec-head rv">
-        <span class="kicker">03 — Insight</span>
-        <h2>What the data revealed</h2>
-      </div>
-
-      <ol class="num-list rv">
-        <li>Only <strong>46.1%</strong> of users entered the submission detail page.</li>
-        <li>The <strong>Back button</strong> was the most-used interaction on submission detail.</li>
-        <li>Users frequently <strong>looped</strong> between pipeline and submission detail.</li>
-        <li>Submission detail was used selectively, to reach specific context — especially <strong>summaries and notes</strong>.</li>
-      </ol>
-
-      <p class="pull rv">Fast comprehension first, depth on demand.</p>
-
-      <div class="prose rv">
-        <p>The pipeline view was functioning as the <strong>true decision workspace</strong>, while submission detail acted as a short-term inspection layer. Underwriters relied on the pipeline for orientation and comparison, opening detail mainly to verify context before returning to continue their review.</p>
-        <p>The Back button wasn't a navigation failure. It was users telling us where they wanted to be.</p>
-      </div>
+  <!-- ─────────────── 04 · Design ─────────────── -->
+  <section class="section pad-lg wrap" id="design">
+    <div class="sec-head rv">
+      <span class="eyebrow">Design</span>
+      <h2>Design direction</h2>
     </div>
+    <ol class="big-steps rv">
+      <li><span class="n">01</span><span class="t">Rebalanced hierarchy to surface key signals closer to the pipeline.</span></li>
+      <li><span class="n">02</span><span class="t">Cut navigation overhead with pre-filtered views and filters-on-demand.</span></li>
+      <li><span class="n">03</span><span class="t">A contextual Details drawer for files, AI insights, history and notes.</span></li>
+      <li><span class="n">04</span><span class="t">An adaptive viewport for dense analysis without losing context.</span></li>
+    </ol>
   </section>
 
-  <!-- 04 · DESIGN -->
-  <section class="section section-tight" id="design">
-    <div class="wrap">
+  <section class="section wrap">
+    <figure class="fig rv">
+      <div class="frame"><img src="../assets/img/lp-design-decision.jpg" alt="Set of redesigned Launchpad screens showing the new navigation model" loading="lazy" decoding="async"></div>
+    </figure>
+  </section>
 
-      <div class="split">
-        <div class="split-text">
-          <span class="kicker">04 — Design</span>
-          <h2>Design direction</h2>
-          <p>I proposed a direction that moved decision-support closer to where decisions were already happening, and resolved the friction the audit surfaced.</p>
-          <ol class="num-list" style="margin-top:18px">
-            <li><strong>Rebalanced hierarchy</strong> to surface key signals closer to the pipeline.</li>
-            <li><strong>Cut navigation overhead</strong> with pre-filtered views and filters-on-demand.</li>
-            <li><strong>A contextual Details drawer</strong> for files, AI insights, history and notes.</li>
-            <li><strong>An adaptive viewport</strong> for dense analysis without losing context.</li>
-          </ol>
-        </div>
-        <div class="split-media">
-          <figure class="fig">
-            <figcaption>The redesigned navigation model across key screens.</figcaption>
-            <div class="frame"><img src="../assets/img/429fa4_d350c620e78b43f4a027b3db0547d249.jpg" alt="Set of redesigned screens showing the new navigation model" loading="lazy" decoding="async"></div>
-          </figure>
-        </div>
+  <section class="section wrap">
+    <div class="split">
+      <div class="split-text">
+        <h2>Reducing noise, preserving control</h2>
+        <p class="body">I designed a 'filters-on-demand' system that reduced visual complexity while maintaining flexibility. Frequently used filters were prioritised, and reusable filter presets allowed underwriters to quickly re-establish context across sessions.</p>
+        <p class="body">I then consolidated key submission information into a contextual drawer, reachable without leaving the pipeline.</p>
+        <p class="body">Also allows users to deal with multiple submissions within few clicks.</p>
       </div>
-
-      <div class="split">
-        <div class="split-text">
-          <h2>Reducing noise, preserving control</h2>
-          <p>A <strong>filters-on-demand</strong> system reduced visual complexity while keeping flexibility. Frequently used filters were prioritised, and reusable presets let underwriters re-establish context quickly across sessions.</p>
-          <p>I then consolidated key submission information into a contextual drawer, reachable without leaving the pipeline.</p>
-        </div>
-        <div class="split-media">
-          <figure class="fig">
-            <figcaption>Filters-on-demand — surfacing only what's needed, when it's needed.</figcaption>
-            <div class="frame"><video controls playsinline preload="metadata" src="../assets/video/cfb9e35608894b62bc457c5b936113f4.mp4"></video></div>
-          </figure>
-          <div class="fig-2up">
-            <figure class="fig">
-              <figcaption>Details drawer, opened in place.</figcaption>
-              <div class="frame"><img src="../assets/img/429fa4_4f40ed3f0a4745f4a929bc6de4a8be90.jpg" alt="Contextual details drawer beside the pipeline table" loading="lazy" decoding="async"></div>
-            </figure>
-            <figure class="fig">
-              <figcaption>Activities hub inside the drawer.</figcaption>
-              <div class="frame"><img src="../assets/img/429fa4_432aec980fe34d0f93ebe53e54d5312e.jpg" alt="Activities hub listing submission tasks and their status" loading="lazy" decoding="async"></div>
-            </figure>
+      <div class="split-media">
+        <figure class="fig cap-top rv">
+          <figcaption>Filters-on-demand: surfacing only what's needed, when it's needed.</figcaption>
+          <div class="frame">
+            <video controls playsinline preload="none" poster="../assets/img/lp-filters-poster.jpg">
+              <source src="../assets/video/lp-filters.mp4" type="video/mp4">
+            </video>
           </div>
-          <figure class="fig">
-            <figcaption>The Details drawer in use — context without leaving the workspace.</figcaption>
-            <div class="frame"><video controls playsinline preload="metadata" src="../assets/video/bfde2b80ca304fe59b2d908c0ab34c1a.mp4"></video></div>
-          </figure>
-        </div>
-      </div>
+        </figure>
 
-      <div class="split">
-        <div class="split-text">
-          <h2>Adaptive viewport for high-density data</h2>
-          <p>To accommodate dense tables, I designed an adaptive viewport that supports uninterrupted analysis while preserving quick access to workflow context and collaboration tools.</p>
-        </div>
-        <div class="split-media">
-          <figure class="fig">
-            <figcaption>The viewport adapting as the underwriter moves between comparison and detail.</figcaption>
-            <div class="frame"><video controls playsinline preload="metadata" src="../assets/video/6f86bae969f04d0595f535c881e67525.mp4"></video></div>
-          </figure>
-        </div>
-      </div>
+        <figure class="fig cap-top rv">
+          <figcaption>The Details drawer: files, synthesis, activities and notes in one place.</figcaption>
+          <div class="frame"><img src="../assets/img/launchpad-details-drawer.png" alt="Details drawer showing Notes, Activities, Files, Synthesis and Contract tabs beside the pipeline" loading="lazy" decoding="async"></div>
+        </figure>
 
+        <figure class="fig cap-top rv">
+          <figcaption>Multi-select: acting on several submissions in a few clicks.</figcaption>
+          <div class="frame">
+            <video controls playsinline preload="none" poster="../assets/img/lp-multiselect-poster.jpg">
+              <source src="../assets/video/lp-multiselect.mp4" type="video/mp4">
+            </video>
+          </div>
+        </figure>
+
+        <figure class="fig cap-top rv">
+          <figcaption>The Details drawer in use, context without leaving the workspace.</figcaption>
+          <div class="frame">
+            <video class="tall" controls playsinline preload="none" poster="../assets/img/lp-sidebar-poster.jpg">
+              <source src="../assets/video/lp-sidebar.mp4" type="video/mp4">
+            </video>
+          </div>
+        </figure>
+      </div>
     </div>
   </section>
 
-  <!-- 05 · IMPACT (text only) -->
-  <section class="section section-tight" id="impact">
-    <div class="wrap">
-      <div class="sec-head rv">
-        <span class="kicker">05 — Impact</span>
-        <h2>Impact</h2>
+  <section class="section wrap">
+    <div class="split">
+      <div class="split-text">
+        <h2>Adaptive viewport for high-density data</h2>
+        <p class="body">To accommodate dense tables, I designed an adaptive viewport that supports uninterrupted analysis while preserving quick access to workflow context and collaboration tools.</p>
       </div>
-
-      <ul class="lead-list rv">
-        <li><strong>Scale makes small wins large.</strong> With 224 hours of monthly usage, reducing one minute per session saves over 45 hours a month across underwriting teams.</li>
-        <li><strong>A data-backed direction.</strong> Due to roadmap priorities the work was positioned as a future optimisation, with a clear evidence base for improving underwriting efficiency at scale.</li>
-        <li><strong>Behaviour over opinion.</strong> The strongest argument in the room wasn't a mockup — it was 7,090 sessions showing where people actually worked.</li>
-      </ul>
+      <div class="split-media">
+        <figure class="fig cap-top rv">
+          <figcaption>The adaptive detail view, expanding to suit the task in hand.</figcaption>
+          <div class="frame">
+            <video controls playsinline preload="none" poster="../assets/img/lp-adaptive-detail-poster.jpg">
+              <source src="../assets/video/lp-adaptive-detail.mp4" type="video/mp4">
+            </video>
+          </div>
+        </figure>
+        <figure class="fig cap-top rv">
+          <figcaption>Dynamic viewport: the workspace adapting as the underwriter moves between comparison and detail.</figcaption>
+          <div class="frame">
+            <video controls playsinline preload="none" poster="../assets/img/lp-dynamic-viewport-poster.jpg">
+              <source src="../assets/video/lp-dynamic-viewport.mp4" type="video/mp4">
+            </video>
+          </div>
+        </figure>
+      </div>
     </div>
   </section>
 
-  <footer class="foot">
-    <div class="wrap">
-      <h2>Feeling that I might be a good fit for your team?</h2>
-      <p>I'm open to product design roles. The fastest way to reach me is email — I reply to everything.</p>
-      <div class="foot-actions">
-        <a class="btn btn-dark" href="mailto:maxinezhou0302@outlook.com">maxinezhou0302@outlook.com</a>
-        <a class="btn btn-quiet" href="https://www.linkedin.com/in/maxine-z-90281422b/" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-      <div class="foot-meta">
-        <span>© <span id="yr">2026</span> Maxine Zhou</span>
-        <span>
-          <a href="../index.html">Home</a>
-          <a href="../projects.html">Work</a>
-          <a href="../assets/doc/maxine-zhou-resume.pdf" target="_blank" rel="noopener">Résumé</a>
-        </span>
-      </div>
+  <!-- ─────────────── 05 · Impact ─────────────── -->
+  <section class="section pad-lg wrap" id="impact">
+    <div class="sec-head rv">
+      <span class="eyebrow">Impact</span>
+      <h2>Impact</h2>
     </div>
-  </footer>
+    <div class="sec-head rv">
+      <p class="body">With over 224 hours of monthly usage, even small improvements could scale quickly. Reducing just one minute per session could save over 45 hours per month across underwriting teams.</p>
+      <p class="body">Due to roadmap priorities, this work was positioned as a future optimisation, establishing a clear, data-backed direction for improving underwriting efficiency at scale.</p>
+    </div>
+  </section>
+
 </main>
 
 <nav class="dock" aria-label="Section navigation">
@@ -300,8 +298,6 @@
 </nav>
 
 <script>
-document.getElementById('yr').textContent = new Date().getFullYear();
-
 var rv = document.querySelectorAll('.rv');
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
   var io = new IntersectionObserver(function (es) {

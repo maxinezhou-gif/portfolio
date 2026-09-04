@@ -18,3 +18,6 @@ venv/
 # Full-resolution image originals live outside this folder (../original-assets/)
 # and are intentionally not committed — 195 MB of source PNGs.
 original-assets/
+
+# Source video masters live on the Desktop (~128 MB of .mov) — not committed.
+# Web-ready mp4s in assets/video/ are generated from them with avconvert.
