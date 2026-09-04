@@ -475,6 +475,31 @@ figure { margin: 0; }
   font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body);
 }
 
+/* plain bullet list — for problems, deliverables, learnings */
+.bullets { margin: 0; padding-left: 22px; max-width: 760px; }
+.bullets li {
+  font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body);
+}
+.bullets li + li { margin-top: 14px; }
+.bullets li::marker { color: var(--accent); }
+
+/* callout — an aside that steps out of the main narrative */
+.callout {
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  padding: 32px;
+  max-width: 760px;
+}
+.callout > * + * { margin-top: 20px; }
+.callout h3 { font-size: var(--t-h3); }
+.callout .label {
+  display: block;
+  font-size: var(--t-eyebrow); font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--accent);
+}
+.callout .label + * { margin-top: 8px; }
+
 /* question chips */
 .q-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .q-list li {
@@ -533,7 +558,7 @@ figure { margin: 0; }
 .dock-pill:hover { transform: translateY(-2px); }
 
 .dock-links {
-  display: flex; align-items: center;
+  display: flex; align-items: center; gap: 2px;
   background: var(--white); border: 1px solid var(--line);
   border-radius: var(--r-pill); padding: 7px 6px;
   box-shadow: 0 2px 6px rgba(17,17,18,.05), 0 10px 24px -8px rgba(17,17,18,.14);
@@ -548,7 +573,6 @@ figure { margin: 0; }
 }
 .dock-links a:hover { color: var(--ink); }
 .dock-links a.active { color: var(--ink); background: var(--surface); }
-.dock-links .sep { width: 1px; height: 14px; background: var(--line-strong); flex: none; }
 
 @media (max-width: 860px) {
   .dock-inner { justify-content: center; }

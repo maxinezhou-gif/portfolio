@@ -104,6 +104,8 @@ of `casestudy.py`.
 | `("findings", […])` | inline-numbered list, 28px apart |
 | `("steps", […])` | numbered cards, `01`–`04`; reflows 1→2→4 |
 | `("questions", […])` | white question chips |
+| `("bullets", […])` | plain bullet list, accent markers |
+| `("callout", [...])` | tinted aside; use `("label", "…")` inside for its accent sub-headings |
 | `("fig", {…})` | one framed, clipped, captioned figure |
 | `("scrolly", [(labels, fig), …])` | **the sticky pattern** |
 

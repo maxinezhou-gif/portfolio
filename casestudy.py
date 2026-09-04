@@ -30,6 +30,9 @@ BLOCK REFERENCE — the vocabulary available in `body`
 ("findings", ["Only **46.1%** of users...", ...])       inline-numbered list
 ("steps", ["Rebalanced hierarchy...", ...])             numbered cards (01..)
 ("questions", ["Where does decision-making happen?"])   question chips
+("bullets", ["First point", ...])                        plain bullet list
+("callout", [blocks])                                   aside in a tinted box
+("label", "What happened")                              accent label inside a callout
 
 ("fig",   {...})                            one figure, full width
 ("scrolly", [ (label_blocks, figure), ... ]) sticky label per figure
@@ -187,6 +190,18 @@ def render(blocks, indent=2):
                 for i, t in enumerate(b[1]))
             out.append(f'{pad}<ol class="step-cards rv">{items}</ol>')
 
+        elif kind == "bullets":
+            items = "".join(f"<li>{rich(i)}</li>" for i in b[1])
+            out.append(f'{pad}<ul class="bullets rv">{items}</ul>')
+
+        elif kind == "callout":
+            out.append(f'{pad}<div class="callout rv">')
+            out.append(render(b[1], indent + 1))
+            out.append(f"{pad}</div>")
+
+        elif kind == "label":
+            out.append(f'{pad}<span class="label">{e(b[1])}</span>')
+
         elif kind == "questions":
             items = "".join(f"<li>{rich(q)}</li>" for q in b[1])
             out.append(f'{pad}<ul class="q-list">{items}</ul>')
@@ -232,10 +247,7 @@ SCRIPT = open(os.path.join(ROOT, "assets", "js", "case-study.js")).read() \
 
 def build(cs):
     nav = cs.get("dock", [])
-    links = ""
-    for i, (label, target) in enumerate(nav):
-        sep = '<span class="sep"></span>' if i < len(nav) - 1 else ""
-        links += f'<a href="#{target}">{e(label)}</a>{sep}'
+    links = "".join(f'<a href="#{target}">{e(label)}</a>' for label, target in nav)
 
     prev_next = ""
     if cs.get("next"):
