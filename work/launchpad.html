@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Improving underwriting efficiency through behaviour-driven design — Maxine Zhou</title>
+<meta name="description" content="Turning user data into a smarter navigation model + dynamic viewport to provide a better decision environment.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/case-study.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="tb-name" href="../index.html">Maxine Zhou</a>
+    <a class="tb-right" href="../about.html">About</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero wrap">
+    <ul class="pills"><li class="is-key">B2B SaaS</li><li class="is-key">UX/UI</li><li class="is-key">InsurTech</li><li>Product Design</li><li>2025</li></ul>
+    <p class="project-label">Launchpad</p>
+    <h1>Improving underwriting efficiency through behaviour-driven design</h1>
+    <p class="hero-sub">Turning user data into a smarter navigation model + dynamic viewport to provide a better decision environment.</p>
+  </section>
+
+  <section class="section pad-lg wrap" id="context">
+    <div class="sec-head rv">
+      <span class="eyebrow">Context</span>
+      <h2>Overview</h2>
+    </div>
+    <div class="overview rv"><div class="ov"><h3>My Role</h3><p class="body">Product Designer (Sole Designer)</p></div><div class="ov"><h3>Responsibilities</h3><ul><li>Next version of this product</li><li>UX analysis &amp; insight synthesis</li><li>Interaction design</li><li>Information architecture</li><li>Stakeholder alignment</li></ul></div><div class="ov"><h3>The Product</h3><p class="body">An internal underwriting application for insurance teams to review and triage submissions, manage workflows, and make faster and more confident decisions.</p></div></div>
+  </section>
+
+  <section class="section wrap">
+    <div class="sec-head rv">
+      <h2>Usage at a glance</h2>
+      <p class="note">(In a typical month)</p>
+    </div>
+    <div class="stats rv"><div class="stat"><span class="n">2,720</span><span class="l">Review sessions per month</span></div><div class="stat"><span class="n">224h</span><span class="l">Total active usage</span></div><div class="stat"><span class="n">26min</span><span class="l">Average session length</span></div><div class="stat"><span class="n">18</span><span class="l">Teams actively using</span></div></div>
+  </section>
+
+  <section class="section pad-lg gap-lg wrap" id="research">
+    <div class="sec-head rv">
+      <h2>Two pages, one workflow</h2>
+      <p class="body">Underwriters work in a high-volume, high-stakes environment where speed and accuracy are essential. The application's workflow centered around two primary pages:</p>
+    </div>
+    <div class="scrolly" style="--pairs:2">
+      <div class="st">
+        <div class="def">
+          <h3>Pipeline View</h3>
+          <p class="small">A table-based workspace for filtering, triaging and updating submissions.</p>
+        </div>
+      </div>
+      <figure class="fig rv"><div class="frame"><div class="clip"><img src="../assets/img/429fa4_4e748c80fe2f43b29017c32d9d3b0fa5.jpg" alt="Pipeline view showing a table of insurance submissions with filters and grouping" width="2000" height="1552" loading="lazy" decoding="async"></div></div><figcaption>Pipeline View: the triage workspace.</figcaption></figure>
+      <div class="st">
+        <div class="def">
+          <h3>Submission Detail</h3>
+          <p class="small">A deep-dive view with full context, documents, analysis and activity history.</p>
+        </div>
+      </div>
+      <figure class="fig rv"><div class="frame"><div class="clip"><img src="../assets/img/429fa4_d416b84ddeca45fc8e1cf939f55f68a8.jpg" alt="Submission detail page showing summary, ranking and activity panels" width="2000" height="1551" loading="lazy" decoding="async"></div></div><figcaption>Submission Detail: the deep-dive view.</figcaption></figure>
+    </div>
+    <div class="sec-head rv">
+      <span class="eyebrow">Research</span>
+      <h2>Start at the UX audit</h2>
+      <p class="body">As the sole product designer on the next version, I began with a structured UX audit to find where the interface was costing people time.</p>
+    </div>
+    <figure class="fig rv"><div class="frame"><div class="clip"><img src="../assets/img/429fa4_cb15cf892bcf444488324e341f870dbc.jpg" alt="UX audit findings clustered into themes across the product screens" width="2000" height="814" loading="lazy" decoding="async"></div></div><figcaption>Identify and prioritise UX issues by conducting UX Audit.</figcaption></figure>
+    <div class="sec-head rv">
+      <h2>Understanding real usage</h2>
+      <p class="body">I analysed funnel behaviour, heat maps, feature usage and session data to understand how underwriters actually worked.</p>
+    </div>
+    <div class="scrolly" style="--pairs:2">
+      <div class="st">
+        <div class="def">
+          <h3>Questions for funnel analysis</h3>
+          <ul class="q-list"><li>Where does decision-making actually happen?</li><li>What information do users need during triage?</li></ul>
+        </div>
+      </div>
+      <figure class="fig rv"><div class="frame"><div class="clip"><img src="../assets/img/429fa4_184c0642d417480f8554f3bb6d79b93e.jpg" alt="Funnel chart showing session drop-off between pipeline and submission detail" width="1648" height="1232" loading="lazy" decoding="async"></div></div><figcaption>Funnel analysis across 7.09K sessions.</figcaption></figure>
+      <div class="st">
+        <div class="def">
+          <h3>Questions for heat map</h3>
+          <ul class="q-list"><li>Are users navigating efficiently, or compensating for missing context?</li><li>How can the interface support comparison across submissions?</li></ul>
+        </div>
+      </div>
+      <figure class="fig rv"><div class="frame"><div class="clip"><img src="../assets/img/429fa4_a8c14759cdd74c84822e9e887ffc0a65.jpg" alt="Annotated analysis of which areas of the submission screen users engage with" width="1566" height="1036" loading="lazy" decoding="async"></div></div><figcaption>Heat map to understand what contents users care the most.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="section pad-lg wrap" id="insight">
+    <div class="sec-head rv">
+      <span class="eyebrow">Insight</span>
+      <h2>What the data revealed</h2>
+    </div>
+    <ol class="findings rv"><li>Only <strong>46.1%</strong> of users entered the submission detail page</li><li>The <strong>Back button</strong> was the most-used interaction on submission detail</li><li>Users frequently <strong>looped</strong> between pipeline and submission detail</li><li>Submission detail was used selectively to access specific context, especially <strong>summaries and notes</strong></li></ol>
+  </section>
+
+  <section class="section centred wrap">
+    <div class="sec-head rv">
+      <h2>Why Back button dominance?</h2>
+    </div>
+    <p class="pull rv">Fast comprehension first, depth on demand.</p>
+    <div class="prose rv">
+      <p class="body">The pipeline view functioned as the <strong>true decision workspace</strong>, while the submission detail page acted as a short-term inspection layer.</p>
+      <p class="body">Underwriters relied on the pipeline page for orientation and comparison, opening submission detail primarily to <strong>verify context</strong> before returning to continue their review.</p>
+    </div>
+  </section>
+
+  <section class="section pad-lg wrap" id="design">
+    <div class="sec-head rv">
+      <span class="eyebrow">Design</span>
+      <h2>Design direction</h2>
+    </div>
+    <ol class="step-cards rv"><li><span class="n">01</span><span class="t">Rebalanced hierarchy to surface key signals closer to the pipeline.</span></li><li><span class="n">02</span><span class="t">Cut navigation overhead with pre-filtered views and filters-on-demand.</span></li><li><span class="n">03</span><span class="t">A contextual Details drawer for files, AI insights, history and notes.</span></li><li><span class="n">04</span><span class="t">An adaptive viewport for dense analysis without losing context.</span></li></ol>
+  </section>
+
+  <section class="section wrap">
+    <figure class="fig rv"><div class="frame"><div class="clip"><img src="../assets/img/lp-design-decision.jpg" alt="Set of redesigned Launchpad screens showing the new navigation model" width="2000" height="1754" loading="lazy" decoding="async"></div></div></figure>
+  </section>
+
+  <section class="section wrap">
+    <div class="sec-head rv">
+      <h2>Reducing noise, preserving control</h2>
+      <p class="body">I designed a 'filters-on-demand' system that reduced visual complexity while maintaining flexibility. Frequently used filters were prioritised, and reusable filter presets allowed underwriters to quickly re-establish context across sessions.</p>
+      <p class="body">I then consolidated key submission information into a contextual drawer, reachable without leaving the pipeline.</p>
+    </div>
+    <figure class="fig rv"><div class="frame"><div class="clip"><video controls playsinline preload="none" muted loop poster="../assets/img/lp-filters-poster.jpg" style="--ar: 1500 / 853; --op: bottom"><source src="../assets/video/lp-filters.mp4" type="video/mp4"></video></div></div><figcaption>Filters-on-demand: surfacing only what's needed, when it's needed.</figcaption></figure>
+    <figure class="fig rv"><div class="frame"><div class="clip"><img src="../assets/img/launchpad-details-drawer.png" alt="Details drawer showing Notes, Activities, Files, Synthesis and Contract tabs beside the pipeline" width="1484" height="799" loading="lazy" decoding="async"></div></div><figcaption>The Details drawer: files, synthesis, activities and notes in one place.</figcaption></figure>
+    <figure class="fig rv"><div class="frame"><div class="clip"><video controls playsinline preload="none" muted loop poster="../assets/img/lp-multiselect-poster.jpg" style="--ar: 1500 / 937; --op: center"><source src="../assets/video/lp-multiselect.mp4" type="video/mp4"></video></div></div><figcaption>Multi-select: acting on several submissions in a few clicks.</figcaption></figure>
+    <figure class="fig rv"><div class="frame"><div class="clip"><video controls playsinline preload="none" muted loop poster="../assets/img/lp-sidebar-poster.jpg" style="--ar: 1313 / 1500; --op: center"><source src="../assets/video/lp-sidebar.mp4" type="video/mp4"></video></div></div><figcaption>The Details drawer in use, context without leaving the workspace.</figcaption></figure>
+  </section>
+
+  <section class="section wrap">
+    <div class="sec-head rv">
+      <h2>Adaptive viewport for high-density data</h2>
+      <p class="body">To accommodate dense tables, I designed an adaptive viewport that supports uninterrupted analysis while preserving quick access to workflow context and collaboration tools.</p>
+    </div>
+    <figure class="fig rv"><div class="frame"><div class="clip"><video controls playsinline preload="none" muted loop poster="../assets/img/lp-adaptive-detail-poster.jpg" style="--ar: 1500 / 882; --op: bottom"><source src="../assets/video/lp-adaptive-detail.mp4" type="video/mp4"></video></div></div><figcaption>The adaptive detail view, expanding to suit the task in hand.</figcaption></figure>
+    <figure class="fig rv"><div class="frame"><div class="clip"><video controls playsinline preload="none" muted loop poster="../assets/img/lp-dynamic-viewport-poster.jpg" style="--ar: 1500 / 882; --op: bottom"><source src="../assets/video/lp-dynamic-viewport.mp4" type="video/mp4"></video></div></div><figcaption>Dynamic viewport: the workspace adapting as the underwriter moves between comparison and detail.</figcaption></figure>
+  </section>
+
+  <section class="section pad-lg wrap" id="impact">
+    <div class="sec-head rv">
+      <span class="eyebrow">Impact</span>
+      <h2>Impact</h2>
+    </div>
+    <div class="prose rv">
+      <p class="body">With over 224 hours of monthly usage, even small improvements could scale quickly. Reducing just one minute per session could save over 45 hours per month across underwriting teams.</p>
+      <p class="body">Due to roadmap priorities, this work was positioned as a future optimisation, establishing a clear, data-backed direction for improving underwriting efficiency at scale.</p>
+    </div>
+  </section>
+
+</main>
+
+<nav class="dock" aria-label="Section navigation">
+  <div class="dock-inner">
+    <a class="dock-pill" href="../projects.html">↖ All work</a>
+    <div class="dock-links"><a href="#context">Context</a><span class="sep"></span><a href="#research">Research</a><span class="sep"></span><a href="#insight">Insight</a><span class="sep"></span><a href="#design">Design</a><span class="sep"></span><a href="#impact">Impact</a></div>
+    <a class="dock-pill" href="design-system-migration.html">Next →</a>
+  </div>
+</nav>
+
+<script>
+/* Scrolly text swap.
+   Exactly one text block is visible at a time, chosen from which media item
+   is currently at the top of the viewport. Hiding the inactive blocks (rather
+   than relying on an opaque block covering the one behind) is what guarantees
+   nothing bleeds through, whichever direction you scroll. */
+(function () {
+  var groups = [].map.call(document.querySelectorAll('.scrolly'), function (sc) {
+    return {
+      el: sc,
+      texts:  [].filter.call(sc.children, function (c) { return c.classList.contains('st'); }),
+      medias: [].filter.call(sc.children, function (c) { return c.tagName === 'FIGURE'; })
+    };
+  }).filter(function (g) { return g.texts.length > 1 && g.texts.length === g.medias.length; });
+
+  if (!groups.length) return;
+  groups.forEach(function (g) { g.el.classList.add('swap'); });
+
+  var PIN = 80;          // matches .st { top: 80px }
+  var wide = function () { return window.innerWidth > 1040; };
+
+  function update() {
+    groups.forEach(function (g) {
+      var active = 0;
+      if (wide()) {
+        // the last media whose top has reached (or passed) the pin line
+        for (var i = 0; i < g.medias.length; i++) {
+          // small tolerance so the swap lands as the image meets the pin,
+          // rather than a pixel or two after it
+          if (g.medias[i].getBoundingClientRect().top <= PIN + 8) active = i;
+        }
+      }
+      g.texts.forEach(function (t, i) { t.classList.toggle('is-on', i === active); });
+    });
+  }
+
+  var queued = false;
+  function schedule() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function () { queued = false; update(); });
+  }
+
+  /* Driven by IntersectionObserver rather than scroll events: the root is
+     collapsed to a 1px band sitting on the pin line, so a media item entering
+     or leaving that band is an intersection change and fires reliably — no
+     dependence on scroll events reaching the window, and no work while
+     nothing is crossing. The scroll listener stays as a cheap belt-and-braces. */
+  var io = null;
+  function observe() {
+    if (io) io.disconnect();
+    var below = Math.max(0, window.innerHeight - PIN - 1);
+    io = new IntersectionObserver(schedule, {
+      rootMargin: '-' + PIN + 'px 0px -' + below + 'px 0px',
+      threshold: 0
+    });
+    groups.forEach(function (g) { g.medias.forEach(function (m) { io.observe(m); }); });
+  }
+
+  observe();
+  update();
+  window.addEventListener('scroll', schedule, { passive: true });
+  var rt;
+  window.addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () { observe(); update(); }, 120);
+  });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(update);
+})();
+
+/* Autoplay each video when it scrolls into view, pause when it leaves.
+   Needs muted (browsers block autoplay with sound). Controls stay on so the
+   viewer can pause or scrub. Skipped entirely under prefers-reduced-motion,
+   where the poster + controls are the experience. */
+(function () {
+  var vids = document.querySelectorAll('video');
+  if (!vids.length || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var vo = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var v = en.target;
+      if (en.isIntersecting) {
+        // preload="none" means the first play() also starts the download
+        var p = v.play();
+        if (p && p.catch) p.catch(function () { /* autoplay refused — poster stays */ });
+      } else if (!v.paused) {
+        v.pause();
+      }
+    });
+  }, { threshold: 0.35 });
+
+  vids.forEach(function (v) { vo.observe(v); });
+})();
+
+var rv = document.querySelectorAll('.rv');
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { rootMargin: '0px 0px -6% 0px', threshold: 0.05 });
+  rv.forEach(function (el) { io.observe(el); });
+} else { rv.forEach(function (el) { el.classList.add('in'); }); }
+
+var ids = ['context','research','insight','design','impact'];
+var links = {};
+ids.forEach(function (id) { links[id] = document.querySelector('.dock-links a[href="#' + id + '"]'); });
+var spy = new IntersectionObserver(function (es) {
+  es.forEach(function (en) {
+    if (en.isIntersecting) {
+      ids.forEach(function (id) { links[id] && links[id].classList.remove('active'); });
+      links[en.target.id] && links[en.target.id].classList.add('active');
+    }
+  });
+}, { rootMargin: '-45% 0px -50% 0px' });
+ids.forEach(function (id) { var el = document.getElementById(id); if (el) spy.observe(el); });
+
+</script>
+</body>
+</html>

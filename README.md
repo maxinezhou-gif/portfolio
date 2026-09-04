@@ -28,6 +28,27 @@ That's it. No install step.
 
 ---
 
+## Two generators, on purpose
+
+The site is mid-migration between two designs.
+
+| | Old (cream) | New (v2) |
+|---|---|---|
+| Generator | `build.py` | `casestudy.py` |
+| Stylesheet | `assets/css/site.css` | `assets/css/case-study.css` |
+| Pages | `index.html`, `projects.html`, `about.html`, `work/*.html` | `work/launchpad.html` |
+| Content lives in | inside `build.py` | `content/<slug>.py` |
+
+`work/launchpad.html` is the new design and the template for everything else —
+see `DESIGN-SYSTEM.md`. The home, work-index and about pages are still the old
+cream design and have not been migrated yet.
+
+The two generators do not collide: the old Launchpad page is
+`work/underwriting-efficiency.html`, the new one is `work/launchpad.html`. Both
+currently exist, which means **the same project is live at two URLs in two
+designs**. Once the migration is done, delete the old entry from `build.py`
+and point `projects.html` at the new slug.
+
 ## How it fits together
 
 ```

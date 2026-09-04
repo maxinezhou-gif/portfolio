@@ -493,6 +493,10 @@ figure { margin: 0; }
   color: var(--ink);
 }
 
+/* a plain reading column of body copy */
+.prose { max-width: 680px; }
+.prose > * + * { margin-top: 28px; }
+
 /* the "Why Back button dominance?" block: heading and quote centred, the
    body a narrower centred column that is still left-aligned for reading */
 .centred { text-align: center; }
