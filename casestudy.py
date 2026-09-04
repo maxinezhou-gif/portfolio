@@ -32,6 +32,8 @@ BLOCK REFERENCE — the vocabulary available in `body`
 ("questions", ["Where does decision-making happen?"])   question chips
 ("bullets", ["First point", ...])                        plain bullet list
 ("callout", [blocks])                                   aside in a tinted box
+("chapter", "Phase 1 · Foundation building")            quiet chapter divider
+("features", [ (text_blocks, figure), ... ])            text 384 / media 520 rows
 ("label", "What happened")                              accent label inside a callout
 
 ("fig",   {...})                            one figure, full width
@@ -189,6 +191,20 @@ def render(blocks, indent=2):
                 f'<span class="t">{rich(t)}</span></li>'
                 for i, t in enumerate(b[1]))
             out.append(f'{pad}<ol class="step-cards rv">{items}</ol>')
+
+        elif kind == "chapter":
+            out.append(f'{pad}<h2 class="chapter rv">{rich(b[1])}</h2>')
+
+        elif kind == "features":
+            out.append(f'{pad}<div class="features">')
+            for text_blocks, fig in b[1]:
+                out.append(f'{pad}  <div class="feature rv">')
+                out.append(f'{pad}    <div class="feature-text">')
+                out.append(render(text_blocks, indent + 3))
+                out.append(f"{pad}    </div>")
+                out.append(pad + "    " + figure(fig, reveal=False))
+                out.append(f"{pad}  </div>")
+            out.append(f"{pad}</div>")
 
         elif kind == "bullets":
             items = "".join(f"<li>{rich(i)}</li>" for i in b[1])

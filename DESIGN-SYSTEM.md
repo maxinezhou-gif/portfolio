@@ -106,8 +106,28 @@ of `casestudy.py`.
 | `("questions", […])` | white question chips |
 | `("bullets", […])` | plain bullet list, accent markers |
 | `("callout", [...])` | tinted aside; use `("label", "…")` inside for its accent sub-headings |
+| `("chapter", "Phase 1 · Foundation building")` | quiet chapter divider, 20px in ink-faint |
+| `("features", [(text, fig), …])` | text 384 / gap 64 / media 520, centre-aligned rows |
 | `("fig", {…})` | one framed, clipped, captioned figure |
 | `("scrolly", [(labels, fig), …])` | **the sticky pattern** |
+
+### Chapter + feature rows
+
+Taken from `jasonspielman.com/huxe`, measured: a dated chapter heading acting
+as a quiet divider, then rows of text 384 / gap 64 / media 520, centred on the
+cross axis, 48px apart. Note the deliberate inversion — the **feature heading
+is larger than the chapter heading**, because the chapter is a marker and the
+feature is the content.
+
+Use this when a case study is **chronological** and made of many small
+artefacts. The compact 520px media column suits Slack threads, cards and
+audit documents, which look absurd at full width. Use `fig` instead when a
+screen deserves the whole column.
+
+Huxe's own sizes are 28/17; this system uses 26/16 so the page stays inside
+Maxine's tokens. The tracks are `minmax(0, …)` so they shrink rather than
+overflow between the two-column breakpoint and the 1248px at which
+384 + 64 + 520 genuinely fits.
 
 ### The scrolly pattern
 

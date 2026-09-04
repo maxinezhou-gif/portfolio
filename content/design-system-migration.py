@@ -137,38 +137,53 @@ CASE_STUDY = {
         {
             "id": "approach", "classes": ["pad-lg", "gap-lg"],
             "blocks": [
-                ("head", [("eyebrow", "Approach"), ("h2", "Phase 1 · Foundation building")]),
-                ("steps", [
-                    "Built the **Design Library** covering the full product ecosystem.",
-                    "Tokenised design foundations and wrote **component documentation**.",
-                    "Established a cleaned-up **Storybook** as the single source of truth.",
-                    "Provided designer **support infrastructure** across all three agencies.",
+                ("head", [
+                    ("eyebrow", "Approach"),
+                    ("h2", "Four phases over ten months"),
+                    ("p", "Migration was not a single project. It ran as four phases, "
+                          "each one earning the trust the next depended on."),
                 ]),
-                ("fig", {"img": "429fa4_1c3a8c2e3fb5442bb06d134f647be1cf.jpg",
-                         "alt": "The assembled design library, showing components across "
-                                "the product ecosystem",
-                         "caption": "The design library, covering the full product ecosystem."}),
-                ("fig", {"img": "429fa4_35d8c4aab5bb4b30a2c00b58c163b781.jpg",
-                         "alt": "Cards for design critique, pattern workshops and a design "
-                                "system office hour",
-                         "caption": "Support infrastructure: critiques, workshops and a "
-                                    "standing design system office hour."}),
 
-                ("head", [("h2", "Phase 2 · Governance & quality assurance")]),
-                ("steps", [
-                    "Ran **UX audits** and regular design check-ins across agencies to "
-                    "identify drift.",
-                    "Documented an **Exception Framework** for when deviations make "
-                    "sense, balancing system integrity with design flexibility.",
-                    "Created a **3–4 week component prioritisation pipeline**.",
-                    "Hosted **Pattern Workshops** across agencies to find reusable patterns.",
+                ("chapter", "Phase 1 · Foundation building"),
+                ("features", [
+                    (
+                        [("h3", "A design library for the whole ecosystem"),
+                         ("p", "Built the library covering all 16 products, tokenised "
+                               "the foundations, and established a cleaned-up "
+                               "**Storybook** as the single source of truth.")],
+                        {"img": "429fa4_1c3a8c2e3fb5442bb06d134f647be1cf.jpg",
+                         "alt": "The assembled design library, showing components "
+                                "across the product ecosystem"},
+                    ),
+                    (
+                        [("h3", "Support, not just artefacts"),
+                         ("p", "A library nobody knows how to use is shelfware. I ran "
+                               "critiques, pattern workshops and a standing office "
+                               "hour across all three agencies.")],
+                        {"img": "429fa4_35d8c4aab5bb4b30a2c00b58c163b781.jpg",
+                         "alt": "Cards for design critique, pattern workshops and a "
+                                "design system office hour"},
+                    ),
                 ]),
-                ("fig", {"img": "429fa4_2aece0e687e544a0b895414de8f9772f.jpg",
-                         "alt": "UX audit documents from 2025",
-                         "caption": "Recurring UX audits, to catch drift early."}),
-                ("fig", {"img": "429fa4_d861706d33a4423b95920f6aa3351b15.jpg",
-                         "alt": "Flow diagram of the component contribution process",
-                         "caption": "The contribution process, made explicit."}),
+
+                ("chapter", "Phase 2 · Governance & quality assurance"),
+                ("features", [
+                    (
+                        [("h3", "Audits to catch drift early"),
+                         ("p", "Regular UX audits and design check-ins across agencies, "
+                               "so divergence surfaced in weeks rather than quarters.")],
+                        {"img": "429fa4_2aece0e687e544a0b895414de8f9772f.jpg",
+                         "alt": "UX audit documents from 2025"},
+                    ),
+                    (
+                        [("h3", "A contribution process, made explicit"),
+                         ("p", "A **3–4 week prioritisation pipeline** and a documented "
+                               "path for proposing components, so extending the system "
+                               "stopped being a matter of who you asked.")],
+                        {"img": "429fa4_d861706d33a4423b95920f6aa3351b15.jpg",
+                         "alt": "Flow diagram of the component contribution process"},
+                    ),
+                ]),
             ],
         },
 
@@ -209,29 +224,46 @@ CASE_STUDY = {
         {
             "classes": ["gap-lg"],
             "blocks": [
-                ("head", [
-                    ("h2", "Phase 3 · Strategic migration"),
+                ("chapter", "Phase 3 · Strategic migration"),
+                ("prose", [
                     ("p", "We ran a low-risk pilot on a simple product to validate the "
-                          "process and build team confidence, then migrated the essential "
-                          "product to showcase impact. Along the way we fixed UX issues, "
-                          "applied semantic tokens, and improved predictability with a "
-                          "unified visual language."),
+                          "process and build team confidence, then migrated the "
+                          "essential product to showcase impact. Along the way we fixed "
+                          "UX issues, applied semantic tokens, and improved "
+                          "predictability with a unified visual language."),
                 ]),
                 ("pull", "35% → 2% custom components."),
 
-                ("head", [("h2", "Phase 4 · Scaling & enablement")]),
-                ("steps", [
-                    "Transformed siloed agencies into a collaborative community.",
-                    "Completed four product migrations, with three in progress.",
-                    "Equipped the client to continue independently.",
+                ("chapter", "Phase 4 · Scaling & enablement"),
+                ("features", [
+                    (
+                        [("h3", "Weekly updates kept adoption visible"),
+                         ("p", "Release notes in the open, every week. Designers stopped "
+                               "being surprised by a change, which is most of what "
+                               "trust in a design system actually is.")],
+                        {"img": "429fa4_46c62b14bcb44e5d97ceb07d58778ec3.jpg",
+                         "alt": "Weekly design system update posted to the team channel"},
+                    ),
+                    (
+                        [("h3", "The real signal of success"),
+                         ("p", "Designers coming to the system **before** building "
+                               "around it. Nobody asked them to — the question simply "
+                               "became easier than the workaround.")],
+                        {"img": "429fa4_dbe8db9a448b4e6e9d7e10cb47d11eb9.jpg",
+                         "alt": "A designer asking for guidance on the sorting pattern"},
+                    ),
                 ]),
-                ("fig", {"img": "429fa4_46c62b14bcb44e5d97ceb07d58778ec3.jpg",
-                         "alt": "Weekly design system update posted to the team channel",
-                         "caption": "Weekly updates kept adoption visible."}),
-                ("fig", {"img": "429fa4_dbe8db9a448b4e6e9d7e10cb47d11eb9.jpg",
-                         "alt": "A designer asking for guidance on the sorting pattern",
-                         "caption": "The real signal of success: designers coming to the "
-                                    "system before building around it."}),
+            ],
+        },
+
+        {
+            "blocks": [
+                ("chapter", "Three products · In progress"),
+                ("prose", [
+                    ("p", "Four products are migrated and three are in flight, with "
+                          "completion planned by the end of the year. The client now "
+                          "runs the process without me — which was the actual goal."),
+                ]),
             ],
         },
 

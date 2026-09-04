@@ -475,6 +475,47 @@ figure { margin: 0; }
   font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body);
 }
 
+/* ===========================================================================
+   Chapter + feature row — the Huxe pattern
+   ---------------------------------------------------------------------------
+   Measured from jasonspielman.com/huxe: a dated chapter heading acting as a
+   quiet divider, then feature rows of text 384 / gap 64 / media 520, centred
+   on the cross axis, 48px apart. Note the deliberate inversion — the feature
+   heading is LARGER than the chapter heading, because the chapter is a marker
+   and the feature is the content.
+
+   Sizes use Maxine's own tokens rather than Huxe's 28/17, so the page stays
+   inside her design system: feature heading = --t-h1 (26), body = --t-body.
+   =========================================================================== */
+.chapter {
+  font-size: var(--t-h2);
+  color: var(--ink-faint);
+  letter-spacing: .01em;
+}
+.chapter + * { margin-top: 40px; }
+
+.features { display: grid; gap: 48px; }
+
+.feature {
+  display: grid;
+  /* 384 / 520 exactly where there is room, but minmax lets both tracks shrink
+     rather than overflow between the two-column breakpoint and the width at
+     which 384 + 64 + 520 actually fits inside the gutters. */
+  grid-template-columns: minmax(0, 384px) minmax(0, 520px);
+  column-gap: 64px;
+  align-items: center;
+  justify-content: center;
+}
+.feature-text > * + * { margin-top: 24px; }
+.feature-text h3 { font-size: var(--t-h1); }
+.feature-text p  { font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body); }
+.feature figure  { margin: 0; }
+
+/* below the two-column threshold, stack and let the media fill */
+@media (max-width: 1040px) {
+  .feature { grid-template-columns: 1fr; row-gap: 24px; }
+}
+
 /* plain bullet list — for problems, deliverables, learnings */
 .bullets { margin: 0; padding-left: 22px; max-width: 760px; }
 .bullets li {
