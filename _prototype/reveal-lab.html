@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Before / after reveal lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAFAFA; --surface:#F6F6F8; --surface-2:#F2F4F5; --white:#fff;
+  --line:#ECECEC; --line-strong:#E0E0E0;
+  --ink:#111112; --ink-body:#3D3D40; --ink-muted:#76767B; --ink-faint:#A0A0A6;
+  --accent:#674FA3;
+  --r-lg:16px; --gutter:clamp(20px,9.72vw,140px);
+  /* tuned live */
+  --pane-h:100vh;        /* height of each full-screen frame            */
+  --radius:0px;          /* corner radius on the covering frame         */
+  --shadow:0 0 0 rgba(0,0,0,0);
+  font-family:'Inter',-apple-system,system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink-body);font-size:16px;line-height:29px;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+h1,h2,h3{margin:0;color:var(--ink);font-weight:500;letter-spacing:-.02em;line-height:33px}
+h2{font-size:20px} h3{font-size:18px}
+p{margin:0}
+.wrap{max-width:1440px;margin-inline:auto;padding-inline:var(--gutter)}
+.eyebrow{display:block;font-size:12px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint)}
+.intro{padding:120px 0 56px}
+.intro>*+*{margin-top:40px}
+.intro p{max-width:680px}
+.tail{padding:80px 0 140px}
+.tail p{max-width:680px;color:var(--ink-muted)}
+
+/* ===========================================================================
+   The reveal — a sticky card stack.
+   Both frames pin at the top of the viewport. The AFTER frame comes later in
+   the DOM with a higher stacking order, so as you scroll it rises up and
+   covers the BEFORE frame, then pins on top of it. Scroll back and it slides
+   down again, uncovering the before. No JS required for the motion itself.
+   =========================================================================== */
+.reveal{position:relative}
+.pane{
+  position:sticky; top:0;
+  height:var(--pane-h);
+  overflow:hidden;
+  background:var(--surface-2);
+}
+.pane img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.pane.is-before{z-index:1}
+.pane.is-after {z-index:2}
+
+/* the covering frame can read as a card sliding over */
+body[data-variant="card"] .pane.is-after{
+  border-radius:var(--radius) var(--radius) 0 0;
+  box-shadow:var(--shadow);
+}
+
+/* wipe: the after frame is revealed by a clip that opens as it arrives */
+body[data-variant="wipe"] .pane.is-after{
+  clip-path:inset(calc(100% - var(--p,0) * 100%) 0 0 0);
+}
+
+/* crossfade: after fades in over before */
+body[data-variant="fade"] .pane.is-after{opacity:var(--p,0)}
+
+/* label chips pinned to each frame */
+.tag{
+  position:absolute; left:24px; top:24px; z-index:3;
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,.88); backdrop-filter:blur(14px);
+  border:1px solid var(--line); border-radius:999px;
+  padding:8px 16px; font-size:13.5px; font-weight:500; color:var(--ink);
+}
+.tag i{width:8px;height:8px;border-radius:50%;background:var(--accent);display:block}
+.pane.is-before .tag i{background:var(--ink-faint)}
+
+/* ---------- control panel ---------- */
+.panel{
+  position:fixed; right:16px; bottom:16px; z-index:50; width:280px;
+  background:var(--white); border:1px solid var(--line-strong); border-radius:14px;
+  box-shadow:0 10px 30px -10px rgba(17,17,18,.25); padding:14px 16px;
+  font-size:13px; line-height:19px;
+}
+.panel h4{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--ink)}
+.panel label{display:block;margin:10px 0 4px;font-size:11.5px;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--ink-faint)}
+.panel .btns{display:flex;gap:6px;flex-wrap:wrap}
+.panel button{
+  flex:1 0 auto;padding:7px 9px;border:1px solid var(--line-strong);background:var(--surface);
+  border-radius:8px;font:inherit;font-size:12px;cursor:pointer;color:var(--ink)}
+.panel button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.panel input[type=range]{width:100%}
+.panel .read{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);
+  font-variant-numeric:tabular-nums;font-size:12px}
+.panel .read b{color:var(--ink);font-weight:600}
+.panel .hint{margin-top:10px;font-size:11.5px;color:var(--ink-muted);line-height:16px}
+
+@media (prefers-reduced-motion: reduce){
+  .pane{position:static;height:auto}
+  .pane img{height:auto}
+}
+</style>
+</head>
+<body data-variant="cover">
+
+<div class="wrap intro">
+  <span class="eyebrow">Reveal lab</span>
+  <h2>The same screen, before and after</h2>
+  <p>Scroll down. The <strong style="color:var(--accent);font-weight:600">after</strong> frame
+     rises and covers the <strong style="color:var(--accent);font-weight:600">before</strong> one,
+     then pins on top of it. Scroll back up and the before frame is uncovered again.
+     Try the variants in the panel — <em>cover</em> is the one you described.</p>
+</div>
+
+<section class="reveal" id="reveal">
+  <div class="pane is-before">
+    <span class="tag"><i></i>Before</span>
+    <img src="../assets/img/ds-before.jpg" width="2000" height="1250"
+         alt="Submission detail screen before migration">
+  </div>
+  <div class="pane is-after">
+    <span class="tag"><i></i>After</span>
+    <img src="../assets/img/ds-after.jpg" width="2000" height="1250"
+         alt="The same screen after migration onto the design system">
+  </div>
+</section>
+
+<div class="wrap tail">
+  <h3>After the reveal</h3>
+  <p>Normal page flow resumes here, so the section drops you out cleanly rather than
+     trapping the scroll. Swap in the two Figma frames whenever they are exported —
+     it is a two-line change.</p>
+</div>
+
+<div class="panel" role="region" aria-label="Reveal controls">
+  <h4>Reveal lab</h4>
+
+  <label>Variant</label>
+  <div class="btns" id="btns">
+    <button data-v="cover" aria-pressed="true">Cover</button>
+    <button data-v="card"  aria-pressed="false">Card</button>
+    <button data-v="wipe"  aria-pressed="false">Wipe</button>
+    <button data-v="fade"  aria-pressed="false">Fade</button>
+  </div>
+
+  <label>Frame height <span id="hv">100</span>vh</label>
+  <input type="range" id="h" min="60" max="100" step="5" value="100">
+
+  <label>Card radius <span id="rv">16</span>px</label>
+  <input type="range" id="r" min="0" max="32" step="2" value="16">
+
+  <div class="read">
+    progress <b id="p">0%</b> · on top <b id="top">before</b><br>
+    before y <b id="by">–</b> · after y <b id="ay">–</b>
+  </div>
+  <p class="hint">Cover and Card need no JS — they are pure sticky stacking.
+  Wipe and Fade are driven by scroll progress.</p>
+</div>
+
+<script>
+const body = document.body, root = document.documentElement;
+const reveal = document.getElementById('reveal');
+const before = reveal.querySelector('.is-before');
+const after  = reveal.querySelector('.is-after');
+
+function progress(){
+  // 0 while the after frame is fully below, 1 once it has fully covered
+  const r = after.getBoundingClientRect();
+  const travel = window.innerHeight;
+  const p = Math.min(1, Math.max(0, 1 - (r.top / travel)));
+  return p;
+}
+function paint(){
+  const p = progress();
+  root.style.setProperty('--p', p.toFixed(3));
+  document.getElementById('p').textContent = Math.round(p * 100) + '%';
+  document.getElementById('top').textContent = p > 0.5 ? 'after' : 'before';
+  document.getElementById('by').textContent = Math.round(before.getBoundingClientRect().top);
+  document.getElementById('ay').textContent = Math.round(after.getBoundingClientRect().top);
+}
+let queued = false;
+function schedule(){
+  if (queued) return; queued = true;
+  requestAnimationFrame(() => { queued = false; paint(); });
+}
+addEventListener('scroll', schedule, { passive:true });
+addEventListener('resize', schedule);
+
+// IntersectionObserver as a backup driver, for environments where scroll
+// events do not fire (a hidden tab, for instance)
+if ('IntersectionObserver' in window){
+  const io = new IntersectionObserver(schedule, { threshold:[...Array(21).keys()].map(i=>i/20) });
+  io.observe(after);
+}
+
+document.getElementById('btns').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  body.dataset.variant = b.dataset.v;
+  [...e.currentTarget.querySelectorAll('button')].forEach(x =>
+    x.setAttribute('aria-pressed', String(x === b)));
+  paint();
+});
+const bind = (id, out, cssVar, unit, extra) => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', () => {
+    document.getElementById(out).textContent = el.value;
+    root.style.setProperty(cssVar, el.value + unit);
+    if (extra) extra(el.value);
+    paint();
+  });
+};
+bind('h', 'hv', '--pane-h', 'vh');
+bind('r', 'rv', '--radius', 'px', v => {
+  root.style.setProperty('--shadow', `0 -${Math.round(v*1.5)}px ${Math.round(v*3)}px -8px rgba(17,17,18,.22)`);
+});
+root.style.setProperty('--shadow', '0 -24px 48px -8px rgba(17,17,18,.22)');
+paint();
+
+// expose for measurement
+window.__reveal = { progress, before, after, reveal };
+</script>
+</body>
+</html>
