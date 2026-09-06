@@ -19,7 +19,7 @@ ABOUT = {
 
     "heading": "About",
     "bio": [
-        "Over the past two years, I’ve designed products for a global "
+        "Over the past two years, I’ve worked on products for a global "
         "insurance organisation, including an AI contract analysis product, "
         "a design system migration across 10+ designers from multiple "
         "agencies (which reduced custom component work by **94%**), and a "
