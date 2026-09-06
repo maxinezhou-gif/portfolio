@@ -1,8 +1,113 @@
 # Handover — Maxine Zhou portfolio
 
-Written 6 September 2026. **Updated at the end of a second session the same
-day** — see §0 for exactly what changed. Read this before touching anything;
-it will save you re-deriving decisions that were already measured and settled.
+Written 6 September 2026. **Updated at the end of a third session the same
+day** — see §-1 for exactly what changed and, most importantly, what's left
+to actually launch. Read this before touching anything; it will save you
+re-deriving decisions that were already measured and settled.
+
+---
+
+## -1 · Third session (6 Sept, later still) — READ THIS FIRST
+
+Everything below this point (§0 onward) is from earlier the same day and is
+now partly stale — e.g. §0 says the homepage/DS migration aren't signed off;
+they are now. Trust this section over anything below it if the two conflict.
+
+### What got done this session
+
+- **New Analyser case study** (`content/analyser.py`, `work/analyser.html`) —
+  built from the Wix copy verbatim, high-res video/images from
+  `~/Downloads/Analyser`. Went through several correction rounds against
+  Maxine's own Figma edits (image/video reassignment, Design Evolution steps
+  as real `<h3>`, media-pair sizing, `object-fit` crop fix).
+- **DS migration case study** brought fully in line with Figma: heading
+  levels, the spacing rules (12/40/56/96/24px — see DESIGN-SYSTEM.md), the
+  Conflict/Insight block restructured, chapter dividers and an obsolete intro
+  paragraph removed. **Accent colour final: `#8F4A56`.**
+- **Launchpad**: removed an unnecessary video block, re-transcoded all videos
+  from the actual high-res sources (they'd been needlessly downscaled),
+  removed the native `controls` hover mask.
+- **Homepage rebuilt** per `~/Desktop/homepage wording.rtf`: greeting +
+  tagline intro only (the old two bio paragraphs were deliberately deleted —
+  Maxine's call, not a mistake if you're wondering where they went), three
+  case studies (Launchpad / Design system migration / Analyser) each with a
+  hover-preview video, "Earlier work" group **hidden, not deleted** (data
+  still in `content/_home.py`, just not rendered).
+- **New `about.py`** (+ `content/_about.py`) — About page rebuilt on the v2
+  system: heading, bio (Maxine's own wording), links (Resume/Email/LinkedIn).
+  **No photo** — one was added from her LinkedIn, then removed again on her
+  explicit later request. Don't re-add it without asking.
+- **All old cream pages folded away**: `projects.html` retired (file deleted,
+  `build_projects()` no longer called — kept defined, unused, same pattern as
+  `build_home()`). Removed the "Work" nav link and the "All work"/footer
+  links to it everywhere, and removed the "Other projects I've enjoyed
+  working on" cross-links between the 7 remaining cream case studies. Those 7
+  files (`work/underwriting-efficiency.html`, `contract-analysis.html`,
+  `workplace-ai-assistant.html`, `content-hub-redesign.html`,
+  `rads-redesign.html`, `diago.html`, `know-all.html`) **still exist and
+  still get rebuilt by `build.py`**, but nothing on the live site links to
+  them — reachable only by typing the exact URL. Maxine explicitly chose
+  "leave them folded away" over deleting them outright when asked.
+- **Launch prep**:
+  - Domain confirmed: **`maxine-zhou.com`**. `BASE_URL` wired into
+    `home.py` (`about.py` inherits it) and into `casestudy.py` (which had NO
+    canonical/OG tags before this — now does, plus an `OG_IMAGE` map per
+    slug). `build.py`'s own `BASE_URL` deliberately left empty — the 7 hidden
+    cream pages should not get shareable OG tags.
+  - Added `robots.txt` (allows everything except the 7 hidden cream pages,
+    points at the sitemap), `sitemap.xml` (lists only the 5 real pages: home,
+    about, and the 3 v2 case studies), and a GitHub Pages `CNAME` file
+    containing `maxine-zhou.com`.
+  - `.claude/` added to `.gitignore` (local editor config, not site content).
+  - **Committed**: `git commit e5215bb` — "Add Analyser case study, rebuild
+    homepage/about on v2, prep for launch". 76 files. This was the first
+    commit of the whole session's work; before this, everything sat
+    uncommitted for hours.
+  - **Hosting decided: GitHub Pages.** Repo created:
+    `https://github.com/maxinezhou-gif/portfolio` (public, empty). Remote
+    added (`origin`), but **the push has not succeeded yet** — no git
+    credential is cached on this machine, and Maxine pasted a Personal
+    Access Token directly into the chat by mistake (told her to revoke it
+    immediately at github.com/settings/tokens — confirm she actually did).
+
+### Exactly what's left to launch — do these in order
+
+1. **Push the code.** In a Terminal window (a real one, not routed through
+   an AI chat, so a token never ends up in a transcript again):
+   ```
+   cd "/Users/maxinezhou/Applications/Claude/portfolio"
+   git push -u origin main
+   ```
+   Username: `maxinezhou-gif`. Password prompt: a **fresh** Personal Access
+   Token (Settings → Developer settings → Personal access tokens → generate
+   new, `repo` scope) — not the one already exposed in chat.
+2. **Turn on GitHub Pages**: repo Settings → Pages → Source: "Deploy from a
+   branch" → `main` / `/ (root)` → Save. Custom domain field: `maxine-zhou.com`
+   (the committed `CNAME` file should auto-fill this).
+3. **GoDaddy DNS**: four A records at host `@` → `185.199.108.153`,
+   `185.199.109.153`, `185.199.110.153`, `185.199.111.153`; one CNAME record
+   at host `www` → `maxinezhou-gif.github.io`. Remove any existing "parked
+   domain" placeholder records first.
+4. Wait for DNS to propagate (minutes to ~48h), then go back to GitHub Pages
+   settings and check **Enforce HTTPS**.
+5. Once live, spot-check: homepage, about, all 3 case studies, and confirm
+   none of the 7 hidden cream URLs are linked from anywhere reachable.
+
+### Open items not yet resolved
+
+- The homepage's **Launchpad description** ("Behaviour-driven underwriting
+  design") is a shortening drafted by the assistant, not Maxine's own words —
+  flagged to her but never explicitly confirmed. Worth a final check before
+  or shortly after launch.
+- Whether to eventually delete the 7 hidden cream pages outright (vs. leaving
+  them folded away) is Maxine's call whenever she wants to revisit it —
+  she chose "leave as-is" this time.
+- `build_home()`, `build_about()`, `build_projects()` in `build.py` are all
+  now defined-but-unused (kept for reference, matching an existing pattern
+  in that file). Safe to delete once nobody needs to compare against the old
+  cream markup anymore.
+
+---
 
 **How Maxine wants this worked on.** She asked for this explicitly, after a
 session that built too much at once: **work incrementally, not in big
