@@ -27,7 +27,7 @@ HOME = {
 
     "intro": [
         "Hello, I’m Maxine Zhou",
-        "I design honest products that get users’ job done, with no fuss.",
+        "I design honest products that get users’ jobs done, with no fuss.",
     ],
 
     # (name, description, href, preview image, alt)
@@ -39,7 +39,7 @@ HOME = {
             "label": "Selected work · 2023–2025",
             "rows": [
                 {"name": "Launchpad",
-                 "desc": "Behaviour-driven underwriting design",
+                 "desc": "Improving underwriting efficiency",
                  "href": "work/launchpad.html",                      # v2
                  "img": "home-launchpad.jpg",
                  "alt": "The Launchpad underwriting platform, showing the "
