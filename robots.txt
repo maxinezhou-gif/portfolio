@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /work/underwriting-efficiency.html
+Disallow: /work/contract-analysis.html
+Disallow: /work/workplace-ai-assistant.html
+Disallow: /work/content-hub-redesign.html
+Disallow: /work/rads-redesign.html
+Disallow: /work/diago.html
+Disallow: /work/know-all.html
+
+Sitemap: https://maxine-zhou.com/sitemap.xml

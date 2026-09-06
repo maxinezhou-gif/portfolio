@@ -68,13 +68,19 @@
 })();
 
 /* Autoplay each video when it scrolls into view, pause when it leaves.
-   Needs muted (browsers block autoplay with sound). Controls stay on so the
-   viewer can pause or scrub. Skipped entirely under prefers-reduced-motion,
-   where the poster + controls are the experience. */
+   Needs muted (browsers block autoplay with sound). Controls stay OFF here
+   on purpose -- that's what draws the native, hover-triggered dark scrim
+   over the whole frame, which is exactly what this is avoiding. Skipped
+   entirely under prefers-reduced-motion, where the poster + controls (added
+   back below) are the experience instead. */
 (function () {
   var vids = document.querySelectorAll('video');
-  if (!vids.length || !('IntersectionObserver' in window)) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!vids.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    vids.forEach(function (v) { v.controls = true; });
+    return;
+  }
+  if (!('IntersectionObserver' in window)) return;
 
   var vo = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
@@ -100,7 +106,12 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObse
   rv.forEach(function (el) { io.observe(el); });
 } else { rv.forEach(function (el) { el.classList.add('in'); }); }
 
-var ids = ['context','research','insight','design','impact'];
+/* ids come from the dock's own links, not a hardcoded list -- each case
+   study has a different set of sections, and a stale list here just means
+   the active state silently never lights up for sections that don't match. */
+var ids = [].map.call(document.querySelectorAll('.dock-links a[href^="#"]'), function (a) {
+  return a.getAttribute('href').slice(1);
+});
 var links = {};
 ids.forEach(function (id) { links[id] = document.querySelector('.dock-links a[href="#' + id + '"]'); });
 var spy = new IntersectionObserver(function (es) {
@@ -112,6 +123,19 @@ var spy = new IntersectionObserver(function (es) {
   });
 }, { rootMargin: '-45% 0px -50% 0px' });
 ids.forEach(function (id) { var el = document.getElementById(id); if (el) spy.observe(el); });
+
+/* Collapsible sections -- e.g. "My reflects". Collapsed by default; a click
+   reveals it in place. No animation: this is a visibility toggle, not a
+   scroll-driven effect, so it isn't covered by the reduced-motion rule. */
+[].forEach.call(document.querySelectorAll('.collapse-toggle'), function (btn) {
+  var panel = document.getElementById(btn.getAttribute('aria-controls'));
+  if (!panel) return;
+  btn.addEventListener('click', function () {
+    var open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    panel.hidden = open;
+  });
+});
 
 /* Before/after reveal: set --reveal-p (0 -> 1) from how far the AFTER frame
    has risen up the viewport, so it crossfades over the BEFORE frame. */

@@ -1,0 +1,174 @@
+/* ===========================================================================
+   Homepage — the two moving parts.
+
+   Everything else on this page is inert, by design. This file drives exactly:
+     1. the travelling dot, and
+     2. the hover preview.
+
+   Both are single elements that MOVE rather than appear, so the page reads as
+   having one indicator and one preview, not one per row.
+
+   Note on the reference: niklas.space does this in React and the elements only
+   exist in the DOM while hovering, which is why a DOM diff of that site shows
+   nothing (HANDOVER §5). Keeping one persistent element is what lets the dot
+   travel from the top bar instead of blinking into place.
+   =========================================================================== */
+(function () {
+  var rows = [].slice.call(document.querySelectorAll('.row[data-preview]'));
+  var dot  = document.querySelector('.home-dot');
+  var prev = document.querySelector('.home-preview');
+  var name = document.querySelector('.topbar .tb-name');
+  if (!rows.length || !dot || !prev || !name) return;
+
+  var img = prev.querySelector('.media img');
+  var vid = prev.querySelector('.media video');
+  var mqHover  = window.matchMedia('(hover: hover) and (min-width: 1040px)');
+  var mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  var active = null;          // the row currently hovered or focused
+  var leaving = null;         // pending exit timer, see hide()
+  var css = getComputedStyle(document.documentElement);
+  function num(v, fallback) {
+    var n = parseFloat(css.getPropertyValue(v));
+    return isNaN(n) ? fallback : n;
+  }
+
+  /* Writes the individual `translate` property, so the preview's `scale`
+     (its fade-in) survives every reposition. */
+  function place(el, x, y) {
+    el.style.translate = Math.round(x) + 'px ' + Math.round(y) + 'px';
+  }
+
+  /* Where the dot lives when nothing is hovered: just after the name in the
+     top bar, vertically centred on it. Read from the live rect rather than
+     hard-coded, so it stays right if the bar or the type ever changes. */
+  function restXY() {
+    var r = name.getBoundingClientRect();
+    var s = num('--dot-size', 16);
+    return [r.right + num('--dot-rest-gap', 10), r.top + (r.height - s) / 2];
+  }
+
+  function paint() {
+    if (!mqHover.matches) return;
+
+    if (!active) {
+      var rest = restXY();
+      place(dot, rest[0], rest[1]);
+      prev.classList.remove('is-on');
+      return;
+    }
+
+    var r = active.getBoundingClientRect();
+    place(dot, r.left + num('--dot-nudge-x', -24), r.top + num('--dot-nudge-y', 15));
+
+    /* Anchored off the row's LEFT edge, like the reference, so the preview
+       reliably overlaps the right of the column rather than trying to clear
+       it. Vertically it is centred on the row — which is what the reference's
+       -183px works out to once you account for its 437px frame.
+       The clamp is only a backstop for narrow windows; on a 1440 it never
+       fires, so the offset stays the constant the design depends on. */
+    var pw = prev.offsetWidth || num('--prev-w', 560);
+    var ph = prev.offsetHeight || num('--prev-h', 350);
+    var margin = 24;
+
+    var x = r.left + num('--prev-offset-x', 296);
+    var y = r.top + r.height / 2 - ph / 2;
+
+    x = Math.min(x, window.innerWidth - pw - margin);
+    x = Math.max(x, margin);
+    y = Math.min(y, window.innerHeight - ph - margin);
+    y = Math.max(y, 70);                       /* clear the 55px top bar */
+
+    place(prev, x, y);
+    prev.classList.add('is-on');
+  }
+
+  function show(row) {
+    clearTimeout(leaving);          /* we are staying — cancel any pending exit */
+    if (!mqHover.matches || row === active) return;
+    active = row;
+
+    var src = row.getAttribute('data-preview');
+    var video = row.getAttribute('data-preview-video');
+    if (video) {
+      /* preload="none" — nothing is fetched until a pointer actually asks for
+         it. HANDOVER §5: the reference eagerly loads ~11MB of previews. */
+      if (vid.getAttribute('src') !== video) {
+        vid.setAttribute('src', video);
+        vid.setAttribute('poster', src);
+      }
+      prev.classList.add('is-video');
+      var p = vid.play();
+      if (p && p.catch) p.catch(function () {});
+    } else {
+      prev.classList.remove('is-video');
+      if (!vid.paused) vid.pause();
+      if (img.getAttribute('src') !== src) {
+        img.setAttribute('src', src);
+        /* The frame is aria-hidden — the row's own text is what a screen
+           reader announces — but the alt is carried through anyway so the
+           image is never a silent unknown if that ever changes. */
+        img.setAttribute('alt', row.getAttribute('data-preview-alt') || '');
+      }
+    }
+    paint();
+  }
+
+  /* Moving the pointer from one row to the next fires mouseleave on the old
+     row BEFORE mouseenter on the new one. Clearing `active` straight away
+     therefore drops the preview out and fades it back in on every row change
+     — a flicker down the whole list. So leaving is deferred by one tick and
+     cancelled if another row claims the preview, which is what makes it read
+     as ONE preview travelling rather than seven appearing and disappearing. */
+  function hide(row) {
+    if (row && row !== active) return;
+    clearTimeout(leaving);
+    leaving = setTimeout(function () {
+      active = null;
+      if (!vid.paused) vid.pause();
+      paint();
+    }, 60);
+  }
+
+  rows.forEach(function (row) {
+    row.addEventListener('mouseenter', function () { show(row); });
+    row.addEventListener('mouseleave', function () { hide(row); });
+    /* Keyboard users get the same thing. The reference is pointer-only. */
+    row.addEventListener('focus', function () { show(row); });
+    row.addEventListener('blur',  function () { hide(row); });
+  });
+
+  /* Keep both parts glued to their row if the page moves under them. */
+  var queued = false;
+  function schedule() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function () { queued = false; paint(); });
+  }
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  if (mqHover.addEventListener) mqHover.addEventListener('change', schedule);
+
+  /* Put the dot at rest BEFORE revealing it, so it does not fly in from
+     off-screen on first paint.
+
+     Deliberately synchronous — suppress the transition, move it, force a
+     reflow to flush that position, then restore the transition and fade it
+     in. An earlier version deferred the reveal to requestAnimationFrame,
+     which meant that a page loaded in a BACKGROUND tab never got its rAF
+     callback, so the dot stayed at opacity 0 permanently — it was still
+     invisible when you came back to the tab, with nothing left to retrigger
+     it. Nothing here may depend on a frame ever being painted. */
+  function start() {
+    if (!mqHover.matches) return;
+    var rest = restXY();
+    var prior = dot.style.transition;
+    dot.style.transition = 'none';
+    place(dot, rest[0], rest[1]);
+    void dot.offsetWidth;                    /* flush the position */
+    dot.style.transition = mqReduce.matches ? 'none' : prior;
+    dot.classList.add('is-ready');
+  }
+  if (document.readyState === 'complete') start();
+  else window.addEventListener('load', start);
+})();

@@ -22,6 +22,11 @@ BLOCK REFERENCE — the vocabulary available in `body`
 ("pull", "Fast comprehension first.")       large quote
 
 ("head", [blocks])                          heading group; 40px to what follows
+("div", {"classes": ["inset"], "blocks": [blocks]})  generic wrapper for a
+                                             utility class -- "inset" (extra
+                                             gutter), "center-block" (true
+                                             centred text), "stack-40" (40px
+                                             between children)
 ("centred", [blocks])                       centre-aligned section
 ("prose", [blocks])                         plain reading column of body copy
 
@@ -29,11 +34,21 @@ BLOCK REFERENCE — the vocabulary available in `body`
 ("overview", [("My Role", ["..."]), ...])               label / value columns
 ("findings", ["Only **46.1%** of users...", ...])       inline-numbered list
 ("steps", ["Rebalanced hierarchy...", ...])             numbered cards (01..)
+                                                         an entry can also be
+                                                         {"text": "...", "img": "...",
+                                                          "alt": "..."} for a card
+                                                         with its own screenshot
 ("questions", ["Where does decision-making happen?"])   question chips
 ("bullets", ["First point", ...])                        plain bullet list
+("numbered", ["First point", ...])                       plain numbered list
+("collapsible", {"toggle": "My reflects",                collapsed by default;
+                 "panel_id": "reflect-panel",             a click reveals it
+                 "blocks": [blocks]})
 ("callout", [blocks])                                   aside in a tinted box
 ("chapter", "Phase 1 · Foundation building")            quiet chapter divider
 ("features", [ (text_blocks, figure), ... ])            text 384 / media 520 rows
+                                                         swap the pair -- (figure, text_blocks)
+                                                         -- to put the media on the left
 ("label", "What happened")                              accent label inside a callout
 
 ("fig",   {...})                            one figure, full width
@@ -68,6 +83,17 @@ SITE = {
     "linkedin": "https://www.linkedin.com/in/maxine-z-90281422b/",
 }
 
+# Set once a domain is bought; switches on canonical + OG tags, same as home.py.
+BASE_URL = "https://maxine-zhou.com"
+
+# The homepage's own preview image for each case study, reused as its OG
+# image -- already the right shape (1200x750-ish) and already exists.
+OG_IMAGE = {
+    "launchpad": "home-launchpad.jpg",
+    "design-system-migration": "home-design-system-migration.jpg",
+    "analyser": "home-analyser.jpg",
+}
+
 
 # ---------------------------------------------------------------- helpers
 
@@ -76,8 +102,11 @@ def e(t):
 
 
 def rich(t):
-    """**bold** becomes accented <strong>; everything else is escaped."""
-    return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", e(t))
+    """**bold** becomes accented <strong>; a literal newline becomes <br>
+    (for the rare heading that's genuinely two lines of one element).
+    Everything else is escaped."""
+    s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", e(t))
+    return s.replace("\n", "<br>")
 
 
 _dim_cache = {}
@@ -116,7 +145,12 @@ def figure(f, reveal=True):
         st = f' style="{"; ".join(style)}"' if style else ""
         poster = f' poster="../assets/img/{f["poster"]}"' if f.get("poster") else ""
         media = (
-            f'<video controls playsinline preload="none" muted loop{poster}{st}>'
+            # No `controls`: it's what draws the native, hover-triggered dark
+            # scrim over the whole frame. These autoplay on scroll instead
+            # (case-study.js) -- controls are added back by JS, but only
+            # under prefers-reduced-motion, where autoplay is skipped and
+            # controls are the only way to watch it at all.
+            f'<video playsinline preload="none" muted loop{poster}{st}>'
             f'<source src="../assets/video/{f["video"]}" type="video/mp4">'
             f"</video>"
         )
@@ -160,6 +194,13 @@ def render(blocks, indent=2):
             out.append(render(b[1], indent + 1))
             out.append(f"{pad}</div>")
 
+        elif kind == "div":
+            cfg = b[1]
+            cls = " ".join(["rv"] + cfg.get("classes", []))
+            out.append(f'{pad}<div class="{cls}">')
+            out.append(render(cfg["blocks"], indent + 1))
+            out.append(f"{pad}</div>")
+
         elif kind in ("centred", "prose"):
             out.append(f'{pad}<div class="prose rv">')
             out.append(render(b[1], indent + 1))
@@ -174,11 +215,14 @@ def render(blocks, indent=2):
 
         elif kind == "overview":
             cols = []
-            for label, items in b[1]:
+            for col in b[1]:
+                label, items = col[0], col[1]
+                ordered = col[2] if len(col) > 2 else False
                 if len(items) == 1:
                     inner = f'<p class="body">{rich(items[0])}</p>'
                 else:
-                    inner = "<ul>" + "".join(f"<li>{rich(i)}</li>" for i in items) + "</ul>"
+                    tag = "ol" if ordered else "ul"
+                    inner = f"<{tag}>" + "".join(f"<li>{rich(i)}</li>" for i in items) + f"</{tag}>"
                 cols.append(f'<div class="ov"><h3>{rich(label)}</h3>{inner}</div>')
             out.append(f'{pad}<div class="overview rv">{"".join(cols)}</div>')
 
@@ -187,10 +231,27 @@ def render(blocks, indent=2):
             out.append(f'{pad}<ol class="findings rv">{items}</ol>')
 
         elif kind == "steps":
-            items = "".join(
-                f'<li><span class="n">{i + 1:02d}</span>'
-                f'<span class="t">{rich(t)}</span></li>'
-                for i, t in enumerate(b[1]))
+            def step_li(i, entry):
+                # a plain string, or {"text": "...", "img": "...", "alt": "..."}
+                # for a step that carries its own screenshot -- optionally
+                # {"title": "...", "text": "..."} to split out a real <h3>
+                # title (black) above the muted body text
+                title = None
+                if isinstance(entry, dict):
+                    text, img = entry["text"], entry.get("img")
+                    alt, title = entry.get("alt", ""), entry.get("title")
+                else:
+                    text, img = entry, None
+                media = ""
+                if img:
+                    d = dims(img)
+                    wh = f' width="{d[0]}" height="{d[1]}"' if d else ""
+                    media = (f'<div class="step-media"><img src="../assets/img/{img}" '
+                             f'alt="{e(alt)}"{wh} loading="lazy" decoding="async"></div>')
+                heading = f"<h3>{rich(title)}</h3>" if title else ""
+                return (f'<li>{media}<span class="n">{i + 1:02d}</span>{heading}'
+                        f'<span class="t">{rich(text)}</span></li>')
+            items = "".join(step_li(i, entry) for i, entry in enumerate(b[1]))
             out.append(f'{pad}<ol class="step-cards rv">{items}</ol>')
 
         elif kind == "chapter":
@@ -198,18 +259,41 @@ def render(blocks, indent=2):
 
         elif kind == "features":
             out.append(f'{pad}<div class="features">')
-            for text_blocks, fig in b[1]:
-                out.append(f'{pad}  <div class="feature rv">')
-                out.append(f'{pad}    <div class="feature-text">')
-                out.append(render(text_blocks, indent + 3))
-                out.append(f"{pad}    </div>")
-                out.append(pad + "    " + figure(fig, reveal=False))
+            for a, c in b[1]:
+                # either (text_blocks, fig) or (fig, text_blocks) -- the dict
+                # is always the figure, so order tells us which side it's on.
+                rev = isinstance(a, dict)
+                fig, text_blocks = (a, c) if rev else (c, a)
+                cls = "feature rv rev" if rev else "feature rv"
+                text_div = (f'{pad}    <div class="feature-text">\n'
+                            + render(text_blocks, indent + 3)
+                            + f"\n{pad}    </div>")
+                fig_html = pad + "    " + figure(fig, reveal=False)
+                out.append(f'{pad}  <div class="{cls}">')
+                out.append(fig_html + "\n" + text_div if rev else text_div + "\n" + fig_html)
                 out.append(f"{pad}  </div>")
             out.append(f"{pad}</div>")
 
         elif kind == "bullets":
             items = "".join(f"<li>{rich(i)}</li>" for i in b[1])
             out.append(f'{pad}<ul class="bullets rv">{items}</ul>')
+
+        elif kind == "numbered":
+            items = "".join(f"<li>{rich(i)}</li>" for i in b[1])
+            out.append(f'{pad}<ol class="numbered rv">{items}</ol>')
+
+        elif kind == "collapsible":
+            cfg = b[1]
+            pid = cfg["panel_id"]
+            chevron = ('<svg class="chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">'
+                       '<path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" '
+                       'stroke-linecap="round" stroke-linejoin="round"/></svg>')
+            out.append(f'{pad}<button type="button" class="dock-pill collapse-toggle" '
+                       f'aria-expanded="false" aria-controls="{pid}">'
+                       f'{e(cfg["toggle"])}{chevron}</button>')
+            out.append(f'{pad}<div class="collapse-panel" id="{pid}" hidden>')
+            out.append(render(cfg["blocks"], indent + 1))
+            out.append(f"{pad}</div>")
 
         elif kind == "callout":
             out.append(f'{pad}<div class="callout rv">')
@@ -229,9 +313,13 @@ def render(blocks, indent=2):
                 d = dims(f["img"])
                 wh = f' width="{d[0]}" height="{d[1]}"' if d else ""
                 return (f'{pad}  <div class="pane is-{side}">'
-                        f'<span class="tag"><i></i>{e(f.get("label", side.title()))}</span>'
+                        f'<div class="pane-inner">'
+                        f'<div class="pane-head"><h3>{e(f.get("label", side.title()))}</h3>'
+                        f'<p class="pane-body">{rich(f["body"])}</p></div>'
+                        f'<figure class="fig pane-media"><div class="frame"><div class="clip">'
                         f'<img src="../assets/img/{f["img"]}" alt="{e(f.get("alt", ""))}"{wh}'
-                        f' loading="lazy" decoding="async"></div>')
+                        f' loading="lazy" decoding="async"></div></div></figure>'
+                        f'</div></div>')
             out.append(f'{pad}<div class="reveal">')
             out.append(pane("before", cfg["before"]))
             out.append(pane("after", cfg["after"]))
@@ -294,13 +382,26 @@ def build(cs):
 
     body = "\n\n".join(section(s) for s in cs["sections"])
 
+    canon = ""
+    if BASE_URL:
+        b = BASE_URL.rstrip("/")
+        path = f"work/{cs['slug']}.html"
+        canon = f'\n<link rel="canonical" href="{b}/{path}">'
+        canon += f'\n<meta property="og:type" content="article">'
+        canon += f'\n<meta property="og:title" content="{e(cs["title"])} — {SITE["name"]}">'
+        canon += f'\n<meta property="og:description" content="{e(cs["summary"])}">'
+        canon += f'\n<meta property="og:url" content="{b}/{path}">'
+        og_image = OG_IMAGE.get(cs["slug"])
+        if og_image:
+            canon += f'\n<meta property="og:image" content="{b}/assets/img/{og_image}">'
+
     doc = f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(cs['title'])} — {SITE['name']}</title>
-<meta name="description" content="{e(cs['summary'])}">
+<meta name="description" content="{e(cs['summary'])}">{canon}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -332,7 +433,7 @@ def build(cs):
 
 <nav class="dock" aria-label="Section navigation">
   <div class="dock-inner">
-    <a class="dock-pill" href="../projects.html">↖ All work</a>
+    <a class="dock-pill" href="../index.html">↖ All work</a>
     <div class="dock-links">{links}</div>
     {prev_next}
   </div>

@@ -35,7 +35,7 @@ the whole system moves with it.
 | `--ink-body` | `#3D3D40` | body copy, label headings |
 | `--ink-muted` | `#76767B` | captions, stat labels, notes |
 | `--ink-faint` | `#A0A0A6` | eyebrows, step numerals |
-| `--accent` | `#674FA3` | **bold** emphasis only |
+| `--accent` | `#FF70C1` | **bold** emphasis only |
 
 The accent is the one saturated colour. It appears *only* on `**bold**` text —
 that restraint is what makes it read as emphasis rather than decoration.
@@ -70,8 +70,33 @@ licence. Inter stands in for it. If you licence Maison Neue, add it to the
 
 Radii: `--r-sm 8` · `--r-md 12` · `--r-lg 16` · `--r-pill 40`.
 
-**Spacing rule:** a heading is always **40px** from the body it introduces.
-Sections are 56px apart (`--section`), or 112px with `gap-lg`.
+**Spacing rules** — measured against Figma's own metadata, not guessed:
+
+| From → to | Gap | Where it lives |
+|---|---|---|
+| Eyebrow → H2 → an intro line, all within one `head` group | **12px** | `.sec-head > * + *` |
+| A whole `head` group → whatever comes after it | **40px** | `.section > .sec-head + *` |
+| A `bullets`/`numbered` list → whatever comes after it | **40px** | `.section > :is(.numbered,.bullets) + *` |
+| Everything else between two blocks in a section | **56px** | `.section > * + *` |
+| One eyebrow-bearing section → the next (`pad-lg`) | **96px** | `.section.pad-lg { padding-top }` |
+| A section with no eyebrow (`Impacts`, `The Product`…) | **56px** | `.section { padding-top }` — default |
+| Feature heading → its paragraph/list, inside Approach | **24px** | `.feature-text > * + *` |
+
+**A collapsible section's content still needs all of the above** — the
+`.collapse-panel` between a `section` and its blocks is invisible to these
+rules unless the selector explicitly reaches through it (see
+`.section > .collapse-panel > …` variants in the CSS). Forgetting this is
+what breaks a collapsible's spacing silently.
+
+**Heading levels are semantic, not just visual size:**
+- A section's own title (`Overview`, `The Challenge`, a Phase heading) is
+  always a real `<h2>`, whatever size it's styled at.
+- A sub-label under it (`Our Design Team`, a stat's caption) is `<h3>`.
+- Never reach for a bigger/smaller *tag* to get a bigger/smaller *look* —
+  set the font-size on that context instead (e.g. `.feature-text h3` used
+  to fake H1 size on an h3; that's gone, because it silently re-inflated
+  any h3 dropped into a feature, like a "Result:" line, that was never
+  meant to be that large).
 
 ### Motion
 
@@ -98,16 +123,19 @@ of `casestudy.py`.
 | `("h2" / "h3" / "p" / "note" / "small")` | the type styles above |
 | `("pull", "…")` | 26px centred quote |
 | `("prose", [...])` | 680px reading column |
-| `("centred", [...])` | centred column, text still left-aligned |
+| `("centred", [...])` | alias for `prose` — only reads as *centred* when the section itself also carries `"classes": ["centred"]`, which centres everything and lets `.centred .prose` override back to a left-aligned 680px column. Used alone, it's just `prose`. |
+| `("div", {"classes": […], "blocks": […]})` | generic wrapper for a utility class — `inset` (extra `--gutter` of side padding, e.g. an 880px column inside the usual 1160), `center-block` (true `text-align: center`, for a block that's genuinely centred throughout — rare), `stack-40` (40px between children, for a wrapper that isn't itself a `section`) |
 | `("stats", [(n, label), …])` | up to 4 tiles; reflows 2→4 |
-| `("overview", [(label, [items]), …])` | 3 label/value columns |
+| `("overview", [(label, [items]), …])` | 3 label/value columns; add a 3rd element `True` to a column's tuple for a numbered list instead of bulleted |
 | `("findings", […])` | inline-numbered list, 28px apart |
 | `("steps", […])` | numbered cards, `01`–`04`; reflows 1→2→4 |
 | `("questions", […])` | white question chips |
 | `("bullets", […])` | plain bullet list, accent markers |
+| `("numbered", […])` | plain numbered list, same weight as `bullets` — use whenever the source content is a real ordered list, not a bulleted one |
+| `("collapsible", {"toggle": "…", "panel_id": "…", "blocks": […]})` | collapsed by default; a dock-pill-styled button reveals it on click. No animation — it's a visibility toggle, not scroll-driven, so nothing for `prefers-reduced-motion` to disable. **Spacing rules need to explicitly reach through `.collapse-panel`** — see the Spacing rules table above |
 | `("callout", [...])` | tinted aside; use `("label", "…")` inside for its accent sub-headings |
-| `("chapter", "Phase 1 · Foundation building")` | quiet chapter divider, 20px in ink-faint |
-| `("features", [(text, fig), …])` | text 384 / gap 64 / media 520, centre-aligned rows |
+| `("chapter", "Phase 1 · Foundation building")` | quiet chapter divider, 20px in ink-faint. Not currently used anywhere — a phase-style heading is just a two-line `h2` (`"Phase 1\nFoundation building"`, one literal `\n`, which `rich()` turns into a `<br>`) directly in a `features` row |
+| `("features", [(text, fig), …])` | text 384 / gap 64 / media 520, centre-aligned rows. Swap the pair to `(fig, text)` to put the media on the **left** instead — both the column widths and the DOM order flip together |
 | `("fig", {…})` | one framed, clipped, captioned figure |
 | `("scrolly", [(labels, fig), …])` | **the sticky pattern** |
 | `("reveal", {"before": {…}, "after": {…}})` | **full-bleed before/after crossfade** |
@@ -184,7 +212,23 @@ content/_template.py      copy this to start a new one
 assets/css/case-study.css the design system
 assets/js/case-study.js   reveals, sticky swap, video autoplay, dock spy
 work/<slug>.html          generated — never hand-edit
+
+home.py                   homepage generator -> index.html
+content/_home.py          homepage content
+assets/css/home.css       homepage layout only; case-study.css still owns
+                          every token, the reset and the top bar
+assets/js/home.js         the travelling dot and the hover preview
+
 _prototype/sticky-lab.html  label-swap sandbox
 _prototype/reveal-lab.html  before/after sandbox
 HANDOVER.md               context, decisions and gotchas — read first
 ```
+
+**`case-study.css` is now loaded site-wide**, including by the homepage, so
+its name undersells it — it is the token layer for everything. Worth renaming
+once the cream design is retired, not before.
+
+**Two generators must never target the same file.** `build.py` keeps a
+`MIGRATED` set of slugs that `casestudy.py` owns; add a slug to it the moment
+its content file exists. Skipping this silently overwrites a v2 page with the
+cream one.

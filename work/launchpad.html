@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Improving underwriting efficiency through behaviour-driven design — Maxine Zhou</title>
 <meta name="description" content="Turning user data into a smarter navigation model + dynamic viewport to provide a better decision environment.">
+<link rel="canonical" href="https://maxine-zhou.com/work/launchpad.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Improving underwriting efficiency through behaviour-driven design — Maxine Zhou">
+<meta property="og:description" content="Turning user data into a smarter navigation model + dynamic viewport to provide a better decision environment.">
+<meta property="og:url" content="https://maxine-zhou.com/work/launchpad.html">
+<meta property="og:image" content="https://maxine-zhou.com/assets/img/home-launchpad.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -132,10 +138,9 @@
       <p class="body">I designed a 'filters-on-demand' system that reduced visual complexity while maintaining flexibility. Frequently used filters were prioritised, and reusable filter presets allowed underwriters to quickly re-establish context across sessions.</p>
       <p class="body">I then consolidated key submission information into a contextual drawer, reachable without leaving the pipeline.</p>
     </div>
-    <figure class="fig rv"><div class="frame"><div class="clip"><video controls playsinline preload="none" muted loop poster="../assets/img/lp-filters-poster.jpg" style="--ar: 1500 / 853; --op: bottom"><source src="../assets/video/lp-filters.mp4" type="video/mp4"></video></div></div><figcaption>Filters-on-demand: surfacing only what's needed, when it's needed.</figcaption></figure>
+    <figure class="fig rv"><div class="frame"><div class="clip"><video playsinline preload="none" muted loop poster="../assets/img/lp-filters-poster.jpg" style="--ar: 1500 / 853; --op: bottom"><source src="../assets/video/lp-filters.mp4" type="video/mp4"></video></div></div><figcaption>Filters-on-demand: surfacing only what's needed, when it's needed.</figcaption></figure>
     <figure class="fig rv"><div class="frame"><div class="clip"><img src="../assets/img/launchpad-details-drawer.png" alt="Details drawer showing Notes, Activities, Files, Synthesis and Contract tabs beside the pipeline" width="1484" height="799" loading="lazy" decoding="async"></div></div><figcaption>The Details drawer: files, synthesis, activities and notes in one place.</figcaption></figure>
-    <figure class="fig rv"><div class="frame"><div class="clip"><video controls playsinline preload="none" muted loop poster="../assets/img/lp-multiselect-poster.jpg" style="--ar: 1500 / 937; --op: center"><source src="../assets/video/lp-multiselect.mp4" type="video/mp4"></video></div></div><figcaption>Multi-select: acting on several submissions in a few clicks.</figcaption></figure>
-    <figure class="fig rv"><div class="frame"><div class="clip"><video controls playsinline preload="none" muted loop poster="../assets/img/lp-sidebar-poster.jpg" style="--ar: 1313 / 1500; --op: center"><source src="../assets/video/lp-sidebar.mp4" type="video/mp4"></video></div></div><figcaption>The Details drawer in use, context without leaving the workspace.</figcaption></figure>
+    <figure class="fig rv"><div class="frame"><div class="clip"><video playsinline preload="none" muted loop poster="../assets/img/lp-multiselect-poster.jpg" style="--ar: 1500 / 937; --op: center"><source src="../assets/video/lp-multiselect.mp4" type="video/mp4"></video></div></div><figcaption>Multi-select: acting on several submissions in a few clicks.</figcaption></figure>
   </section>
 
   <section class="section wrap">
@@ -143,8 +148,8 @@
       <h2>Adaptive viewport for high-density data</h2>
       <p class="body">To accommodate dense tables, I designed an adaptive viewport that supports uninterrupted analysis while preserving quick access to workflow context and collaboration tools.</p>
     </div>
-    <figure class="fig rv"><div class="frame"><div class="clip"><video controls playsinline preload="none" muted loop poster="../assets/img/lp-adaptive-detail-poster.jpg" style="--ar: 1500 / 882; --op: bottom"><source src="../assets/video/lp-adaptive-detail.mp4" type="video/mp4"></video></div></div><figcaption>The adaptive detail view, expanding to suit the task in hand.</figcaption></figure>
-    <figure class="fig rv"><div class="frame"><div class="clip"><video controls playsinline preload="none" muted loop poster="../assets/img/lp-dynamic-viewport-poster.jpg" style="--ar: 1500 / 882; --op: bottom"><source src="../assets/video/lp-dynamic-viewport.mp4" type="video/mp4"></video></div></div><figcaption>Dynamic viewport: the workspace adapting as the underwriter moves between comparison and detail.</figcaption></figure>
+    <figure class="fig rv"><div class="frame"><div class="clip"><video playsinline preload="none" muted loop poster="../assets/img/lp-adaptive-detail-poster.jpg" style="--ar: 1500 / 882; --op: bottom"><source src="../assets/video/lp-adaptive-detail.mp4" type="video/mp4"></video></div></div><figcaption>The adaptive detail view, expanding to suit the task in hand.</figcaption></figure>
+    <figure class="fig rv"><div class="frame"><div class="clip"><video playsinline preload="none" muted loop poster="../assets/img/lp-dynamic-viewport-poster.jpg" style="--ar: 1500 / 882; --op: bottom"><source src="../assets/video/lp-dynamic-viewport.mp4" type="video/mp4"></video></div></div><figcaption>Dynamic viewport: the workspace adapting as the underwriter moves between comparison and detail.</figcaption></figure>
   </section>
 
   <section class="section pad-lg wrap" id="impact">
@@ -162,7 +167,7 @@
 
 <nav class="dock" aria-label="Section navigation">
   <div class="dock-inner">
-    <a class="dock-pill" href="../projects.html">↖ All work</a>
+    <a class="dock-pill" href="../index.html">↖ All work</a>
     <div class="dock-links"><a href="#context">Context</a><a href="#research">Research</a><a href="#insight">Insight</a><a href="#design">Design</a><a href="#impact">Impact</a></div>
     <a class="dock-pill" href="design-system-migration.html">Next →</a>
   </div>
@@ -239,13 +244,19 @@
 })();
 
 /* Autoplay each video when it scrolls into view, pause when it leaves.
-   Needs muted (browsers block autoplay with sound). Controls stay on so the
-   viewer can pause or scrub. Skipped entirely under prefers-reduced-motion,
-   where the poster + controls are the experience. */
+   Needs muted (browsers block autoplay with sound). Controls stay OFF here
+   on purpose -- that's what draws the native, hover-triggered dark scrim
+   over the whole frame, which is exactly what this is avoiding. Skipped
+   entirely under prefers-reduced-motion, where the poster + controls (added
+   back below) are the experience instead. */
 (function () {
   var vids = document.querySelectorAll('video');
-  if (!vids.length || !('IntersectionObserver' in window)) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!vids.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    vids.forEach(function (v) { v.controls = true; });
+    return;
+  }
+  if (!('IntersectionObserver' in window)) return;
 
   var vo = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
@@ -271,7 +282,12 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObse
   rv.forEach(function (el) { io.observe(el); });
 } else { rv.forEach(function (el) { el.classList.add('in'); }); }
 
-var ids = ['context','research','insight','design','impact'];
+/* ids come from the dock's own links, not a hardcoded list -- each case
+   study has a different set of sections, and a stale list here just means
+   the active state silently never lights up for sections that don't match. */
+var ids = [].map.call(document.querySelectorAll('.dock-links a[href^="#"]'), function (a) {
+  return a.getAttribute('href').slice(1);
+});
 var links = {};
 ids.forEach(function (id) { links[id] = document.querySelector('.dock-links a[href="#' + id + '"]'); });
 var spy = new IntersectionObserver(function (es) {
@@ -283,6 +299,19 @@ var spy = new IntersectionObserver(function (es) {
   });
 }, { rootMargin: '-45% 0px -50% 0px' });
 ids.forEach(function (id) { var el = document.getElementById(id); if (el) spy.observe(el); });
+
+/* Collapsible sections -- e.g. "My reflects". Collapsed by default; a click
+   reveals it in place. No animation: this is a visibility toggle, not a
+   scroll-driven effect, so it isn't covered by the reduced-motion rule. */
+[].forEach.call(document.querySelectorAll('.collapse-toggle'), function (btn) {
+  var panel = document.getElementById(btn.getAttribute('aria-controls'));
+  if (!panel) return;
+  btn.addEventListener('click', function () {
+    var open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    panel.hidden = open;
+  });
+});
 
 /* Before/after reveal: set --reveal-p (0 -> 1) from how far the AFTER frame
    has risen up the viewport, so it crossfades over the BEFORE frame. */

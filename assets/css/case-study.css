@@ -21,7 +21,7 @@
   --ink-faint:   #A0A0A6;
 
   /* ---- accent (Figma: Accent/launchpad) --------------------------- */
-  --accent:      #674FA3;
+  --accent:      #8F4A56;
 
   /* ---- type -------------------------------------------------------
      Figma text styles, 1:1:
@@ -113,6 +113,50 @@ p  { margin: 0; }
   margin-inline: auto; padding-inline: var(--gutter);
 }
 
+/* An extra gutter's worth of inset on top of the normal content width --
+   e.g. the Phase 2 conflict block and the Impact block inside Approach,
+   both measured at 880px against the page's usual 1160px. */
+.inset { padding-inline: var(--gutter); }
+/* True centred text, distinct from .prose's "narrower column, still
+   left-aligned" -- for the rare block that's genuinely centre-aligned
+   throughout, like the Phase 2 conflict block. */
+.center-block { text-align: center; }
+/* 40px vertical rhythm between arbitrary children, for a wrapper that isn't
+   itself a .section (which gets this from .section > .sec-head + *) */
+.stack-40 > * + * { margin-top: 40px; }
+/* two media items side by side, equal width -- e.g. Human-in-the-Loop's
+   video + image pairing, below a full-width heading/body rather than the
+   usual single text+media feature row */
+.media-pair { display: flex; gap: 24px; align-items: flex-start; }
+.media-pair > * { flex: 1 1 0; min-width: 0; margin: 0; }
+/* the video here is portrait-shaped content forced into a short, wide box
+   (see the reveal's own --ar) -- cover would crop it on every edge to fill
+   that shape. contain fits the whole frame instead, narrower than its box
+   rather than cropped. */
+.media-pair .fig .frame > .clip > video { object-fit: contain; object-position: center; }
+
+/* The Phase 2 conflict heading + its rotated "Conflicts" sticker -- a real,
+   normal flex row in Figma (not an absolute overlay), which is exactly why
+   it's simple to reproduce: the sticker is a same-height flex sibling next
+   to the heading, both centred as one row. Only this row is centred --
+   the rest of the block reads left-aligned like everywhere else. */
+.insight-heading {
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.insight-heading h2 { margin-right: -8px; }
+.conflict-sticker-slot {
+  position: relative; flex: 0 0 auto; width: 94px; height: 56px;
+}
+.conflict-sticker {
+  position: absolute; left: 0; top: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  transform: rotate(16deg);
+  background: #FFD8E4; border: 1px solid #FFB7CD; border-radius: var(--r-sm);
+  padding: 6px 16px;
+  font-size: 14px; font-weight: 500; color: #49454F;
+  white-space: nowrap; pointer-events: none;
+}
+
 :where(a, button):focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
 .skip { position: absolute; left: -9999px; }
 .skip:focus { left: 12px; top: 12px; z-index: 300; background: var(--ink); color: #fff; padding: 10px 18px; border-radius: var(--r-sm); }
@@ -163,7 +207,7 @@ strong  { color: var(--accent); font-weight: 600; }
 .pills li {
   border: 1px solid var(--line-strong); border-radius: var(--r-pill);
   padding: 4px 11px;
-  font-size: 11.5px; font-weight: 500; letter-spacing: .055em;
+  font-size: 11.5px; line-height: normal; font-weight: 500; letter-spacing: .055em;
   color: var(--ink-body); white-space: nowrap;
 }
 /* emphasised: category tags carry the ink border */
@@ -189,15 +233,31 @@ strong  { color: var(--accent); font-weight: 600; }
    =========================================================================== */
 .section { padding-top: 56px; }
 .section.pad-lg  { padding-top: 96px; }
-.section > * + * { margin-top: 56px; }
+/* trailing space -- only where the next section (typically a full-bleed one)
+   doesn't supply enough of its own leading space to read as one beat */
+.section.pad-b   { padding-bottom: 56px; }
+/* .collapse-panel and .inset (and any future plain "div" wrapper block) sit
+   between a section and its real content, invisible to a `.section > `
+   selector -- so every one of these direct-child rules is written to reach
+   through ONE such wrapper too. Add a new wrapper class here the day one
+   doesn't show up in this list; that's the only way this silently breaks. */
+.section > * + *,
+.section > :is(.collapse-panel, .inset) > * + * { margin-top: 56px; }
 .section.gap-lg > * + * { margin-top: 112px; }
 
-/* eyebrow -> heading stays tight; heading -> body is 40px, per the design */
+/* Inside one head group (eyebrow, heading, an intro line that belongs to
+   it) everything sits 12px apart -- confirmed against Figma's own metadata
+   across every section. The 40px rule is only for what comes AFTER the
+   whole head group. */
 .sec-head > * + * { margin-top: 12px; }
-.sec-head > :is(h1, h2, h3) + :is(p, .body, .body-2) { margin-top: 40px; }
 .sec-head .body { max-width: 680px; }
-/* and 40px from a section heading block to whatever body follows it */
-.section > .sec-head + * { margin-top: 40px; }
+/* 40px from a section heading block to whatever body follows it */
+.section > .sec-head + *,
+.section > :is(.collapse-panel, .inset) > .sec-head + * { margin-top: 40px; }
+/* ...and 40px (not the general 56px) from a list to whatever follows it,
+   e.g. the Reflect section's numbered list straight into its features */
+.section > :is(.numbered, .bullets) + *,
+.section > :is(.collapse-panel, .inset) > :is(.numbered, .bullets) + * { margin-top: 40px; }
 
 /* ===========================================================================
    Sticky split — text left, media scrolls right
@@ -436,7 +496,7 @@ figure { margin: 0; }
 .overview { display: grid; gap: 28px; }
 @media (min-width: 900px) { .overview { grid-template-columns: repeat(3, 1fr); align-items: start; } }
 .overview .ov h3 { margin-bottom: 8px; }
-.overview .ov ul { margin: 0; padding-left: 18px; }
+.overview .ov ul, .overview .ov ol { margin: 0; padding-left: 18px; }
 .overview .ov li { font-size: var(--t-body); line-height: 26px; }
 .overview .ov li::marker { color: var(--accent); }
 
@@ -452,13 +512,13 @@ figure { margin: 0; }
 .findings li + li { margin-top: 28px; }
 .findings li::before { content: counter(f) ". "; color: var(--ink-body); }
 
-/* Design direction — four cards, each with a large muted numeral */
+/* Design direction — cards side by side, each with a large muted numeral.
+   auto-fit + minmax reflows to however many cards there are (3 here, 4 on
+   Launchpad's own usage) rather than assuming a fixed count. */
 .step-cards {
   display: grid; gap: 16px; margin: 0; padding: 0; list-style: none;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
-@media (min-width: 700px)  { .step-cards { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1100px) { .step-cards { grid-template-columns: repeat(4, 1fr); } }
 
 .step-cards li {
   background: var(--surface);
@@ -470,10 +530,23 @@ figure { margin: 0; }
   font-size: var(--t-num); font-weight: 600; line-height: 40px;
   letter-spacing: -0.04em; color: var(--ink-faint);
 }
+/* an optional title between the numeral and the body text -- real <h3>,
+   so it's black (--ink) rather than the muted body colour below it */
+.step-cards h3 { margin-top: 12px; }
+.step-cards h3 + .t { margin-top: 8px; }
 .step-cards .t {
   display: block; margin-top: 12px;
   font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body);
 }
+/* a step card that carries its own screenshot -- bleeds to the card's own
+   edges, rounded on the top corners only, sitting above the numeral */
+.step-cards .step-media {
+  margin: -28px -28px 20px;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+.step-cards .step-media img { width: 100%; height: auto; display: block; }
 
 /* ===========================================================================
    Before / after reveal — full-bleed sticky stack, crossfade
@@ -492,30 +565,73 @@ figure { margin: 0; }
   position: sticky; top: 0;
   height: 100vh;
   overflow: hidden;
-  background: var(--surface-2);
+  display: flex; align-items: center;
 }
-.reveal .pane img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
-.reveal .pane.is-before { z-index: 1; }
-.reveal .pane.is-after  { z-index: 2; opacity: var(--reveal-p, 0); }
+.reveal .pane.is-before { z-index: 1; background: #F4F4F6; }
+.reveal .pane.is-after  { z-index: 2; opacity: var(--reveal-p, 0); background: var(--bg); }
 
-.reveal .tag {
-  position: absolute; left: 24px; top: 24px; z-index: 3;
-  display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(255,255,255,.88);
-  backdrop-filter: saturate(180%) blur(14px);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
-  border: 1px solid var(--line); border-radius: var(--r-pill);
-  padding: 8px 16px;
-  font-size: 13.5px; font-weight: 500; color: var(--ink);
+/* Each pane is a full frame from the design, not a bare screenshot: a label,
+   a short caption and the media, laid out at the page's own content width so
+   it reads as a real screen rather than a cropped photo. */
+.reveal .pane-inner {
+  width: 100%; max-width: var(--content); margin: 0 auto;
+  padding: 56px var(--gutter);
+  display: flex; flex-direction: column; gap: 24px;
+  height: 100%;
 }
-.reveal .tag i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-.reveal .pane.is-before .tag i { background: var(--ink-faint); }
+.reveal .pane-head {
+  flex: 0 0 auto;
+  display: flex; gap: var(--col-gap); align-items: baseline;
+}
+.reveal .pane-head h3 {
+  flex: 0 0 var(--col-text);
+  color: var(--ink-body);
+}
+.reveal .pane-body {
+  flex: 1 1 auto; max-width: 526px;
+  font-size: var(--t-small); line-height: 25px; color: var(--ink-body); margin: 0;
+}
+.reveal .pane-media {
+  flex: 1 1 auto; min-height: 0;
+  display: flex;
+}
+.reveal .pane-media .frame,
+.reveal .pane-media .clip { flex: 1; min-height: 0; }
+.reveal .pane-media .frame { display: flex; }
+.reveal .pane-media .clip { display: block; }
+.reveal .pane-media .clip img {
+  width: 100%; height: 100%; object-fit: cover; object-position: top center;
+  transform: none; /* this media has no baked-in corner to compensate for */
+}
 
-/* no motion: show both frames stacked, at natural height */
-@media (prefers-reduced-motion: reduce) {
-  .reveal .pane { position: static; height: auto; }
-  .reveal .pane img { height: auto; }
+/* Static fallback: both frames stacked at their natural height.
+   Used in two situations, and they need the same treatment:
+
+   1. prefers-reduced-motion — no scroll-driven motion at all.
+   2. Narrow viewports. A 100vh pane on a phone is portrait (390x844,
+      ratio 0.46) while these frames are landscape desktop UI (1.6). With
+      object-fit: cover that shows a ~29% vertical slice of the screenshot
+      and crops the rest away, which is unreadable. The reveal is a
+      wide-viewport idea; below the same 1040px the scrolly collapses at,
+      it becomes two plain stacked frames.
+
+   The panes stay in source order, so it still reads before-then-after. */
+@media (prefers-reduced-motion: reduce), (max-width: 1040px) {
+  .reveal .pane {
+    position: relative;
+    height: auto;
+    display: block;
+  }
+  .reveal .pane-inner { height: auto; }
+  .reveal .pane-head { flex-direction: column; gap: 8px; }
+  .reveal .pane-head h3 { flex: 0 0 auto; }
+  .reveal .pane-media .clip img { height: auto; }
   .reveal .pane.is-after { opacity: 1; }
+  .reveal .pane + .pane { margin-top: 0; }
+}
+@media (max-width: 640px) {
+  .reveal .pane-head { flex-direction: column; gap: 8px; }
+  .reveal .pane-head h3 { flex-basis: auto; }
 }
 
 /* ===========================================================================
@@ -538,6 +654,10 @@ figure { margin: 0; }
 .chapter + * { margin-top: 40px; }
 
 .features { display: grid; gap: 48px; }
+/* DS migration's Approach specifically measures 96px between feature rows in
+   Figma (uniform across all four phases) -- scoped by id rather than changed
+   globally, since Launchpad's own spacing hasn't been re-measured against it. */
+#approach .features { gap: 96px; }
 
 .feature {
   display: grid;
@@ -550,9 +670,15 @@ figure { margin: 0; }
   justify-content: center;
 }
 .feature-text > * + * { margin-top: 24px; }
-.feature-text h3 { font-size: var(--t-h1); }
+/* higher specificity than .numbered/.bullets's own margin:0 reset, so the
+   24px rhythm above always wins inside a feature -- Figma measures 24px
+   from every phase heading to its list, with no exceptions. */
+.feature-text > :is(.numbered, .bullets) { margin-top: 24px; }
 .feature-text p  { font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body); }
 .feature figure  { margin: 0; }
+
+/* media-first row: same two tracks, sizes swapped to match, DOM order swapped too */
+.feature.rev { grid-template-columns: minmax(0, 520px) minmax(0, 384px); }
 
 /* below the two-column threshold, stack and let the media fill */
 @media (max-width: 1040px) {
@@ -566,6 +692,14 @@ figure { margin: 0; }
 }
 .bullets li + li { margin-top: 14px; }
 .bullets li::marker { color: var(--accent); }
+
+/* numbered list — same weight as .bullets, plain numerals instead of an
+   accent marker, for steps and deliverables that are genuinely ordered */
+.numbered { margin: 0; padding-left: 22px; max-width: 760px; }
+.numbered li {
+  font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body);
+}
+.numbered li + li { margin-top: 14px; }
 
 /* callout — an aside that steps out of the main narrative */
 .callout {
@@ -662,6 +796,19 @@ figure { margin: 0; }
   .dock-inner { justify-content: center; }
   .dock-inner .dock-pill { display: none; }
 }
+
+/* Collapsible section — e.g. "My reflects". Collapsed by default; the
+   toggle reuses .dock-pill's look since that's the same component, just
+   inline in the flow rather than fixed to the viewport. */
+.collapse-toggle {
+  display: flex; margin: 0 auto; cursor: pointer;
+  font-family: inherit;
+}
+.collapse-toggle .chevron {
+  width: 16px; height: 16px; transition: transform .18s ease;
+}
+.collapse-toggle[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+.collapse-panel[hidden] { display: none; }
 
 /* ===========================================================================
    Reveal

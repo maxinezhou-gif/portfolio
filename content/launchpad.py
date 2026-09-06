@@ -206,10 +206,6 @@ CASE_STUDY = {
                          "ar": "1500 / 937", "op": "center",
                          "caption": "Multi-select: acting on several submissions in a "
                                     "few clicks."}),
-                ("fig", {"video": "lp-sidebar.mp4", "poster": "lp-sidebar-poster.jpg",
-                         "ar": "1313 / 1500", "op": "center",
-                         "caption": "The Details drawer in use, context without leaving "
-                                    "the workspace."}),
             ],
         },
 

@@ -1,0 +1,222 @@
+/* ===========================================================================
+   Homepage — the niklas.space structure, in Maxine's tokens
+   ---------------------------------------------------------------------------
+   Loaded AFTER case-study.css, which owns every token, the reset, the top bar
+   and .rv. Nothing is redefined here; this file only adds the homepage layout
+   and its two moving parts.
+
+   What was taken from niklas.space (measured, see HANDOVER §5):
+     · a single narrow centred column, 600px max / 552px of text
+     · ONE type size for the whole page
+     · TWO ink values: names and descriptions
+     · no images in the flow at all
+     · rows that butt together, name over description
+     · a 96px break before the tail group
+     · a travelling dot, and a preview that appears out to the right
+
+   What is Maxine's rather than his:
+     · Inter, not the system stack — so home matches the case studies
+     · 16px (--t-body), not his 17
+     · --ink / --ink-muted, not #09090b / #a1a1aa
+     · --accent for the dot, not his blue
+     · sentence case, not his forced lowercase (see HANDOVER §5, open question)
+   =========================================================================== */
+
+:root {
+  /* ---- homepage layout ------------------------------------------------- */
+  --home-col:       600px;   /* column max width                            */
+  --home-pad:        24px;   /* → 552px of text, as measured                */
+  --home-row-pad:    12px;   /* his py-3; gives a ~74px row at 16/25        */
+  --home-group-gap:  96px;   /* the break before a new group                */
+
+  /* ---- the travelling dot ---------------------------------------------- */
+  --dot-size:        16px;
+  --dot-nudge-x:    -24px;   /* sits to the LEFT of the row                 */
+  --dot-nudge-y:     15px;   /* and this far down from the row top          */
+  --dot-rest-gap:    10px;   /* space between the name and its resting dot  */
+  --dot-dur:        420ms;   /* NOT --swap-dur (600ms): that is a scroll
+                                transition, this tracks a pointer and needs
+                                to feel immediate. Needs Maxine's eye.      */
+
+  /* ---- the hover preview ------------------------------------------------ */
+  --prev-w:         560px;
+  --prev-h:         350px;   /* 1.6 — the ratio her covers already are      */
+  --prev-offset-x:  296px;   /* from the row's LEFT edge — the measured
+                                offset on the reference. The preview is meant
+                                to overlap the right of the column, not sit
+                                clear of it; anchoring off the column's right
+                                edge instead leaves no room at 1440 and the
+                                clamp then drags it back over the link text. */
+  --prev-pad:         4px;   /* the white frame around the media            */
+  --prev-dur:       260ms;
+}
+
+/* The homepage has no floating dock, so it does not need the dock clearance
+   that case-study.css puts on every body. */
+body.home { padding-bottom: 0; }
+
+/* The top bar is shared with the case studies, but its content lines up with
+   this page's narrow column rather than the 1440 frame's gutters. */
+body.home .topbar .wrap {
+  max-width: var(--home-col);
+  padding-inline: var(--home-pad);
+}
+
+.home-col {
+  width: 100%;
+  max-width: var(--home-col);
+  margin-inline: auto;
+  padding-inline: var(--home-pad);
+}
+
+/* ---------------------------------------------------------------------------
+   Intro
+   Only place on the page where the ink goes to --ink-body; everything below
+   is names (--ink) and descriptions (--ink-muted).
+   --------------------------------------------------------------------------- */
+.home-intro { padding: 88px 0 var(--home-group-gap); }
+.home-intro h1 {
+  font-size: var(--t-body);          /* one size for the whole page */
+  line-height: 25px;
+  font-weight: 500;
+  letter-spacing: 0;
+  margin-bottom: 25px;
+}
+.home-intro p { color: var(--ink-muted); line-height: 25px; }
+.home-intro p + p { margin-top: 25px; }
+/* **bold** keeps the accent it has everywhere else on the site */
+.home-intro strong { color: var(--accent); font-weight: 500; }
+
+/* ---------------------------------------------------------------------------
+   The list
+   Rows butt together — no rules, no gaps. The 71px-ish row is the whole
+   rhythm of the page, so nothing may change size on hover.
+   --------------------------------------------------------------------------- */
+.home-list { display: block; }
+.home-list + .home-list { margin-top: var(--home-group-gap); }
+
+.home-group-label {
+  /* deliberately NOT .eyebrow — that is 12px, and this page is one size */
+  color: var(--ink-faint);
+  line-height: 25px;
+  padding-bottom: var(--home-row-pad);
+}
+
+.row {
+  position: relative;
+  display: flex; flex-direction: column;
+  padding: var(--home-row-pad) 0;
+  text-decoration: none;
+  line-height: 25px;
+}
+.row-name { color: var(--ink); }
+.row-desc { color: var(--ink-muted); }
+
+/* Nothing moves on hover. The dot and the preview do all the work — that
+   restraint is the entire point of the reference. The colour shift below is
+   for pointer-less users, who get no dot; a real pointer never sees it,
+   because the dot arrives first. */
+.row:hover .row-name,
+.row:focus-visible .row-name { color: var(--ink); }
+.row:focus-visible { outline-offset: 6px; }
+
+/* Below the hover breakpoint there is no dot and no preview, so the rows need
+   to say "link" by themselves. */
+@media (hover: none), (max-width: 1039px) {
+  .row:hover .row-name { text-decoration: underline; text-underline-offset: 3px; }
+}
+
+.home-foot {
+  padding: var(--home-group-gap) 0 120px;
+  color: var(--ink-faint);
+  line-height: 25px;
+}
+
+/* ---------------------------------------------------------------------------
+   Moving part 1 — the travelling dot
+   One element for the whole page. At rest it sits beside the name in the top
+   bar; on hover it moves to the row. Because it is the SAME element, it reads
+   as one indicator travelling rather than two dots appearing.
+   Fixed positioning + a transform transition, so it costs one composited
+   layer and never triggers layout.
+   --------------------------------------------------------------------------- */
+.home-dot {
+  position: fixed; left: 0; top: 0; z-index: 95;
+  width: var(--dot-size); height: var(--dot-size);
+  border-radius: 50%;
+  background: var(--accent);
+  /* `translate` and `scale` as INDIVIDUAL properties, not a `transform`
+     shorthand: JS writes the translate every frame, and a shorthand would
+     wipe the scale out with it. */
+  translate: -100px -100px;
+  transition: translate var(--dot-dur) var(--swap-ease),
+              opacity   var(--dot-dur) var(--swap-ease);
+  pointer-events: none;
+  opacity: 0;
+}
+.home-dot.is-ready { opacity: 1; }
+
+/* ---------------------------------------------------------------------------
+   Moving part 2 — the hover preview
+   Sits out to the right of the column, in the margin the narrow column leaves
+   over. JS positions and clamps it, so it can never hang off the viewport the
+   way a fixed offset would below ~1400px.
+   --------------------------------------------------------------------------- */
+.home-preview {
+  position: fixed; left: 0; top: 0; z-index: 94;
+  width: calc(var(--prev-w) + var(--prev-pad) * 2);
+  padding: var(--prev-pad);
+  background: var(--white);
+  border-radius: 40px;
+  /* two layers, as measured on the reference, in Maxine's greys */
+  box-shadow: 0 1px 2px rgba(17,17,18,.06),
+              0 12px 32px -8px rgba(17,17,18,.16);
+  opacity: 0;
+  translate: -100px -100px;
+  scale: .985;
+  transition: translate var(--dot-dur) var(--swap-ease),
+              scale     var(--prev-dur) var(--swap-ease),
+              opacity   var(--prev-dur) var(--swap-ease);
+  pointer-events: none;
+}
+.home-preview.is-on { opacity: 1; scale: 1; }
+.home-preview .media {
+  display: block;
+  width: 100%; height: var(--prev-h);
+  border-radius: 36px;   /* 40px outer radius minus the 4px card padding, concentric */
+  overflow: hidden;
+  background: var(--surface-2);
+}
+.home-preview .media img,
+.home-preview .media video {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top center;
+  /* overscan slightly so a hairline compositor seam at the rounded-corner
+     clip never reveals the container background behind a playing video */
+  transform: scale(1.03);
+}
+/* only one of the two is ever in use for a given row */
+.home-preview .media video { display: none; }
+.home-preview.is-video .media img   { display: none; }
+.home-preview.is-video .media video { display: block; }
+
+/* No pointer, or not enough room beside the column: no preview, no dot. */
+@media (hover: none), (max-width: 1039px) {
+  .home-preview, .home-dot { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-dot, .home-preview { transition: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   Narrow
+   --------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .home-intro { padding-top: 56px; }
+  :root { --home-group-gap: 64px; }
+}
+
+@media print {
+  .home-dot, .home-preview { display: none !important; }
+}
