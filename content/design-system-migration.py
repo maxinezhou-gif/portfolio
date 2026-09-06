@@ -102,34 +102,31 @@ CASE_STUDY = {
 
         # ---------------------------------------------------- Before / After
         {
-            "classes": ["gap-lg"],
             "blocks": [
                 ("head", [
                     ("h2", "The same screen, before and after"),
                     ("p", "Migration was never meant to be a visual redesign. The value "
                           "shows in consistency, tokenisation and predictability rather "
-                          "than a dramatic before-and-after."),
+                          "than a dramatic before-and-after. Scroll to cross-fade between "
+                          "the two."),
                 ]),
-                ("scrolly", [
-                    (
-                        [("h3", "Before"),
-                         ("small", "Ad-hoc components, inconsistent spacing, and a "
-                                   "narrower activities panel with no tab structure.")],
-                        {"img": "ds-before.jpg",
-                         "alt": "Submission detail screen before migration, with a light "
-                                "header and a two-tab activities panel",
-                         "caption": "Before: built largely from custom components."},
-                    ),
-                    (
-                        [("h3", "After"),
-                         ("small", "Design system components throughout, semantic tokens, "
-                                   "and a fuller Activities Hub with five tabs.")],
-                        {"img": "ds-after.jpg",
-                         "alt": "The same submission detail screen after migration, using "
-                                "design system components and a five-tab Activities Hub",
-                         "caption": "After: 35% custom components down to 2%."},
-                    ),
-                ]),
+            ],
+        },
+
+        # Full-bleed crossfade. Swap these two filenames for the Figma frame
+        # exports when they land — nothing else needs to change.
+        {
+            "full": True,
+            "blocks": [
+                ("reveal", {
+                    "before": {"img": "ds-before.jpg", "label": "Before",
+                               "alt": "Submission detail screen before migration, with a "
+                                      "light header and a two-tab activities panel"},
+                    "after":  {"img": "ds-after.jpg", "label": "After",
+                               "alt": "The same submission detail screen after migration, "
+                                      "using design system components and a five-tab "
+                                      "Activities Hub"},
+                }),
             ],
         },
 

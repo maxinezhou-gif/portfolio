@@ -70,26 +70,17 @@
     <ul class="bullets rv"><li>Build and organise the design library and documentation</li><li>Provide design system services and support to designers across agencies</li><li>Establish governance processes for consistent adoption</li><li>Lead a pilot migration to demonstrate value and approach</li><li>Transform team culture from siloed to collaborative</li></ul>
   </section>
 
-  <section class="section gap-lg wrap">
+  <section class="section wrap">
     <div class="sec-head rv">
       <h2>The same screen, before and after</h2>
-      <p class="body">Migration was never meant to be a visual redesign. The value shows in consistency, tokenisation and predictability rather than a dramatic before-and-after.</p>
+      <p class="body">Migration was never meant to be a visual redesign. The value shows in consistency, tokenisation and predictability rather than a dramatic before-and-after. Scroll to cross-fade between the two.</p>
     </div>
-    <div class="scrolly" style="--pairs:2">
-      <div class="st">
-        <div class="def">
-          <h3>Before</h3>
-          <p class="small">Ad-hoc components, inconsistent spacing, and a narrower activities panel with no tab structure.</p>
-        </div>
-      </div>
-      <figure class="fig rv"><div class="frame"><div class="clip"><img src="../assets/img/ds-before.jpg" alt="Submission detail screen before migration, with a light header and a two-tab activities panel" width="2000" height="1250" loading="lazy" decoding="async"></div></div><figcaption>Before: built largely from custom components.</figcaption></figure>
-      <div class="st">
-        <div class="def">
-          <h3>After</h3>
-          <p class="small">Design system components throughout, semantic tokens, and a fuller Activities Hub with five tabs.</p>
-        </div>
-      </div>
-      <figure class="fig rv"><div class="frame"><div class="clip"><img src="../assets/img/ds-after.jpg" alt="The same submission detail screen after migration, using design system components and a five-tab Activities Hub" width="2000" height="1250" loading="lazy" decoding="async"></div></div><figcaption>After: 35% custom components down to 2%.</figcaption></figure>
+  </section>
+
+  <section class="section">
+    <div class="reveal">
+      <div class="pane is-before"><span class="tag"><i></i>Before</span><img src="../assets/img/ds-before.jpg" alt="Submission detail screen before migration, with a light header and a two-tab activities panel" width="2000" height="1250" loading="lazy" decoding="async"></div>
+      <div class="pane is-after"><span class="tag"><i></i>After</span><img src="../assets/img/ds-after.jpg" alt="The same submission detail screen after migration, using design system components and a five-tab Activities Hub" width="2000" height="1250" loading="lazy" decoding="async"></div>
     </div>
   </section>
 
@@ -323,6 +314,38 @@ var spy = new IntersectionObserver(function (es) {
   });
 }, { rootMargin: '-45% 0px -50% 0px' });
 ids.forEach(function (id) { var el = document.getElementById(id); if (el) spy.observe(el); });
+
+/* Before/after reveal: set --reveal-p (0 -> 1) from how far the AFTER frame
+   has risen up the viewport, so it crossfades over the BEFORE frame. */
+(function () {
+  var sections = document.querySelectorAll('.reveal');
+  if (!sections.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  function paint() {
+    sections.forEach(function (sec) {
+      var after = sec.querySelector('.pane.is-after');
+      if (!after) return;
+      var travel = window.innerHeight || 1;
+      var p = 1 - (after.getBoundingClientRect().top / travel);
+      sec.style.setProperty('--reveal-p', Math.min(1, Math.max(0, p)).toFixed(3));
+    });
+  }
+  var queued = false;
+  function schedule() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function () { queued = false; paint(); });
+  }
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  if ('IntersectionObserver' in window) {
+    var steps = []; for (var i = 0; i <= 20; i++) steps.push(i / 20);
+    var io = new IntersectionObserver(schedule, { threshold: steps });
+    sections.forEach(function (s) { var a = s.querySelector('.pane.is-after'); if (a) io.observe(a); });
+  }
+  paint();
+})();
 
 </script>
 </body>

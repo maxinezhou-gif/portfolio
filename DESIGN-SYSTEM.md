@@ -110,6 +110,7 @@ of `casestudy.py`.
 | `("features", [(text, fig), …])` | text 384 / gap 64 / media 520, centre-aligned rows |
 | `("fig", {…})` | one framed, clipped, captioned figure |
 | `("scrolly", [(labels, fig), …])` | **the sticky pattern** |
+| `("reveal", {"before": {…}, "after": {…}})` | **full-bleed before/after crossfade** |
 
 ### Chapter + feature rows
 
@@ -128,6 +129,19 @@ Huxe's own sizes are 28/17; this system uses 26/16 so the page stays inside
 Maxine's tokens. The tracks are `minmax(0, …)` so they shrink rather than
 overflow between the two-column breakpoint and the 1248px at which
 384 + 64 + 520 genuinely fits.
+
+### Before / after reveal
+
+Two full-viewport frames. Both pin at `top: 0`; the AFTER frame is later in the
+DOM with a higher stacking order and crossfades in as it rises, covering the
+BEFORE frame and uncovering it on the way back up. Chosen from
+`_prototype/reveal-lab.html`: the **fade** variant at **100vh**.
+
+Put it in a section marked `"full": True` so it loses the gutter and runs
+full-bleed. `--reveal-p` (0→1) is set per section in `case-study.js`; everything
+else is CSS. Both panes release together at the end of the section, so the
+reader is never scroll-trapped, and `prefers-reduced-motion` drops it to two
+stacked static images.
 
 ### The scrolly pattern
 
@@ -170,5 +184,7 @@ content/_template.py      copy this to start a new one
 assets/css/case-study.css the design system
 assets/js/case-study.js   reveals, sticky swap, video autoplay, dock spy
 work/<slug>.html          generated — never hand-edit
-_prototype/sticky-lab.html  interaction sandbox
+_prototype/sticky-lab.html  label-swap sandbox
+_prototype/reveal-lab.html  before/after sandbox
+HANDOVER.md               context, decisions and gotchas — read first
 ```

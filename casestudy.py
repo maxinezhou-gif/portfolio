@@ -38,6 +38,7 @@ BLOCK REFERENCE — the vocabulary available in `body`
 
 ("fig",   {...})                            one figure, full width
 ("scrolly", [ (label_blocks, figure), ... ]) sticky label per figure
+("reveal", {"before": {...}, "after": {...}})  full-bleed before/after crossfade
 
 A figure dict:
     {"img": "file.jpg", "alt": "...", "caption": "..."}
@@ -222,6 +223,20 @@ def render(blocks, indent=2):
             items = "".join(f"<li>{rich(q)}</li>" for q in b[1])
             out.append(f'{pad}<ul class="q-list">{items}</ul>')
 
+        elif kind == "reveal":
+            cfg = b[1]
+            def pane(side, f):
+                d = dims(f["img"])
+                wh = f' width="{d[0]}" height="{d[1]}"' if d else ""
+                return (f'{pad}  <div class="pane is-{side}">'
+                        f'<span class="tag"><i></i>{e(f.get("label", side.title()))}</span>'
+                        f'<img src="../assets/img/{f["img"]}" alt="{e(f.get("alt", ""))}"{wh}'
+                        f' loading="lazy" decoding="async"></div>')
+            out.append(f'{pad}<div class="reveal">')
+            out.append(pane("before", cfg["before"]))
+            out.append(pane("after", cfg["after"]))
+            out.append(f"{pad}</div>")
+
         elif kind == "fig":
             out.append(pad + figure(b[1]))
 
@@ -247,8 +262,10 @@ def render(blocks, indent=2):
 
 
 def section(sec):
-    """A page section. `sec` is a dict: id, classes, blocks."""
-    cls = " ".join(["section"] + sec.get("classes", []) + ["wrap"])
+    """A page section. `sec` is a dict: id, classes, blocks, full."""
+    # `full: True` drops the gutter, for full-bleed content like the reveal
+    tail = [] if sec.get("full") else ["wrap"]
+    cls = " ".join(["section"] + sec.get("classes", []) + tail)
     sid = f' id="{sec["id"]}"' if sec.get("id") else ""
     return (f'  <section class="{cls}"{sid}>\n'
             + render(sec["blocks"], 2)
