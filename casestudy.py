@@ -86,6 +86,16 @@ SITE = {
 # Set once a domain is bought; switches on canonical + OG tags, same as home.py.
 BASE_URL = "https://maxine-zhou.com"
 
+# Cloudflare Web Analytics beacon. Cookieless, so no consent banner is
+# needed. The token is public -- it ships in the HTML of every page.
+# Duplicated in home.py, same as BASE_URL above; keep them in step.
+ANALYTICS = (
+    "<!-- Cloudflare Web Analytics --><script type='module' "
+    "src='https://static.cloudflareinsights.com/beacon.min.js' "
+    "data-cf-beacon='{\"token\": \"eeb616c5b6d545fca29f3f65f1dd1791\"}'>"
+    "</script><!-- End Cloudflare Web Analytics -->"
+)
+
 # The homepage's own preview image for each case study, reused as its OG
 # image -- already the right shape (1200x750-ish) and already exists.
 OG_IMAGE = {
@@ -442,6 +452,7 @@ def build(cs):
 <script>
 {SCRIPT}
 </script>
+{ANALYTICS}
 </body>
 </html>
 """

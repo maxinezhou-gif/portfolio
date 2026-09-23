@@ -25,6 +25,7 @@ import home  # noqa: E402  (after sys.path tweak) -- reuse e(), rich(), dims(), 
 
 SITE = home.SITE
 BASE_URL = home.BASE_URL
+ANALYTICS = home.ANALYTICS
 
 
 def build(about, lowercase=False):
@@ -84,6 +85,7 @@ def build(about, lowercase=False):
     <p class="home-foot">{home.e(about['foot'])}</p>
 
 </main>
+{ANALYTICS}
 </body>
 </html>
 """

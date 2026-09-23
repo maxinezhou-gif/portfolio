@@ -30,6 +30,16 @@ SITE = {"name": "Maxine Zhou"}
 # Set once a domain is bought; switches on canonical + OG tags (HANDOVER §8.6).
 BASE_URL = "https://maxine-zhou.com"
 
+# Cloudflare Web Analytics beacon. Cookieless, so no consent banner is
+# needed. The token is public -- it ships in the HTML of every page.
+# Duplicated in casestudy.py, same as BASE_URL above; keep them in step.
+ANALYTICS = (
+    "<!-- Cloudflare Web Analytics --><script type='module' "
+    "src='https://static.cloudflareinsights.com/beacon.min.js' "
+    "data-cf-beacon='{\"token\": \"eeb616c5b6d545fca29f3f65f1dd1791\"}'>"
+    "</script><!-- End Cloudflare Web Analytics -->"
+)
+
 
 def e(t):
     return html.escape(str(t), quote=False)
@@ -193,6 +203,7 @@ def build(home, lowercase=False):
 <script>
 {script}
 </script>
+{ANALYTICS}
 </body>
 </html>
 """
