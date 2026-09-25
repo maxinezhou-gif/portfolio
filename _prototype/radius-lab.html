@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Corner radius lab — Maxine Zhou</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Tokens lifted from case-study.css so the lab matches the real site. */
+  :root{
+    --bg:#FAFAFA; --surface-2:#F2F4F5; --white:#FFF;
+    --line:#ECECEC; --line-strong:#E0E0E0;
+    --ink:#111112; --ink-body:#3D3D40; --ink-muted:#76767B; --ink-faint:#A0A0A6;
+    --accent:#8F4A56;
+    /* live values, driven by the sliders */
+    --about-r:16px; --card-r:40px; --media-r:36px;
+    --prev-pad:4px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:400 16px/25px Inter,system-ui,-apple-system,sans-serif;
+    padding:48px 24px 96px;
+  }
+  .wrap{max-width:1000px;margin:0 auto}
+  h1{font-size:16px;line-height:25px;font-weight:500;margin:0 0 6px}
+  .lede{color:var(--ink-muted);margin:0 0 48px;max-width:60ch}
+  h2{font-size:16px;line-height:25px;font-weight:500;margin:0 0 4px}
+  .hint{color:var(--ink-muted);font-size:14px;line-height:22px;margin:0 0 24px;max-width:62ch}
+  section{padding:32px 0;border-top:1px solid var(--line)}
+
+  /* ---- controls --------------------------------------------------------- */
+  .ctrl{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:8px}
+  .ctrl label{font-size:14px;color:var(--ink-body);min-width:132px}
+  input[type=range]{flex:1 1 260px;min-width:200px;accent-color:var(--accent)}
+  .val{font-variant-numeric:tabular-nums;min-width:62px;font-size:14px;
+       padding:4px 10px;border:1px solid var(--line-strong);border-radius:8px;background:var(--white)}
+  .presets{display:flex;gap:6px;flex-wrap:wrap}
+  .presets button{
+    font:inherit;font-size:13px;padding:4px 11px;cursor:pointer;
+    background:var(--white);border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-body);
+  }
+  .presets button:hover{border-color:var(--ink);color:var(--ink)}
+  .presets button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+  .lock{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-body)}
+
+  /* ---- stages ----------------------------------------------------------- */
+  .stage{display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start;margin-top:28px}
+  .cap{font-size:13px;color:var(--ink-faint);margin:10px 0 0}
+  .cap b{color:var(--ink-body);font-weight:500;font-variant-numeric:tabular-nums}
+
+  /* the About portrait, at its real 260px */
+  .about-photo{display:block;width:260px;height:auto;border-radius:var(--about-r)}
+  .about-photo.ref{border-radius:16px;opacity:.5}
+
+  /* the hover preview card, at its real 560x350 + 4px frame */
+  .card{
+    width:calc(560px + var(--prev-pad)*2); padding:var(--prev-pad);
+    background:var(--white); border-radius:var(--card-r);
+    box-shadow:0 1px 2px rgba(17,17,18,.06), 0 12px 32px -8px rgba(17,17,18,.16);
+  }
+  .card .media{
+    display:block;width:100%;height:350px;border-radius:var(--media-r);
+    overflow:hidden;background:var(--surface-2);position:relative;
+  }
+  .card .media img,.card .media video{
+    width:100%;height:100%;object-fit:cover;object-position:top center;
+    transform:scale(1.03);display:block;
+  }
+  .card .media video{position:absolute;inset:0;opacity:0;transition:opacity .18s}
+  .card:hover .media video{opacity:1}
+  .card.ref{border-radius:40px;opacity:.45}
+  .card.ref .media{border-radius:36px}
+  @media (max-width:1100px){ .scaled{zoom:.62} }
+
+  /* ---- output ----------------------------------------------------------- */
+  pre{
+    background:var(--white);border:1px solid var(--line-strong);border-radius:12px;
+    padding:18px 20px;overflow-x:auto;font:400 13px/22px ui-monospace,SFMono-Regular,Menlo,monospace;
+    color:var(--ink-body);margin:0;
+  }
+  pre b{color:var(--accent);font-weight:500}
+  .copy{font:inherit;font-size:13px;margin-top:12px;padding:6px 14px;cursor:pointer;
+        background:var(--ink);color:#fff;border:0;border-radius:999px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Corner radius lab</h1>
+  <p class="lede">Drag to try values against the real images, at real size. Nothing here
+  touches the site — when you settle on numbers, tell Claude and they get applied to the
+  stylesheet. The faded copy beside each one is what is live right now, for comparison.</p>
+
+  <!-- ===================== About portrait ============================== -->
+  <section>
+    <h2>About page portrait</h2>
+    <p class="hint">Currently <b>16px</b> (<code>--r-lg</code>) in <code>.about-photo</code>,
+    <code>assets/css/home.css</code>. Shown at its real 260px width.</p>
+
+    <div class="ctrl">
+      <label for="aR">Radius</label>
+      <input id="aR" type="range" min="0" max="130" value="16">
+      <span class="val" id="aRv">16px</span>
+    </div>
+    <div class="ctrl">
+      <label>Quick values</label>
+      <div class="presets" id="aPre">
+        <button data-v="0">0 — square</button>
+        <button data-v="8">8</button>
+        <button data-v="16">16 — now</button>
+        <button data-v="24">24</button>
+        <button data-v="40">40</button>
+        <button data-v="130">130 — pill</button>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div>
+        <img class="about-photo" id="aImg" src="../assets/img/about-maxine.jpg" alt="Portrait, radius being tested">
+        <p class="cap">trying <b id="aCap">16px</b></p>
+      </div>
+      <div>
+        <img class="about-photo ref" src="../assets/img/about-maxine.jpg" alt="Portrait at the current radius">
+        <p class="cap">live now <b>16px</b></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Hover preview card ========================== -->
+  <section>
+    <h2>Project preview card (homepage hover)</h2>
+    <p class="hint">Two radii, not one: the white card is <b>40px</b> and the media inside is
+    <b>36px</b>. They differ by the 4px white frame so the curves stay concentric — nest a
+    36px corner inside a 40px one with 4px between and the two arcs stay parallel. Keep the
+    lock on and the inner value follows. <b>Hover the card</b> to see the video, same as the
+    real homepage.</p>
+
+    <div class="ctrl">
+      <label for="cR">Card radius</label>
+      <input id="cR" type="range" min="0" max="80" value="40">
+      <span class="val" id="cRv">40px</span>
+    </div>
+    <div class="ctrl">
+      <label for="mR">Media radius</label>
+      <input id="mR" type="range" min="0" max="80" value="36" disabled>
+      <span class="val" id="mRv">36px</span>
+      <span class="lock"><input type="checkbox" id="lock" checked> keep concentric (card − 4px)</span>
+    </div>
+    <div class="ctrl">
+      <label>Quick values</label>
+      <div class="presets" id="cPre">
+        <button data-v="0">0 — square</button>
+        <button data-v="12">12</button>
+        <button data-v="24">24</button>
+        <button data-v="40">40 — now</button>
+        <button data-v="56">56</button>
+      </div>
+    </div>
+
+    <div class="stage scaled">
+      <div>
+        <div class="card" id="cCard">
+          <span class="media">
+            <img src="../assets/img/home-launchpad.jpg" alt="Launchpad preview">
+            <video src="../assets/video/home-launchpad.mp4" muted loop playsinline></video>
+          </span>
+        </div>
+        <p class="cap">trying <b id="cCap">40 / 36px</b> — hover for the video</p>
+      </div>
+      <div>
+        <div class="card ref">
+          <span class="media"><img src="../assets/img/home-launchpad.jpg" alt="Preview at the current radius"></span>
+        </div>
+        <p class="cap">live now <b>40 / 36px</b></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Output ====================================== -->
+  <section>
+    <h2>The change</h2>
+    <p class="hint">What Claude would edit once you have picked. Read it, or copy it into chat.</p>
+    <pre id="out"></pre>
+    <button class="copy" id="copy">Copy</button>
+  </section>
+
+</div>
+
+<script>
+  var root = document.documentElement.style;
+
+  var aR = document.getElementById('aR'), aRv = document.getElementById('aRv'),
+      aCap = document.getElementById('aCap'),
+      cR = document.getElementById('cR'), cRv = document.getElementById('cRv'),
+      mR = document.getElementById('mR'), mRv = document.getElementById('mRv'),
+      cCap = document.getElementById('cCap'), lock = document.getElementById('lock'),
+      out = document.getElementById('out');
+
+  var PAD = 4;
+
+  function markPresets(box, v){
+    box.querySelectorAll('button').forEach(function(b){
+      b.setAttribute('aria-pressed', String(Number(b.dataset.v) === Number(v)));
+    });
+  }
+
+  function render(){
+    var a = +aR.value, c = +cR.value;
+    if (lock.checked){ mR.value = Math.max(0, c - PAD); mR.disabled = true; }
+    else { mR.disabled = false; }
+    var m = +mR.value;
+
+    root.setProperty('--about-r', a + 'px');
+    root.setProperty('--card-r',  c + 'px');
+    root.setProperty('--media-r', m + 'px');
+
+    aRv.textContent = a + 'px';  aCap.textContent = a + 'px';
+    cRv.textContent = c + 'px';  mRv.textContent = m + 'px';
+    cCap.textContent = c + ' / ' + m + 'px';
+
+    markPresets(document.getElementById('aPre'), a);
+    markPresets(document.getElementById('cPre'), c);
+
+    var lines = [];
+    if (a !== 16) lines.push(
+      'assets/css/home.css  —  .about-photo\n' +
+      '  border-radius: ' + (a === 16 ? 'var(--r-lg)' : a + 'px') + ';   (was var(--r-lg) = 16px)');
+    if (c !== 40 || m !== 36) lines.push(
+      'assets/css/home.css  —  .home-preview\n' +
+      '  border-radius: ' + c + 'px;   (was 40px)\n\n' +
+      'assets/css/home.css  —  .home-preview .media\n' +
+      '  border-radius: ' + m + 'px;   (was 36px)');
+
+    out.textContent = lines.length
+      ? lines.join('\n\n')
+      : 'Nothing changed yet — both are still at their current values.';
+  }
+
+  [aR, cR, mR].forEach(function(el){ el.addEventListener('input', render); });
+  lock.addEventListener('change', render);
+
+  document.getElementById('aPre').addEventListener('click', function(e){
+    if (e.target.dataset.v) { aR.value = e.target.dataset.v; render(); }
+  });
+  document.getElementById('cPre').addEventListener('click', function(e){
+    if (e.target.dataset.v) { cR.value = e.target.dataset.v; render(); }
+  });
+
+  document.getElementById('copy').addEventListener('click', function(){
+    navigator.clipboard.writeText(out.textContent).then(function(){
+      var b = document.getElementById('copy');
+      b.textContent = 'Copied'; setTimeout(function(){ b.textContent = 'Copy'; }, 1200);
+    });
+  });
+
+  // play the clip on hover, same as the real homepage
+  var card = document.getElementById('cCard'), vid = card.querySelector('video');
+  card.addEventListener('mouseenter', function(){ vid.play().catch(function(){}); });
+  card.addEventListener('mouseleave', function(){ vid.pause(); vid.currentTime = 0; });
+
+  render();
+</script>
+</body>
+</html>
