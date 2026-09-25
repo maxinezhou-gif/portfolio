@@ -31,6 +31,15 @@ ANALYTICS = home.ANALYTICS
 def build(about, lowercase=False):
     bio = "\n      ".join(f"<p>{home.rich(p)}</p>" for p in about["bio"])
 
+    # Optional portrait above the bio -- see the "photo" key in _about.py.
+    photo = ""
+    if about.get("photo"):
+        ph = about["photo"]
+        d = home.dims(ph["file"])
+        wh = f' width="{d[0]}" height="{d[1]}"' if d else ""
+        photo = (f'<img class="about-photo" src="assets/img/{ph["file"]}"'
+                 f' alt="{home.e(ph["alt"])}"{wh} decoding="async">')
+
     links = "\n".join(home.row_html(r, preview=False) for r in about["links"])
 
     body_class = "home lowercase" if lowercase else "home"
@@ -75,6 +84,7 @@ def build(about, lowercase=False):
 
     <section class="home-intro about-intro">
       <h1>{home.e(about['heading'])}</h1>
+      {photo}
       {bio}
     </section>
 

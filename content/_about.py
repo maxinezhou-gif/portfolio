@@ -18,16 +18,26 @@ ABOUT = {
                "and what I'm looking for next.",
 
     "heading": "About",
-    "bio": [
-        "Over the past two years, I’ve worked on products for a global "
-        "insurance organisation, including an AI contract analysis product, "
-        "a design system migration across 10+ designers from multiple "
-        "agencies (which reduced custom component work by **94%**), and a "
-        "redesigned insurance platform used by **68 underwriters across 18 "
-        "teams** (2,700+ monthly sessions).",
+    # Sits above the bio on the About page. Remove this key to drop the photo.
+    "photo": {
+        "file": "about-maxine.jpg",
+        "alt": "Maxine Zhou outdoors on a hillside trail at dusk, laughing, "
+               "with wooded mountains behind her",
+    },
 
-        "I particularly enjoy working on AI products where clarity, "
-        "consistency and long-term scalability are as crucial as usability.",
+    "bio": [
+        "I’m Maxine, a London-based product designer who designs complex "
+        "products. I’ve designed enterprise AI tools, design systems and a "
+        "0 to 1 hardware product. I spent two years designing B2B tools for "
+        "Convex Insurance, including an AI contract analysis product, an "
+        "insurance platform (used by 18 underwriting teams), and a design "
+        "system shared by 10 designers across 3 agencies.",
+
+        "I’m comfortable with ambiguity. I’d rather form a point of view "
+        "and test it than wait for certainty, and I like owning work from the "
+        "first question to launch. My background in fine art and product "
+        "design is why I care about both craft and how things actually get "
+        "built.",
     ],
 
     # Same three as the homepage's tail group — kept in sync by hand, since

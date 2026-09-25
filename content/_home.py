@@ -27,7 +27,8 @@ HOME = {
 
     "intro": [
         "Hello, I’m Maxine Zhou",
-        "I design honest products that get users’ jobs done, with no fuss.",
+        "I design complex products, from AI tools to connected hardware, "
+        "and I own them from the first question to launch.",
     ],
 
     # (name, description, href, preview image, alt)

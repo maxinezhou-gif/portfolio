@@ -87,6 +87,19 @@ body.home .topbar .wrap {
 /* **bold** keeps the accent it has everywhere else on the site */
 .home-intro strong { color: var(--accent); font-weight: 500; }
 
+/* About page portrait, between the heading and the bio. Deliberately small —
+   the page is a column of text and the photo should not become the subject.
+   The 25px margin keeps the intro's vertical rhythm; --r-lg is the same
+   radius the case study media uses. */
+.about-photo {
+  display: block;
+  width: 260px;
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 25px;
+  border-radius: var(--r-lg);
+}
+
 /* ---------------------------------------------------------------------------
    The list
    Rows butt together — no rules, no gaps. The 71px-ish row is the whole
