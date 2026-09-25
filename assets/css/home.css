@@ -89,15 +89,15 @@ body.home .topbar .wrap {
 
 /* About page portrait, between the heading and the bio. Deliberately small —
    the page is a column of text and the photo should not become the subject.
-   The 25px margin keeps the intro's vertical rhythm; --r-lg is the same
-   radius the case study media uses. */
+   The 25px margin keeps the intro's vertical rhythm. 6px is a literal, not
+   var(--r-lg): no token carries that value. */
 .about-photo {
   display: block;
   width: 260px;
   max-width: 100%;
   height: auto;
   margin-bottom: 25px;
-  border-radius: var(--r-lg);
+  border-radius: 6px;
 }
 
 /* ---------------------------------------------------------------------------
@@ -180,7 +180,7 @@ body.home .topbar .wrap {
   width: calc(var(--prev-w) + var(--prev-pad) * 2);
   padding: var(--prev-pad);
   background: var(--white);
-  border-radius: 40px;
+  border-radius: 12px;
   /* two layers, as measured on the reference, in Maxine's greys */
   box-shadow: 0 1px 2px rgba(17,17,18,.06),
               0 12px 32px -8px rgba(17,17,18,.16);
@@ -196,7 +196,7 @@ body.home .topbar .wrap {
 .home-preview .media {
   display: block;
   width: 100%; height: var(--prev-h);
-  border-radius: 36px;   /* 40px outer radius minus the 4px card padding, concentric */
+  border-radius: 8px;    /* 12px outer radius minus the 4px card padding, concentric */
   overflow: hidden;
   background: var(--surface-2);
 }
