@@ -7,8 +7,10 @@ CASE_STUDY = {
     "slug":    "analyser",
     "project": "Analyser",
     "title":   "AI-Augmented Contract documents Analysis Platform",
-    "summary": "Designed trust into AI-powered contract analysis for high-pressure "
-               "insurance workflows.",
+    "summary": "Owned end-to-end design of an AI-assisted contract analysis "
+               "platform, bringing workflows scattered across 5+ tools into one "
+               "product. The product has since been white-labelled and sold as a "
+               "service by the AI development partner.",
 
     "tags_key": ["AI / ML", "B2B SaaS", "Workflow", "InsurTech"],
     "tags":     [],
