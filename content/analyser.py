@@ -215,12 +215,11 @@ CASE_STUDY = {
             "blocks": [
                 ("head", [("eyebrow", "Impact"), ("h2", "Impact")]),
                 ("prose", [
-                    ("p", "Contract review was streamlined where it mattered most \u2014 "
-                          "the critical renewal periods, when volume peaks and turnaround "
-                          "time is tightest. Continuous AI training was designed into that "
-                          "workflow rather than bolted onto it, so each correction an "
-                          "underwriter made improved the model without interrupting the "
-                          "review in front of them."),
+                    ("p", "Contract review was streamlined through the critical renewal "
+                          "periods, when volume peaks and turnaround is tightest. "
+                          "Continuous AI training was built into the workflow itself, so "
+                          "every correction an underwriter made improved the model without "
+                          "interrupting their review."),
                     ("p", "The product has since been white-labelled and sold as a service "
                           "by the AI development partner."),
                 ]),
