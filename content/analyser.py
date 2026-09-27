@@ -16,7 +16,8 @@ CASE_STUDY = {
     "tags":     [],
 
     "dock": [("Context", "context"), ("Research", "research"),
-             ("Insight", "insight"), ("Design", "design")],
+             ("Insight", "insight"), ("Design", "design"),
+             ("Impact", "impact")],
     "next": ("Next", "launchpad.html"),
 
     "sections": [
@@ -205,6 +206,24 @@ CASE_STUDY = {
                          "alt": "Action List showing every flagged clause with its "
                                 "suggested replacement, and a single Finish Validation "
                                 "action to close out the review"}),
+            ],
+        },
+
+        # ---------------------------------------------------- Impact
+        {
+            "id": "impact", "classes": ["pad-lg"],
+            "blocks": [
+                ("head", [("eyebrow", "Impact"), ("h2", "Impact")]),
+                ("prose", [
+                    ("p", "Contract review was streamlined where it mattered most \u2014 "
+                          "the critical renewal periods, when volume peaks and turnaround "
+                          "time is tightest. Continuous AI training was designed into that "
+                          "workflow rather than bolted onto it, so each correction an "
+                          "underwriter made improved the model without interrupting the "
+                          "review in front of them."),
+                    ("p", "The product has since been white-labelled and sold as a service "
+                          "by the AI development partner."),
+                ]),
             ],
         },
     ],
