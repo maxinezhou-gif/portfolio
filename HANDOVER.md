@@ -1,17 +1,103 @@
 # Handover — Maxine Zhou portfolio
 
-Written 6 September 2026. **Updated at the end of a third session the same
-day** — see §-1 for exactly what changed and, most importantly, what's left
-to actually launch. Read this before touching anything; it will save you
-re-deriving decisions that were already measured and settled.
+Written 6 September 2026, and added to since. **Start at §-2** — it is the
+current state. Everything below it is older and partly superseded; trust a
+higher-numbered-back section over a lower one where they conflict. Read this
+before touching anything; it will save you re-deriving decisions that were
+already measured and settled.
+
+**The site is live at https://maxine-zhou.com.** §-1's launch checklist is
+done — it is kept only as a record of how the hosting was set up.
 
 ---
 
-## -1 · Third session (6 Sept, later still) — READ THIS FIRST
+## -2 · Current state (last updated 27 September 2026) — READ THIS FIRST
+
+### The site is launched
+
+Live at **https://maxine-zhou.com** since 6–8 September 2026, GitHub Pages
+serving `maxinezhou-gif/portfolio`. Valid Let's Encrypt certificate, **Enforce
+HTTPS on** (it took a few hours to propagate across GitHub's edge after being
+ticked — that delay is normal, don't re-tick it in a panic). GoDaddy holds the
+DNS: four apex A records to `185.199.108–111.153`, `www` CNAME to
+`maxinezhou-gif.github.io`. A GoDaddy Website Builder was attached to the
+domain and serving a stock template; its A record was replaced, but the
+builder still sits unused in her account.
+
+**Five pages are public**: `/`, `/about.html`, and the three v2 case studies.
+The 7 cream pages still build and are still excluded from `robots.txt` and the
+sitemap.
+
+### Analytics
+
+**Cloudflare Web Analytics**, live since 23 September. Cookieless, so no
+consent banner — this matters, she is UK-based and a cookie popup would be the
+ugliest thing on the site. The beacon is emitted by all three v2 generators;
+the token is public and duplicated in `home.py` and `casestudy.py` (`about.py`
+imports home's). It only ever counts forward — there is no way to recover
+traffic from before it was installed, and she asked about this more than once.
+
+### What changed since launch
+
+- **Homepage** tagline rewritten: "I design complex products, from AI tools to
+  connected hardware…". Launchpad row is "Improving underwriting efficiency".
+- **About** rebuilt on her own wording, and **a portrait was added** —
+  `assets/img/about-maxine.jpg`, driven by an optional `"photo"` key in
+  `content/_about.py`. Delete the key and the photo goes. Note §-1 says a photo
+  was removed at her request; that was a different photo and an older decision,
+  now reversed. She asked for this one.
+- **Radii tightened**: About portrait 16px → **6px**; homepage hover preview
+  40/36 → **12/8**. The preview's two values are concentric (media = card − the
+  4px `--prev-pad`). `_prototype/radius-lab.html` is the sandbox that produced
+  them.
+- **The before/after reveal no longer crops on large displays.** The pane is
+  100vh with no ceiling while the width was capped, so on a tall screen the
+  media box turned portrait against 1.6 landscape frames and `object-fit:
+  cover` ate about half the width. It is now `contain`, and capped at a new
+  `--reveal-max` (1600px) instead of `--content`. Same fault as the phone bug
+  in §0; `contain` fixes both ends. **Do not put `cover` back.**
+- **Analyser**: hero summary rewritten, an **Impact section added** (with its
+  dock anchor), and "The Product" removed — it described the underwriting app,
+  not this project.
+- **Résumé** replaced twice. The current PDF has **no phone number**; she
+  removed it after it was flagged that a public CV invites scraping.
+
+### Corrections to what is written below
+
+- **`build.py` reports 8 pages, not 12 (§CLAUDE.md) and not 10 (§-1).** It
+  builds `404.html` plus the 7 cream case studies.
+- `MIGRATED` holds only `design-system-migration` — the one slug both
+  generators know. The other v2 pages use slugs the cream design never had.
+- `CLAUDE.md` has been rewritten to match reality. `HANDOFF.md` is from the
+  original rebuild and is **superseded** — ignore it.
+
+### How she wants this worked on
+
+Unchanged from §-1 and worth repeating: **incrementally, not in big releases.**
+Additionally, as of 27 September: **commit but do not push.** She reviews on
+`localhost:8787` and pushes herself with GitHub Desktop — there is no git
+credential on the command line and she is not pasting a token into chat. Tell
+her which commits are waiting. Preview with the Browser pane tools
+(`.claude/launch.json`, config `portfolio`, port 8787), never a Bash dev server.
+
+### What is next
+
+A fourth case study, **Motorverse** — web3 / digital vehicle ownership, plate
+customisation, an Easter egg hunt with a Lamborghini NFT prize. Assets are in
+`~/Desktop/Motorverse assets/` (four PNG exports, two ~120MB `.mov` screen
+recordings that need `avconvert`). Figma node
+`kZbRLtd614DBU5cWWJLP8O?node-id=80-836` — the same file `DESIGN-SYSTEM.md`
+cites. The Figma connector may not be authorised; the last three case studies
+were built from exports alone. She will supply the narrative — don't invent it.
+
+---
+
+## -1 · Third session (6 Sept, later still) — superseded by §-2
 
 Everything below this point (§0 onward) is from earlier the same day and is
 now partly stale — e.g. §0 says the homepage/DS migration aren't signed off;
-they are now. Trust this section over anything below it if the two conflict.
+they are now. Trust this section over anything below it if the two conflict,
+and trust §-2 over this one.
 
 ### What got done this session
 
@@ -70,7 +156,9 @@ they are now. Trust this section over anything below it if the two conflict.
     Access Token directly into the chat by mistake (told her to revoke it
     immediately at github.com/settings/tokens — confirm she actually did).
 
-### Exactly what's left to launch — do these in order
+### How the launch was done — ALL OF THIS IS COMPLETE
+
+Kept as a record of how the hosting was set up, not as a to-do list.
 
 1. **Push the code.** In a Terminal window (a real one, not routed through
    an AI chat, so a token never ends up in a transcript again):
