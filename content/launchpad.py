@@ -32,11 +32,17 @@ CASE_STUDY = {
                         "Information architecture",
                         "Stakeholder alignment",
                     ]),
-                    ("The Product", [
-                        "An internal underwriting application for insurance teams to "
-                        "review and triage submissions, manage workflows, and make "
-                        "faster and more confident decisions."
-                    ]),
+                ]),
+            ],
+        },
+
+        {
+            "blocks": [
+                ("head", [("h2", "The Product")]),
+                ("prose", [
+                    ("p", "An internal underwriting application for insurance teams to "
+                          "review and triage submissions, manage workflows, and make "
+                          "faster and more confident decisions."),
                 ]),
             ],
         },
