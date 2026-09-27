@@ -63,6 +63,15 @@ A figure dict:
 `ar` is the CONTENT aspect ratio — the frame minus any black letterbox bar —
 and `op` pushes the crop against that edge. See MEDIA.md for how to measure a
 new recording.
+
+--------------------------------------------------------------------------
+CASE_STUDY dict — optional top-level keys beyond slug/project/title/summary
+--------------------------------------------------------------------------
+"dark": True             adds class="theme-dark" to <body>, for a case study
+                          that overrides the light tokens (see a "extra_css"
+                          stylesheet that defines what theme-dark means).
+"extra_css": ["x.css"]   extra <link> stylesheets loaded after case-study.css,
+                          e.g. a per-case-study dark theme override.
 """
 
 import html
@@ -102,6 +111,7 @@ OG_IMAGE = {
     "launchpad": "home-launchpad.jpg",
     "design-system-migration": "home-design-system-migration.jpg",
     "analyser": "home-analyser.jpg",
+    "motorverse": "home-motorverse.jpg",
 }
 
 
@@ -379,6 +389,10 @@ SCRIPT = open(os.path.join(ROOT, "assets", "js", "case-study.js")).read() \
 def build(cs):
     nav = cs.get("dock", [])
     links = "".join(f'<a href="#{target}">{e(label)}</a>' for label, target in nav)
+    # .dock-links carries its own white pill background -- rendering it empty
+    # (a case study with no section nav) leaves a small blank white dot in
+    # the dock, so skip the wrapper entirely rather than fill it with nothing.
+    dock_links = f'<div class="dock-links">{links}</div>' if nav else ""
 
     prev_next = ""
     if cs.get("next"):
@@ -391,6 +405,12 @@ def build(cs):
     )
 
     body = "\n\n".join(section(s) for s in cs["sections"])
+
+    extra_css = "".join(
+        f'\n<link rel="stylesheet" href="../assets/css/{e(name)}">'
+        for name in cs.get("extra_css", [])
+    )
+    body_class = ' class="theme-dark"' if cs.get("dark") else ""
 
     canon = ""
     if BASE_URL:
@@ -415,10 +435,10 @@ def build(cs):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/case-study.css">
+<link rel="stylesheet" href="../assets/css/case-study.css">{extra_css}
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 </head>
-<body>
+<body{body_class}>
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="topbar">
@@ -444,7 +464,7 @@ def build(cs):
 <nav class="dock" aria-label="Section navigation">
   <div class="dock-inner">
     <a class="dock-pill" href="../index.html">↖ All work</a>
-    <div class="dock-links">{links}</div>
+    {dock_links}
     {prev_next}
   </div>
 </nav>

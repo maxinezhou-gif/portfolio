@@ -1,0 +1,83 @@
+/* ===========================================================================
+   Motorverse — dark theme override
+   ---------------------------------------------------------------------------
+   Loaded after case-study.css, only on this page (`extra_css` in
+   content/motorverse.py). Everything else — fonts, spacing rules, the pill
+   system, the dock, the .rv scroll reveal, the features grid — comes from
+   case-study.css unchanged; this file only redefines colour and the handful
+   of places Motorverse's own Figma frame (kZbRLtd614DBU5cWWJLP8O, node
+   80:836) diverges from a filled light card.
+
+   Values are exact, read from Figma's own variable definitions via
+   get_variable_defs, not eyeballed off a screenshot:
+     colour/black solid   #000000
+     colour/ink           #111112  (unchanged from the light theme's token)
+     colour/white         #ffffff
+     colour/line-strong   #e0e0e0  (unchanged — same pill border either theme)
+     colour/ink-faint     #a0a0a6  (unchanged)
+     colour/ink-body      #3d3d40  (unchanged — reused here as a border, not text)
+     color/grey/73        #b9b9b9  (new — Challenge section body copy only)
+   =========================================================================== */
+
+body.theme-dark {
+  --bg:           #111112;
+  --ink:          #ffffff;
+  --ink-body:     #ffffff;
+  --ink-muted:    #a0a0a6;
+  --ink-faint:    #a0a0a6;
+  --line:         #3d3d40;
+  --line-strong:  #e0e0e0;
+  --surface:      transparent;
+  --surface-2:    #0d0d0e;
+  --white:        #ffffff;
+  --accent:       #ffffff;
+}
+
+body.theme-dark .topbar {
+  background: rgba(0, 0, 0, .85);
+}
+
+/* The dock is a fixed white pill regardless of page theme. Without this,
+   the --ink flip above puts white text on the pill's own white background. */
+body.theme-dark .dock-pill,
+body.theme-dark .dock-links a.active { color: #111112; }
+body.theme-dark .dock-links a       { color: #76767b; }
+body.theme-dark .dock-links a:hover { color: #111112; }
+
+/* Figma alternates pure black and #111112 section by section -- the sections
+   that need black opt in with "classes": ["on-black"] in motorverse.py. */
+body.theme-dark .section.on-black { background: #000000; }
+
+/* Framed figures (Process, Momentum) get a hairline border, not the light
+   theme's filled --surface tile -- Figma's cards show the page through. */
+body.theme-dark .fig .frame {
+  background: transparent;
+  border: 1px solid var(--line);
+}
+/* Momentum's card has no internal padding in Figma -- the image fills the
+   border edge to edge. Process keeps the default 20px. */
+body.theme-dark #momentum .fig .frame { padding: 0; }
+
+/* Everywhere else the photo is plain and edge to edge -- no card at all. */
+body.theme-dark #accent .fig .frame,
+body.theme-dark #collage .fig .frame,
+body.theme-dark #screens .fig .frame,
+body.theme-dark #hero-video .fig .frame {
+  background: none;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+}
+/* The 2.1% scale + corner clip exists to hide a baked-in recording corner --
+   none of Motorverse's images are screen recordings, so it only crops them
+   for nothing. */
+body.theme-dark .fig .clip img,
+body.theme-dark .fig .clip video { transform: none; }
+
+/* The Challenge captions read as muted grey in Figma, not the page's white
+   body copy -- scoped to the three sections that actually use it. */
+body.theme-dark #accent .feature-text p,
+body.theme-dark #gradients p,
+body.theme-dark #momentum .feature-text p {
+  color: #b9b9b9;
+}

@@ -16,7 +16,7 @@ CASE_STUDY = {
 
     "dock": [("Context", "context"), ("Challenge", "challenge"),
              ("Approach", "approach"), ("Impact", "impact")],
-    "next": ("Next", "launchpad.html"),
+    "next": ("Next", "analyser.html"),
 
     "sections": [
 

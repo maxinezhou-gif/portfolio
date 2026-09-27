@@ -61,6 +61,17 @@ HOME = {
                  "alt": "The Analyser contract review platform, showing a "
                         "flagged clause with its suggested replacement",
                  "video": "home-analyser.mp4"},
+
+                # Description is a shortening of the case study's own title,
+                # same pattern as Launchpad/Analyser above -- drafted, not
+                # yet explicitly confirmed by Maxine.
+                {"name": "Motorverse",
+                 "desc": "Redesigning a Web3 racing app",
+                 "href": "work/motorverse.html",                     # v2
+                 "img": "home-motorverse.jpg",
+                 "alt": "A row of Motorverse app screens, including the Lambo "
+                        "Revv Hunt countdown, the rewards panel and the "
+                        "leaderboard"},
             ],
         },
         # "Earlier work · 2020-2023" group (Content hub, Radically Digital,
