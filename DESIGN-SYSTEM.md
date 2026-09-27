@@ -64,11 +64,30 @@ licence. Inter stands in for it. If you licence Maison Neue, add it to the
 |---|---|---|
 | `--max` | `1440px` | frame width, matching Figma |
 | `--content` | `1160px` | inner content width |
+| `--reveal-max` | `1600px` | before/after reveal only — see below |
 | `--col-text` | `370px` | sticky label column |
 | `--col-gap` | `48px` | gap between the two columns |
 | `--gutter` | `clamp(20px, 9.72vw, 140px)` | side padding; 140px at 1440 |
 
-Radii: `--r-sm 8` · `--r-md 12` · `--r-lg 16` · `--r-pill 40`.
+Radii: `--r-sm 8` · `--r-md 12` · `--r-lg 16` · `--r-pill 40`. Case study
+media is `--r-lg`.
+
+Two components deliberately use **literals, not tokens** — they are one-offs,
+and in the preview's case the arithmetic has to stay readable:
+
+| Where | Value | Rule |
+|---|---|---|
+| About page portrait | `6px` | `.about-photo`, `home.css` |
+| Homepage hover preview — card | `12px` | `.home-preview`, `home.css` |
+| Homepage hover preview — media | `8px` | `.home-preview .media`, `home.css` |
+
+The preview's two values are **concentric, not arbitrary**: the media sits
+inside a 4px white frame (`--prev-pad`), so its radius is the card's minus 4.
+Change one and change the other, or the two arcs stop running parallel. The
+media's 8px happens to equal `--r-sm`, but leave it written as `8px` — as a
+token the `12 − 4` relationship stops being visible to the next reader.
+`_prototype/radius-lab.html` is the sandbox for trying values against the real
+images — it keeps that 4px relationship locked by default.
 
 **Spacing rules** — measured against Figma's own metadata, not guessed:
 
@@ -171,6 +190,20 @@ else is CSS. Both panes release together at the end of the section, so the
 reader is never scroll-trapped, and `prefers-reduced-motion` drops it to two
 stacked static images.
 
+**The media is `object-fit: contain`, and must stay that way.** The pane is
+`100vh` with no ceiling while its width is capped, so viewport height alone
+decides the media box's shape. On a tall display that box turns portrait
+against these 1.6 landscape frames, and `cover` fills the height and crops the
+sides away — at 1700x1150 that was about half the width gone. The same fault
+at the other end of the range is what the 1040px fallback below exists for: a
+390x844 pane showed a 29% vertical slice. `contain` is the fix at both ends.
+
+**It is capped at `--reveal-max` (1600px), not `--content`.** This block is
+full-bleed, so holding it to the 1160px *text* column made the frame far
+smaller than the space available, which `contain` then surrounded with dead
+space. 1600px is the single dial: lower it for a tighter frame, raise it for a
+bigger one.
+
 ### The scrolly pattern
 
 The signature interaction. The left label column pins while the media scrolls
@@ -215,12 +248,16 @@ work/<slug>.html          generated — never hand-edit
 
 home.py                   homepage generator -> index.html
 content/_home.py          homepage content
+about.py                  about generator -> about.html; imports home.py
+content/_about.py         about content; the optional "photo" key drives
+                          the portrait — delete it and the photo goes
 assets/css/home.css       homepage layout only; case-study.css still owns
                           every token, the reset and the top bar
 assets/js/home.js         the travelling dot and the hover preview
 
 _prototype/sticky-lab.html  label-swap sandbox
 _prototype/reveal-lab.html  before/after sandbox
+_prototype/radius-lab.html  corner-radius sandbox (sliders, real images)
 HANDOVER.md               context, decisions and gotchas — read first
 ```
 
