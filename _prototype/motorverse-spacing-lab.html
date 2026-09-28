@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motorverse spacing lab — Maxine Zhou</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/case-study.css">
+<link rel="stylesheet" href="../assets/css/motorverse-dark.css">
+<style>
+  /* ---- control panel: a light island floating over the dark preview,
+     same convention as radius-lab.html's control strip. ---------------- */
+  #panel {
+    position: sticky; top: 0; z-index: 50;
+    background: #FAFAFA; color: #111112;
+    border-bottom: 1px solid #E0E0E0;
+    padding: 20px 24px 22px;
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+  #panel .wrap { max-width: 900px; margin: 0 auto; }
+  #panel h1 { font-size: 16px; line-height: 25px; font-weight: 500; margin: 0 0 6px; }
+  #panel .lede { color: #76767B; font-size: 13.5px; line-height: 21px; margin: 0 0 18px; max-width: 68ch; }
+  #panel .ctrl { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
+  #panel label { font-size: 14px; color: #3D3D40; min-width: 108px; }
+  #panel input[type=range] { flex: 1 1 260px; min-width: 200px; accent-color: #8F4A56; }
+  #panel .val {
+    font-variant-numeric: tabular-nums; min-width: 56px; font-size: 14px;
+    padding: 4px 10px; border: 1px solid #E0E0E0; border-radius: 8px; background: #fff;
+    text-align: center;
+  }
+  #panel .presets { display: flex; gap: 6px; flex-wrap: wrap; }
+  #panel .presets button {
+    font: inherit; font-size: 13px; padding: 4px 11px; cursor: pointer;
+    background: #fff; border: 1px solid #E0E0E0; border-radius: 999px; color: #3D3D40;
+  }
+  #panel .presets button:hover { border-color: #111112; color: #111112; }
+  #panel .presets button[aria-pressed=true] { background: #111112; border-color: #111112; color: #fff; }
+  #panel .derived { color: #A0A0A6; font-size: 13px; margin: 10px 0 0; }
+  #panel .derived b { color: #3D3D40; font-weight: 500; font-variant-numeric: tabular-nums; }
+
+  /* ---- live spacing overrides -----------------------------------------
+     Same rules case-study.css already defines for .section / .pad-lg /
+     .pad-b -- just re-pointed at a CSS var the slider drives, so nothing
+     about the real classes or markup changes, only the numbers. */
+  body.theme-dark {
+    --lab-gap: 56px;
+    --lab-gap-lg: 96px;
+  }
+  .section { padding-top: var(--lab-gap) !important; }
+  .section.pad-lg { padding-top: var(--lab-gap-lg) !important; }
+  .section.pad-b { padding-bottom: var(--lab-gap) !important; }
+
+  /* Show every section immediately -- this is a side-by-side comparison
+     tool, not a scroll narrative, so the .rv fade-in is switched off. */
+  .rv { opacity: 1 !important; transform: none !important; }
+
+  /* boundary marker so a gap reads as a measured value, not a guess */
+  .boundary {
+    position: relative;
+    text-align: center;
+    font: 400 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: #676767;
+    pointer-events: none;
+  }
+  .boundary span {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    background: #1c1c1e; border: 1px solid #3D3D40; border-radius: 999px;
+    padding: 2px 10px; white-space: nowrap;
+  }
+</style>
+</head>
+<body class="theme-dark">
+
+<div id="panel">
+  <div class="wrap">
+    <h1>Motorverse — section spacing lab</h1>
+    <p class="lede">The real Design → Screens run of sections below, styled with the live site's
+      own CSS. Drag to try a bigger gap between sections at real size. Nothing here touches the
+      site — when you settle on a number, tell Claude and it gets applied to <code>content/motorverse.py</code>.</p>
+
+    <div class="ctrl">
+      <label for="gap">Section gap</label>
+      <input id="gap" type="range" min="0" max="160" step="4" value="56">
+      <span class="val" id="gapV">56px</span>
+    </div>
+    <div class="ctrl">
+      <label>Quick values</label>
+      <div class="presets" id="presets">
+        <button data-v="40">40</button>
+        <button data-v="56" aria-pressed="true">56 — current</button>
+        <button data-v="72">72</button>
+        <button data-v="96">96</button>
+        <button data-v="120">120</button>
+        <button data-v="140">140</button>
+      </div>
+    </div>
+    <p class="derived">Overview's own top padding (<code>.pad-lg</code>) scales with it, at the
+      same 1.71&times; ratio as the live site (56&rarr;96): currently <b id="derivedV">96px</b>.</p>
+  </div>
+</div>
+
+<!-- ===================== Design ======================================= -->
+<section class="section pad-b wrap">
+  <div class="sec-head rv">
+    <h2>Design</h2>
+  </div>
+  <div class="prose rv">
+    <p class="body">With a clear picture of what users and the business needed, I moved into redesigning the existing product. The aim was to align the platform with the new brand identity, improve how information was structured and surfaced, translate Web3 terminology so that non-crypto-native users could follow it, and deliver a responsive experience across desktop, tablet and mobile.</p>
+  </div>
+</section>
+
+<div class="boundary"><span>gap</span></div>
+
+<!-- ===================== Challenge: accent colours ==================== -->
+<section class="section on-black wrap" id="accent">
+  <div class="features">
+    <div class="feature rv rev">
+      <figure class="fig"><div class="frame"><div class="clip"><img src="../assets/img/mv-accent-colour.jpg" alt="Motorverse mobile screens showing green, yellow and pink accent colours applied across plate customisation UI" width="1603" height="1382" loading="lazy" decoding="async"></div></div></figure>
+      <div class="feature-text">
+        <h2>Multiple accent colours, applied as a system</h2>
+        <p class="body">Brand colours were used as the accent across all utility components, with primary buttons kept visually consistent between web and mobile so that the same action always looks the same, wherever it appears.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="boundary"><span>gap</span></div>
+
+<!-- ===================== Challenge: gradients ========================= -->
+<section class="section on-black wrap" id="gradients">
+  <div class="sec-head rv">
+    <h2>Gradients as a brand signature</h2>
+    <p class="body">Gradients were used throughout the pages to create a sense of energy and movement, giving Motorverse a distinct visual presence among other Web3 sites.</p>
+  </div>
+</section>
+
+<section class="section on-black" id="collage">
+  <figure class="fig rv"><div class="frame"><div class="clip"><img src="../assets/img/mv-gradient-collage.jpg" alt="Two Motorverse plate-selection and rewards screens shown with multicolour gradient backgrounds" width="2000" height="1015" loading="lazy" decoding="async"></div></div></figure>
+</section>
+
+<div class="boundary"><span>gap</span></div>
+
+<!-- ===================== Challenge: momentum ========================== -->
+<section class="section on-black wrap" id="momentum">
+  <div class="features">
+    <div class="feature rv">
+      <div class="feature-text">
+        <h2>Designing momentum into the launch</h2>
+        <p class="body">Countdown timers, leaderboards and supporting UI elements were used to build urgency around the mint and drive engagement in the run-up to launch.</p>
+      </div>
+      <figure class="fig"><div class="frame"><div class="clip"><img src="../assets/img/mv-momentum.jpg" alt="Motorverse mint page showing a countdown timer, rewards panel and the Lamborghini Revuelto prize car" width="529" height="478" loading="lazy" decoding="async"></div></div></figure>
+    </div>
+  </div>
+</section>
+
+<div class="boundary"><span>gap</span></div>
+
+<!-- ===================== Multi-screens banner ========================= -->
+<section class="section on-black" id="screens">
+  <figure class="fig rv"><div class="frame"><div class="clip"><img src="../assets/img/mv-screens.jpg" alt="Collage of five Motorverse homepage and app variants shown across desktop and mobile" width="2000" height="1183" loading="lazy" decoding="async"></div></div></figure>
+</section>
+
+<div style="height:120px"></div>
+
+<script>
+  var root = document.body;
+  var slider = document.getElementById('gap');
+  var val = document.getElementById('gapV');
+  var derived = document.getElementById('derivedV');
+  var presets = document.querySelectorAll('#presets button');
+  var RATIO = 96 / 56;
+
+  function apply(v) {
+    root.style.setProperty('--lab-gap', v + 'px');
+    var lg = Math.round(v * RATIO);
+    root.style.setProperty('--lab-gap-lg', lg + 'px');
+    val.textContent = v + 'px';
+    derived.textContent = lg + 'px';
+    presets.forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.v === v)); });
+  }
+
+  slider.addEventListener('input', function () { apply(+slider.value); });
+  presets.forEach(function (b) {
+    b.addEventListener('click', function () {
+      slider.value = b.dataset.v;
+      apply(+b.dataset.v);
+    });
+  });
+
+  apply(+slider.value);
+</script>
+
+</body>
+</html>

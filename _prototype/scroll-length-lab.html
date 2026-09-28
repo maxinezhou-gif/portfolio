@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Long-page scroll lab — Maxine Zhou</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAFAFA; --surface:#F6F6F8; --surface-2:#F2F4F5; --white:#FFF;
+    --line:#ECECEC; --line-strong:#E0E0E0;
+    --ink:#111112; --ink-body:#3D3D40; --ink-muted:#76767B; --ink-faint:#A0A0A6;
+    --accent:#8F4A56; --r-lg:16px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink-body);
+    font:400 16px/25px Inter,-apple-system,sans-serif;
+    padding-bottom:140px;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px}
+
+  header{padding:56px 0 36px;border-bottom:1px solid var(--line)}
+  h1{font-size:22px;line-height:30px;font-weight:500;color:var(--ink);margin:0 0 10px}
+  .lede{color:var(--ink-muted);margin:0 0 4px;max-width:66ch}
+  .lede b{color:var(--ink-body);font-weight:500}
+  .placeholder-note{
+    display:inline-block;margin-top:14px;font-size:13px;color:var(--ink-faint);
+    background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 13px;
+  }
+
+  .variant{padding:56px 0;border-bottom:1px solid var(--line)}
+  .variant:last-of-type{border-bottom:0}
+  .v-head{display:flex;align-items:baseline;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+  .v-head .tag{
+    font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:#fff;background:var(--ink);border-radius:999px;padding:3px 10px;
+  }
+  .v-head .tag.good{background:#3E6B4F}
+  .v-head h2{font-size:18px;line-height:27px;font-weight:500;color:var(--ink);margin:0}
+  .hint{color:var(--ink-muted);font-size:14px;line-height:22px;max-width:66ch;margin:0 0 8px}
+  .verdict{font-size:14px;line-height:22px;margin:0 0 24px;max-width:66ch}
+  .verdict b{color:var(--ink)}
+  .metric{
+    font-variant-numeric:tabular-nums; font-size:13px; color:var(--ink-faint);
+    margin:0 0 22px;
+  }
+  .metric b{color:var(--ink-body);font-weight:500}
+
+  /* ---- shared frame chrome (a light "browser" mockup around each demo) --- */
+  .device{
+    width:min(640px,100%); margin:0 auto;
+    border:1px solid var(--line-strong); border-radius:var(--r-lg);
+    background:var(--white); overflow:hidden;
+    box-shadow:0 1px 2px rgba(17,17,18,.05), 0 16px 32px -12px rgba(17,17,18,.14);
+  }
+  .device .chrome{
+    height:34px; display:flex; align-items:center; gap:6px; padding:0 12px;
+    background:var(--surface); border-bottom:1px solid var(--line);
+  }
+  .device .chrome i{width:9px;height:9px;border-radius:50%;background:var(--line-strong)}
+
+  /* ---- Variant A / B: sticky scrub window -------------------------------- */
+  .scrub-wrap{ position:relative; }
+  .scrub-window{
+    position:sticky; top:96px;
+    height:460px; overflow:hidden; background:#111112;
+  }
+  .scrub-window img{
+    position:absolute; top:0; left:0; width:100%; height:auto;
+    will-change:transform; display:block;
+  }
+  .scrub-track{
+    position:absolute; right:10px; top:96px; height:460px; width:3px;
+    background:var(--line); border-radius:2px; pointer-events:none;
+  }
+  .scrub-track b{
+    position:absolute; left:-4px; width:11px; height:11px; border-radius:50%;
+    background:var(--accent); top:0; transform:translateY(-50%);
+  }
+
+  /* ---- Variant C: classic parallax (depth, not a full reveal) ----------- */
+  .parallax-window{ height:420px; overflow:hidden; position:relative; background:#111112; }
+  .parallax-window img{
+    position:absolute; left:0; top:0; width:100%; height:auto;
+    will-change:transform;
+  }
+
+  /* ---- Variant D: static, no effect -------------------------------------- */
+  .static-frame img{ display:block; width:100%; height:auto; }
+  .static-frame{ max-height:640px; overflow:auto; border:1px solid var(--line-strong); border-radius:var(--r-lg); }
+  .static-frame::-webkit-scrollbar{ width:10px; }
+  .static-frame::-webkit-scrollbar-thumb{ background:var(--line-strong); border-radius:8px; }
+
+  footer{padding:48px 0 0; color:var(--ink-faint); font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Showing a very long page — four options</h1>
+    <p class="lede">Built for the ~7072px-tall wireframes: how to present something that long inside
+      a case study without either dumping 7000px of raw scroll on the reader, or hiding most of the
+      work. Scroll through each section below and compare how it actually feels, not just how it
+      sounds described. Nothing here touches the site yet — pick one (or none) and tell Claude.</p>
+    <span class="placeholder-note">Demo image is a labelled 1440×7072 placeholder, not a real wireframe — swap in yours once you've picked a technique.</span>
+  </header>
+
+  <!-- ============================================================ A -->
+  <section class="variant">
+    <div class="v-head"><span class="tag">A</span><h2>Scrub window — 1:1</h2></div>
+    <p class="hint">A fixed-height window pins in place; the tall image pans upward inside it as you
+      scroll, so the whole page is visible without it ever getting taller on screen. Scroll distance
+      still tracks the image's real length fairly closely, so a 7072px source is still a long scroll
+      — just a contained one, in a frame instead of a raw edge-to-edge image.</p>
+    <p class="metric">Scroll distance for the full pan: <b id="mA">–</b></p>
+    <div class="device scrub-wrap" id="wrapA" style="height:2400px">
+      <div class="chrome"><i></i><i></i><i></i></div>
+      <div class="scrub-window"><img id="imgA" src="lab-assets/tall-wireframe-placeholder.jpg" alt="Scrub demo A"></div>
+    </div>
+    <p class="verdict"><b>Best for:</b> a single long wireframe you want read start to finish, in order, without cropping any of it out of the story.</p>
+  </section>
+
+  <!-- ============================================================ B -->
+  <section class="variant">
+    <div class="v-head"><span class="tag good">B</span><h2>Scrub window — compressed</h2></div>
+    <p class="hint">Same pinned-window mechanic as A, but the scroll-to-pixel mapping is deliberately
+      sped up: the section only asks for ~1100px of scroll no matter how tall the source image is,
+      so a 7072px page and a 3000px page cost the reader about the same amount of scrolling. This is
+      the one that actually solves "these are all really long."</p>
+    <p class="metric">Scroll distance for the full pan: <b>~1,100px</b>, regardless of source height</p>
+    <div class="device scrub-wrap" id="wrapB" style="height:1560px">
+      <div class="chrome"><i></i><i></i><i></i></div>
+      <div class="scrub-window"><img id="imgB" src="lab-assets/tall-wireframe-placeholder.jpg" alt="Scrub demo B"></div>
+    </div>
+    <p class="verdict"><b>Best for:</b> most of your wireframes, probably — same reading experience as A, a fraction of the scroll. Recommended default.</p>
+  </section>
+
+  <!-- ============================================================ C -->
+  <section class="variant">
+    <div class="v-head"><span class="tag">C</span><h2>Classic parallax (depth only)</h2></div>
+    <p class="hint">What "parallax" usually means outside a portfolio context: the image drifts at a
+      slower rate than the page around it, for a layered feel. It is not a way to show more of a
+      long page — only a fixed crop is ever visible (here, the hero band). Worth ruling in or out on
+      its own terms rather than as a long-page solution.</p>
+    <p class="metric">Visible: <b>~420px</b> of the 7072px source, always — the rest never appears</p>
+    <div class="device">
+      <div class="chrome"><i></i><i></i><i></i></div>
+      <div class="parallax-window"><img id="imgC" src="lab-assets/tall-wireframe-placeholder.jpg" alt="Parallax demo C"></div>
+    </div>
+    <p class="verdict"><b>Best for:</b> a moody hero moment, not for getting through a long wireframe. Probably not the fix for this problem.</p>
+  </section>
+
+  <!-- ============================================================ D -->
+  <section class="variant">
+    <div class="v-head"><span class="tag">D</span><h2>Static, no effect</h2></div>
+    <p class="hint">The honest baseline: the real image at real length, in the page's normal flow —
+      what every other figure on the site already does. Included so A/B/C are judged against
+      something, not against nothing.</p>
+    <p class="metric">Scroll distance: <b>the full 7072px</b>, same as the page itself</p>
+    <div class="device">
+      <div class="chrome"><i></i><i></i><i></i></div>
+      <div class="static-frame"><img src="lab-assets/tall-wireframe-placeholder.jpg" alt="Static baseline D"></div>
+    </div>
+    <p class="verdict">Shown here in a scrollable inset so this lab page itself stays a sane length — on the real site it would just run the page's own full length.</p>
+  </section>
+
+  <footer>_prototype/scroll-length-lab.html · swap <code>lab-assets/tall-wireframe-placeholder.jpg</code> for a real export to judge against actual content.</footer>
+</div>
+
+<script>
+(function(){
+  function throttleRaf(fn){
+    var queued=false;
+    return function(){
+      if(queued) return; queued=true;
+      requestAnimationFrame(function(){ queued=false; fn(); });
+    };
+  }
+
+  function setupScrub(wrapId, imgId, metricId){
+    var wrap = document.getElementById(wrapId);
+    var img = document.getElementById(imgId);
+    if(!wrap||!img) return;
+    var win = wrap.querySelector('.scrub-window');
+    function paint(){
+      var winH = win.clientHeight;
+      var imgH = img.naturalHeight ? (img.clientWidth * img.naturalHeight / img.naturalWidth) : img.clientHeight;
+      var travel = Math.max(0, imgH - winH);
+      var wrapRect = wrap.getBoundingClientRect();
+      var scrollable = wrap.clientHeight - winH; // how far the wrap can scroll under the sticky window
+      var scrolled = Math.min(Math.max(-wrapRect.top, 0), scrollable);
+      var p = scrollable > 0 ? scrolled / scrollable : 0;
+      img.style.transform = 'translateY(' + (-p * travel) + 'px)';
+      if (metricId) {
+        var m = document.getElementById(metricId);
+        if (m) m.textContent = Math.round(scrollable).toLocaleString() + 'px';
+      }
+    }
+    var scheduled = throttleRaf(paint);
+    window.addEventListener('scroll', scheduled, {passive:true});
+    window.addEventListener('resize', scheduled);
+    img.addEventListener('load', paint);
+    paint();
+  }
+
+  function setupParallax(imgId, rate){
+    var img = document.getElementById(imgId);
+    if(!img) return;
+    var win = img.closest('.parallax-window');
+    function paint(){
+      var rect = win.getBoundingClientRect();
+      var vh = window.innerHeight || 1;
+      // -1 (about to enter) .. 1 (about to leave) across the viewport
+      var center = (rect.top + rect.height/2 - vh/2) / vh;
+      img.style.transform = 'translateY(' + (-center * rate) + 'px)';
+    }
+    var scheduled = throttleRaf(paint);
+    window.addEventListener('scroll', scheduled, {passive:true});
+    window.addEventListener('resize', scheduled);
+    img.addEventListener('load', paint);
+    paint();
+  }
+
+  setupScrub('wrapA','imgA','mA');
+  setupScrub('wrapB','imgB',null);
+  setupParallax('imgC', 90);
+})();
+</script>
+</body>
+</html>
