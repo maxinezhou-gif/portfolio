@@ -54,9 +54,9 @@ body.theme-dark .section.on-black { background: #000000; }
    untouched for the other three. */
 body.theme-dark .section { padding-top: 120px; }
 body.theme-dark .section.pad-b { padding-bottom: 120px; }
-/* Hero -> Overview is the one exception: 120px read as too much air right
-   under the hero, so it's pinned back to the site's own default 56px. */
-body.theme-dark #overview { padding-top: 56px; }
+/* Hero -> Overview is the one exception: no gap at all -- the hero's own
+   bottom spacing (.hero{padding-bottom:44px}) is the only air between them. */
+body.theme-dark #overview { padding-top: 0; }
 
 /* Framed figures (Process, Momentum) get a hairline border, not the light
    theme's filled --surface tile -- Figma's cards show the page through. */
