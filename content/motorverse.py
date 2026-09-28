@@ -41,7 +41,7 @@ CASE_STUDY = {
 
         # ---------------------------------------------------- Overview
         {
-            "id": "overview", "classes": ["pad-lg"],
+            "id": "overview",
             "blocks": [
                 ("head", [("eyebrow", "Overview"), ("h2", "Overview")]),
                 ("overview", [

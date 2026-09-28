@@ -50,12 +50,13 @@ body.theme-dark .section.on-black { background: #000000; }
 
 /* Section rhythm — wider than the rest of the site. Maxine tested this
    against the real page in _prototype/motorverse-spacing-lab.html and
-   picked 120px; pad-lg keeps the live site's own 96/56 = 1.71x ratio on
-   top of it, for Overview's extra-large opening beat. Scoped to this page
-   only -- case-study.css's 56/96 stay untouched for the other three. */
+   picked 120px. Scoped to this page only -- case-study.css's 56/96 stay
+   untouched for the other three. */
 body.theme-dark .section { padding-top: 120px; }
-body.theme-dark .section.pad-lg { padding-top: 206px; }
 body.theme-dark .section.pad-b { padding-bottom: 120px; }
+/* Hero -> Overview is the one exception: 120px read as too much air right
+   under the hero, so it's pinned back to the site's own default 56px. */
+body.theme-dark #overview { padding-top: 56px; }
 
 /* Framed figures (Process, Momentum) get a hairline border, not the light
    theme's filled --surface tile -- Figma's cards show the page through. */
