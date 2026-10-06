@@ -85,7 +85,7 @@ HOME = {
         "label": "Elsewhere",
         "rows": [
             {"name": "Resume", "desc": "PDF",
-             "href": "assets/doc/maxine-zhou-resume.pdf"},
+             "href": "assets/doc/maxine-zhou-resume-product-design.pdf"},
             {"name": "Email", "desc": "maxinezhou0302@outlook.com",
              "href": "mailto:maxinezhou0302@outlook.com"},
             {"name": "LinkedIn", "desc": "in/maxine-z",
