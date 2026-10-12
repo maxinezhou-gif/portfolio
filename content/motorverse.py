@@ -194,8 +194,10 @@ CASE_STUDY = {
             "id": "screens", "classes": ["on-black"], "full": True,
             "blocks": [
                 ("fig", {"img": "mv-screens.jpg",
-                         "alt": "Collage of five Motorverse homepage and app "
-                                "variants shown across desktop and mobile"}),
+                         "alt": "Five Motorverse mobile screens: the rewards "
+                                "page, the Lambo Revv Hunt landing page, the "
+                                "egg hunt leaderboard, the racing plate "
+                                "selector and a plate detail view"}),
             ],
         },
     ],
