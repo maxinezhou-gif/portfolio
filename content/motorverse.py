@@ -45,7 +45,7 @@ CASE_STUDY = {
             "blocks": [
                 ("head", [("eyebrow", "Overview"), ("h2", "Overview")]),
                 ("overview", [
-                    ("Our Design Team", ["UX/UI Designer (me)", "Design Manager"]),
+                    ("My Role", ["UX/UI Designer"]),
                     ("Timeline", ["April 2024 – February 2025"]),
                     ("My Core Deliverables",
                      ["Research · Wireframes · Prototypes · UI design · "

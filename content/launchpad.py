@@ -24,7 +24,7 @@ CASE_STUDY = {
             "blocks": [
                 ("head", [("eyebrow", "Context"), ("h2", "Overview")]),
                 ("overview", [
-                    ("My Role", ["Product Designer (Sole Designer)"]),
+                    ("My Role", ["Product Designer"]),
                     ("Responsibilities", [
                         "Next version of this product",
                         "UX analysis & insight synthesis",

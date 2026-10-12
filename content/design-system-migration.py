@@ -7,7 +7,7 @@ CASE_STUDY = {
     "slug":    "design-system-migration",
     "project": "Convex Design System",
     "title":   "Enterprise design system migration",
-    "summary": "Led a design system migration across a 16-product insurance ecosystem, "
+    "summary": "Main contributor of a design system across a 16-product insurance ecosystem, "
                "cutting custom components by **94%** and establishing governance across "
                "three design agencies.",
 
