@@ -443,7 +443,7 @@ def build(cs):
 
 <header class="topbar">
   <div class="wrap">
-    <a class="tb-name" href="../index.html">{SITE['name']}</a>
+    <a class="tb-name" href="/">{SITE['name']}</a>
     <a class="tb-right" href="../about.html">About</a>
   </div>
 </header>
@@ -463,7 +463,7 @@ def build(cs):
 
 <nav class="dock" aria-label="Section navigation">
   <div class="dock-inner">
-    <a class="dock-pill" href="../index.html">↖ All work</a>
+    <a class="dock-pill" href="/">↖ All work</a>
     {dock_links}
     {prev_next}
   </div>

@@ -170,7 +170,7 @@ def build(home, lowercase=False):
 
 <header class="topbar">
   <div class="wrap">
-    <a class="tb-name" href="index.html">{SITE['name']}</a>
+    <a class="tb-name" href="/">{SITE['name']}</a>
     <a class="tb-right" href="about.html">About</a>
   </div>
 </header>
