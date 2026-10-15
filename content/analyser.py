@@ -48,9 +48,8 @@ CASE_STUDY = {
             "blocks": [
                 ("head", [("h2", "The Product")]),
                 ("prose", [
-                    ("p", "An internal underwriting application for insurance teams to "
-                          "review and triage submissions, manage workflows, and make "
-                          "faster and more confident decisions"),
+                    ("p", "AI-assisted contract analysis platform, bringing workflows "
+                          "scattered across 5+ tools into one product."),
                 ]),
             ],
         },
