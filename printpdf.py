@@ -180,7 +180,7 @@ def build_book():
         <h1>{cover['name']}</h1>
         <p class="role">{cover['role']}</p>
       </div>
-      <p class="site">{cover['site']}</p>
+      <p class="site"><a href="https://{cover['site']}">{cover['site']}</a></p>
     </div>
     <p class="tagline">{cover['tagline']}</p>
     <div class="pdf-contents">
@@ -196,9 +196,14 @@ def build_book():
     img = (f'<img class="pdf-about-photo" src="../assets/img/{photo["file"]}"'
            f' alt="{photo["alt"]}" width="534" height="700">') if photo else ''
     paras = '\n        '.join(f'<p>{p}</p>' for p in about['bio'])
+    # Anchors, not spans: a PDF reader turns <a href> into a clickable
+    # annotation, and these three are the only way the file leads anywhere.
+    # The hrefs come from _about.py, so mailto: and the LinkedIn URL stay in
+    # one place. Resume is dropped -- it points at a site-relative file.
+    shown = book.get('LINK_TEXT', {})
     links = '\n        '.join(
-        f'<div class="row"><span class="row-name">{l["name"]}</span>'
-        f'<span class="row-desc">{l["desc"]}</span></div>'
+        f'<a class="row" href="{l["href"]}"><span class="row-name">{l["name"]}</span>'
+        f'<span class="row-desc">{shown.get(l["name"], l["desc"])}</span></a>'
         for l in about['links'] if l['name'] != 'Resume')
     about_html = f"""
   <section class="pdf-about wrap">
@@ -209,8 +214,8 @@ def build_book():
         {paras}
         <div class="links">
         {links}
-        <div class="row"><span class="row-name">Portfolio</span>
-          <span class="row-desc">{cover['site']}</span></div>
+        <a class="row" href="https://{cover['site']}"><span class="row-name">Portfolio</span>
+          <span class="row-desc">{cover['site']}</span></a>
         </div>
       </div>
     </div>

@@ -22,3 +22,11 @@ COVER = {
     # Shown large on the cover -- the whole point of the file.
     "site": "maxine-zhou.com",
 }
+
+# What a link READS AS in the PDF, by its name in _about.py. The site can show
+# a short form because it is a hyperlink either way; print cannot assume a
+# click, so an address here has to be one someone can type off the page.
+# The href is still _about.py's -- only the visible text is overridden.
+LINK_TEXT = {
+    "LinkedIn": "linkedin.com/in/maxine-z-90281422b",
+}

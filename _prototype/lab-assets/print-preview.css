@@ -1135,4 +1135,18 @@ figure.rv { transform: none; }
   }
   .pdf-about .links .row-name { color: var(--ink); }
   .pdf-about .links .row-desc { color: var(--ink-muted); }
+
+  /* The cover link and these rows are anchors so a PDF reader makes them
+     clickable -- that is the whole job. They should not also arrive wearing
+     the browser's underline; `a { color: inherit }` above keeps the colour,
+     and the accent on .site is what marks the link out. */
+  .pdf-cover .site a,
+  .pdf-about .links .row { text-decoration: none; }
+
+  /* The cover link and these rows are anchors so a PDF reader makes them
+     clickable -- that is the whole job. They should not also arrive wearing
+     the browser's underline; `a { color: inherit }` above keeps the colour,
+     and the accent on .site is what marks the link out. */
+  .pdf-cover .site a,
+  .pdf-about .links .row { text-decoration: none; }
 }
