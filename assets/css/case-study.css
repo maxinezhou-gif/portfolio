@@ -838,8 +838,132 @@ figure.rv { transform: none; }
    40px gap while it animates. Fade only. */
 .sec-head.rv { transform: none; }
 
+/* ===========================================================================
+   Print -- the attachable PDF
+   ---------------------------------------------------------------------------
+   Job applications ask for a portfolio file rather than a link, so every case
+   study has to survive being paginated. Three things break when this page
+   meets a printer, and all three already have a solved equivalent above:
+
+     1. .rv starts at opacity 0 waiting for an IntersectionObserver that never
+        fires in a print context -- the page would come out blank.
+     2. .scrolly is a sticky two-column grid. Sticky resolves to static when
+        paginated, leaving each .st stretched down its whole row span.
+     3. .reveal stacks two 100vh panes and cross-fades them from scroll
+        position, so a printed copy shows one frame and a blank page.
+
+   Rather than invent print-only layouts, (2) and (3) reuse the collapsed
+   treatments already verified at <=1040px and under prefers-reduced-motion.
+   Landscape, because every figure on these pages is a wide screenshot.
+   =========================================================================== */
+@page {
+  size: A4 landscape;
+  margin: 14mm;
+}
+
 @media print {
-  .dock, .topbar { display: none !important; }
-  .rv { opacity: 1; transform: none; }
-  body { padding-bottom: 0; }
+  /* @page owns the margin now -- a second gutter inside it would throw away
+     140px a side of the only width a wide screenshot has to work with. */
+  :root { --gutter: 0px; }
+
+  /* The surfaces and the accent are content here, not decoration: the frames,
+     pills and stat blocks lose their shape if the printer drops them. */
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+  }
+
+  body { background: var(--white); padding-bottom: 0; }
+
+  /* Navigation means nothing on paper. */
+  .topbar, .dock, .skip { display: none !important; }
+
+  /* (1) release every reveal */
+  .rv { opacity: 1 !important; transform: none !important; }
+
+  /* Content behind a toggle is still content, and the reader cannot click it
+     open -- print the panel expanded and drop the button that opened it. */
+  .collapse-toggle { display: none !important; }
+  .collapse-panel[hidden] { display: block !important; }
+
+  /* (2) .scrolly -- mirrors the <=1040px collapse: source order, no sticky */
+  .scrolly {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    row-gap: 24px;
+  }
+  .scrolly > .st,
+  .scrolly > figure { grid-column: 1; grid-row: auto !important; }
+  .scrolly > .st { position: static; padding-bottom: 0; }
+  .scrolly.swap > .st,
+  .scrolly.swap > .st.is-on { opacity: 1; }
+
+  /* .split carries the same sticky text column without the grid gymnastics */
+  .split-text { position: static; padding-bottom: 0; }
+
+  /* (3) .reveal -- mirrors the reduced-motion fallback: both panes, stacked at
+     their natural height, still in before-then-after source order. */
+  .reveal .pane {
+    position: relative;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+  .reveal .pane-inner { height: auto; padding: 0; }
+  .reveal .pane-head { flex-direction: column; gap: 8px; }
+  .reveal .pane-head h3 { flex: 0 0 auto; }
+  .reveal .pane-media .clip img { height: auto; }
+  .reveal .pane.is-after { opacity: 1; }
+
+  /* A figure torn across a page break is worse than a short page, and a
+     heading stranded at the foot of one reads as a mistake. */
+  figure.fig,
+  .stat, .ov, .findings li, .pull, .reveal .pane { break-inside: avoid; }
+  .sec-head, h1, h2, h3, .chapter { break-after: avoid; }
+
+  /* The title earns its own page -- it is the cover of the case study. Given a
+     whole sheet it has to be composed like one: held to the printable height
+     and centred, so the white space reads as deliberate rather than as a page
+     that ran out of content. */
+  .hero {
+    break-after: page;
+    min-height: 168mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Figures are sized for a 1440 frame: at 269mm of printable width the --ar
+     crop box computes taller than the page, so break-inside: avoid could never
+     be honoured. Drop the crop, cap the height, and let the whole screenshot
+     through at its own ratio -- nothing in it is hidden on paper.
+
+     105mm, not 150: a figure is its image plus ~11mm of frame padding, a
+     caption and its margin. At 150mm that totals ~174mm of a 182mm page, so
+     every figure took a page to itself and stranded the text around it -- a
+     9,700px document paginated to 26 sheets. At 105mm a figure and the text
+     that introduces it share a page, which is also how they read on screen. */
+  .fig .frame > .clip > img,
+  .fig .frame > .clip > video {
+    aspect-ratio: auto;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 105mm;
+    object-fit: contain;
+    display: block;
+    margin-inline: auto;
+  }
+
+  /* The vertical rhythm is scroll pacing -- it gives the reader room to travel
+     between beats. On paper the page break is the beat, so the same values
+     just buy blank sheets. Roughly halved; the proportions are kept. */
+  .section { padding-top: 28px; }
+  .section.pad-lg { padding-top: 40px; }
+  .section.pad-b { padding-bottom: 28px; }
+  .section > * + *,
+  .section > :is(.collapse-panel, .inset) > * + * { margin-top: 28px; }
+  .section.gap-lg > * + * { margin-top: 40px; }
+  .section > .sec-head + *,
+  .section > :is(.collapse-panel, .inset) > .sec-head + * { margin-top: 20px; }
 }

@@ -22,3 +22,7 @@ original-assets/
 
 # Source video masters live on the Desktop (~128 MB of .mov) — not committed.
 # Web-ready mp4s in assets/video/ are generated from them with avconvert.
+
+# Attachable case study PDFs, rendered by printpdf.py from work/*.html.
+# Build output, like work/ itself — regenerate rather than commit.
+pdf/
