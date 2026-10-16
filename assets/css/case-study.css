@@ -960,6 +960,11 @@ figure.rv { transform: none; }
      that ran out of content. */
   .hero {
     break-after: page;
+    /* ...and it must not split. In the combined --book PDF the hero is no
+       longer the first thing in the document, so without this the pills and
+       the project label stranded at the foot of the PREVIOUS case study's
+       last page while the title flowed onto the next. */
+    break-inside: avoid;
     min-height: 168mm;
     display: flex;
     flex-direction: column;
@@ -999,4 +1004,132 @@ figure.rv { transform: none; }
   .section.gap-lg > * + * { margin-top: 40px; }
   .section > .sec-head + *,
   .section > :is(.collapse-panel, .inset) > .sec-head + * { margin-top: 20px; }
+
+  /* -------------------------------------------------------------------------
+     The combined portfolio PDF's own two pages: a cover and an about page.
+     They exist only in print -- nothing on the site renders them -- and they
+     are assembled by printpdf.py --book from content/_book.py. Both are held
+     to the printable height and centred, the same composition as a case
+     study's hero, so the three covers in the file read as one set.
+     ---------------------------------------------------------------------- */
+  .pdf-cover,
+  .pdf-about {
+    min-height: 168mm;
+    break-after: page;
+    break-inside: avoid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .pdf-cover-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--col-gap);
+  }
+  .pdf-cover h1 {
+    font-size: 46px;
+    line-height: 50px;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+  .pdf-cover .role {
+    font-size: var(--t-h2);
+    line-height: var(--lh-head);
+    letter-spacing: var(--ls-tight);
+    color: var(--ink-muted);
+    margin-top: 6px;
+  }
+  /* The link is the reason the file exists -- it gets the accent. */
+  .pdf-cover .site {
+    font-size: var(--t-h2);
+    letter-spacing: var(--ls-tight);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .pdf-cover .tagline {
+    font-size: var(--t-body);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin-top: 20px;
+    max-width: 62ch;
+  }
+
+  .pdf-contents {
+    margin-top: 44px;
+    border-top: 1px solid var(--line-strong);
+    padding-top: 16px;
+  }
+  .pdf-contents ol {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    counter-reset: c;
+  }
+  .pdf-contents li {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+    counter-increment: c;
+  }
+  .pdf-contents li::before {
+    content: counter(c, decimal-leading-zero);
+    color: var(--ink-faint);
+    font-size: var(--t-body2);
+    /* Inter's default figures are proportional, so "01" is narrower than "02"
+       and the titles beside them did not line up. */
+    font-variant-numeric: tabular-nums;
+  }
+  .pdf-contents .ttl {
+    font-size: var(--t-body);
+    color: var(--ink);
+    letter-spacing: var(--ls-tight);
+  }
+  .pdf-contents .meta {
+    margin-left: auto;
+    font-size: var(--t-body2);
+    color: var(--ink-muted);
+    white-space: nowrap;
+  }
+
+  /* About: photo left at the sticky text column's width, bio right. */
+  .pdf-about { display: grid; }
+  .pdf-about-grid {
+    display: grid;
+    grid-template-columns: var(--col-text) minmax(0, 1fr);
+    gap: 56px;
+    align-items: center;
+  }
+  .pdf-about-photo {
+    width: 100%;
+    height: auto;
+    border-radius: var(--r-lg);
+    display: block;
+  }
+  .pdf-about h1 { margin: 0 0 20px; }
+  .pdf-about p {
+    font-size: var(--t-body);
+    line-height: var(--lh-body);
+    color: var(--ink-body);
+    margin: 0;
+    max-width: 62ch;
+  }
+  .pdf-about p + p { margin-top: 16px; }
+  .pdf-about .links {
+    margin-top: 28px;
+    border-top: 1px solid var(--line-strong);
+  }
+  .pdf-about .links .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: var(--t-body2);
+  }
+  .pdf-about .links .row-name { color: var(--ink); }
+  .pdf-about .links .row-desc { color: var(--ink-muted); }
 }
