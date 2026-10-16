@@ -921,6 +921,39 @@ figure.rv { transform: none; }
   .stat, .ov, .findings li, .pull, .reveal .pane { break-inside: avoid; }
   .sec-head, h1, h2, h3, .chapter { break-after: avoid; }
 
+  /* A heading group is ONE unit -- the eyebrow, the heading it labels and the
+     intro line under it. break-after only binds the group to what follows it;
+     it never stopped the group splitting down its own middle, which is how
+     "IMPACT" printed at the foot of one sheet and "Impact" at the head of the
+     next. The group has to refuse to break inside itself as well. */
+  .sec-head { break-inside: avoid; }
+
+  /* And never strand a single line of running text across a break: a bullet
+     in the DS migration case study left its last word, "unchanged.", alone on
+     the following sheet. widows/orphans hold three lines either side of a
+     break, and the short blocks refuse to split at all. */
+  body { orphans: 3; widows: 3; }
+  p, li, figcaption, .def, .pane-body { break-inside: avoid; }
+
+  /* widows/orphans alone did not hold -- Chrome honours them inconsistently in
+     paged media, and a wrapped line of a .scrolly caption still carried over
+     on its own. The short paired text blocks are small enough to move whole,
+     so make them atomic rather than relying on line counting. */
+  .scrolly > .st, .stack > * { break-inside: avoid; }
+
+  /* .step-cards is a 3-up grid, and a grid ROW breaks internally when it does
+     not fit -- which split one card's text and left "information in a modal to
+     minimise" opening a page on its own. break-inside on the card could not
+     prevent it; the row is what has to move. One row of cards is ~93mm, so it
+     fits a sheet comfortably. */
+  .step-cards { break-inside: avoid; }
+  .step-cards .t { break-inside: avoid; }
+
+  /* The same row-splitting applies to every other multi-column block, and to
+     the findings list, which was breaking after its first item. All are a
+     single short row or a handful of lines, so they move whole. */
+  .overview, .stats, .findings { break-inside: avoid; }
+
   /* The title earns its own page -- it is the cover of the case study. Given a
      whole sheet it has to be composed like one: held to the printable height
      and centred, so the white space reads as deliberate rather than as a page
