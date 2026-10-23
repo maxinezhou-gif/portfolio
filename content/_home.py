@@ -37,7 +37,7 @@ HOME = {
     # note at the bottom of this file.
     "groups": [
         {
-            "label": "Selected work · 2023–2025",
+            "label": "Selected work",
             "rows": [
                 {"name": "Launchpad",
                  "desc": "Improving underwriting efficiency",
