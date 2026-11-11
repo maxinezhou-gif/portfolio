@@ -39,6 +39,19 @@ HOME = {
         {
             "label": "Selected work",
             "rows": [
+                # Added 11 Nov 2026. First in the group because it is the
+                # newest work; one line to move it if that is wrong.
+                # `desc` is drafted, like Motorverse's below, and wants her
+                # eye -- the case study's own summary is four clauses long,
+                # which this row cannot carry.
+                {"name": "Screen-free audio",
+                 "desc": "Companion app for a connected device",
+                 "href": "work/screen-free-audio.html",
+                 "img": "home-screen-free-audio.jpg",
+                 "alt": "Screens from the companion app, including role "
+                        "selection, the welcome screen and device settings",
+                 "video": "home-screen-free-audio.mp4"},
+
                 {"name": "Launchpad",
                  "desc": "Improving underwriting efficiency",
                  "href": "work/launchpad.html",                      # v2
