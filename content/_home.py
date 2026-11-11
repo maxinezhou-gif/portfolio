@@ -26,7 +26,7 @@ HOME = {
                "underwriting workflow, design systems and AI contract analysis.",
 
     "intro": [
-        "Hello, I’m Maxine Zhou",
+        "Hallo, I’m Maxine",
         "I design complex products, from AI tools to connected hardware, "
         "and I own them from the first question to launch.",
     ],
