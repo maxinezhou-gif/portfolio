@@ -44,7 +44,7 @@ HOME = {
                 # `desc` is drafted, like Motorverse's below, and wants her
                 # eye -- the case study's own summary is four clauses long,
                 # which this row cannot carry.
-                {"name": "Screen-free audio",
+                {"name": "Learning audio player for kids",
                  "desc": "Companion app for a connected device",
                  "href": "work/screen-free-audio.html",
                  "img": "home-screen-free-audio.jpg",
