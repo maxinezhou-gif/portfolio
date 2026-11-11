@@ -125,6 +125,50 @@ body.home .topbar .wrap {
 .row-name { color: var(--ink); }
 .row-desc { color: var(--ink-muted); }
 
+/* ---------------------------------------------------------------------------
+   The hand-drawn mark beside a row name
+   ---------------------------------------------------------------------------
+   Maxine's own "NEW!!", set after the name of the most recent case study.
+
+   The height is tied to the CAP HEIGHT of the 16px name, not to the 25px line
+   box, so the mark reads as sitting on the same line as the words rather than
+   as a taller object next to them. It is also the reason the row stays 74px:
+   22px is well inside the line box, so the mark cannot grow the row and break
+   the rhythm the whole list depends on.
+
+   `vertical-align` lifts it off the baseline by eye — the drawn strokes have
+   no baseline of their own, so there is nothing to align to programmatically.
+   --------------------------------------------------------------------------- */
+/* The name becomes a flex row ONLY when it carries a mark. This is what keeps
+   the row at 74px: as an inline-block the mark sat on the text baseline and
+   its 22px box pushed the 25px line box out to 28px, making the row 77px and
+   breaking step with every other row. As a flex item its height is simply
+   less than the line box, so it cannot grow it.
+   Scoped with :has() so a plain name keeps normal inline text layout. */
+.row-name:has(.row-badge) {
+  display: flex;
+  align-items: center;
+}
+
+.row-badge {
+  flex: none;
+  margin-left: 10px;
+  line-height: 0;
+}
+.row-badge img {
+  display: block;
+  height: 22px;
+  width: auto;          /* 201x66 source, so this lands at ~67px */
+}
+
+/* The mark is decorative repetition of information the row already carries,
+   so it must never be the reason a row wraps. Below the hover breakpoint the
+   column is narrow enough that it could be. */
+@media (max-width: 640px) {
+  .row-badge img { height: 18px; }
+  .row-badge { margin-left: 8px; }
+}
+
 /* Nothing moves on hover. The dot and the preview do all the work — that
    restraint is the entire point of the reference. The colour shift below is
    for pointer-less users, who get no dot; a real pointer never sees it,

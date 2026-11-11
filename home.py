@@ -105,8 +105,26 @@ def row_html(r, preview=True):
     # desc supports a literal "\n" for a genuine two-line description (e.g.
     # a name + a stat, each short enough alone) -- rare, most rows are one line
     desc = rich(r["desc"]).replace("\n", "<br>")
+
+    # An optional hand-drawn mark set beside the name, e.g. the "NEW!!" on the
+    # most recent case study. The <picture> is what honours reduced motion:
+    # the animated WebP is only chosen when motion is welcome, otherwise the
+    # browser takes the still PNG of the final frame. A GIF could not do this
+    # -- CSS cannot pause an animated image, so the choice has to happen at
+    # the source level.
+    badge = ""
+    if r.get("badge"):
+        stem = r["badge"]
+        badge = (
+            '<picture class="row-badge">'
+            f'<source srcset="assets/img/{e(stem)}.png"'
+            ' media="(prefers-reduced-motion: reduce)" type="image/png">'
+            f'<img src="assets/img/{e(stem)}.webp" alt="{html.escape(r.get("badge_alt", ""), quote=True)}"'
+            ' width="201" height="66" decoding="async" loading="lazy">'
+            '</picture>'
+        )
     return (f'      <a {" ".join(attrs)}>\n'
-            f'        <span class="row-name">{e(r["name"])}</span>\n'
+            f'        <span class="row-name">{e(r["name"])}{badge}</span>\n'
             f'        <span class="row-desc">{desc}</span>\n'
             f'      </a>')
 

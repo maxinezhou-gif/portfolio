@@ -46,6 +46,13 @@ HOME = {
                 # which this row cannot carry.
                 {"name": "Learning audio player for kids",
                  "desc": "Companion app for a connected device",
+                 # Maxine's hand-drawn mark, beside the name. Source is
+                 # Untitled_Artwork.gif (6 frames, 1020ms); it was trimmed to
+                 # its content, keyed off its white ground so the strokes
+                 # stay clean on #FAFAFA, and written out as new-badge.webp
+                 # plus a still new-badge.png for prefers-reduced-motion.
+                 "badge": "new-badge",
+                 "badge_alt": "New",
                  "href": "work/screen-free-audio.html",
                  "img": "home-screen-free-audio.jpg",
                  "alt": "Screens from the companion app, including role "
