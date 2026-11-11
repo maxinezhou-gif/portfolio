@@ -55,6 +55,26 @@
   --r-lg:  16px;
   --r-pill: 40px;
 
+  /* ---- elevation ---------------------------------------------------
+     The first shadow token on the site -- the dock writes its own inline,
+     and nothing else was raised off the page at all.
+
+     Five layers rather than one: a single large blur reads as grey haze,
+     where short stacked layers read as a soft edge. Grey (186,186,186)
+     rather than black, so it tints rather than dirties #FAFAFA, and offset
+     slightly right as well as down.
+
+     Measured off niklas.space/canvas and kept at those values on purpose --
+     Maxine compared six treatments against the real media (the exploration
+     page) and chose this one at an 8px corner.
+     ------------------------------------------------------------------ */
+  --shadow-media:
+    rgba(186,186,186,.5)  0 0 1px 0,
+    rgba(186,186,186,.25) .1px .4px .5px 0,
+    rgba(186,186,186,.25) .2px 1.1px 1.3px -.8px,
+    rgba(186,186,186,.25) .5px 2.6px 3px -1.7px,
+    rgba(186,186,186,.25) 1.2px 6.3px 7.2px -2.5px;
+
   /* ---- layout — matches the 1440 Figma frame ---------------------- */
   --max:      1440px;
   --content:  1160px;   /* inner content width  */
@@ -409,6 +429,30 @@ figure { margin: 0; }
   border-radius: var(--r-lg);
   padding: 20px;
 }
+
+/* ---------------------------------------------------------------------------
+   A figure in a full-bleed section (`"full": True`, so no .wrap, so no
+   gutter) is a banner, not a framed card.
+
+   The frame above is a tinted surface with a hairline and a 16px radius, and
+   all three only make sense against a margin. Run them to the viewport edge
+   and the border leaves the screen mid-stroke while the radius clips corners
+   off nothing. So the card is dropped and the media fills the width.
+
+   The caption keeps the gutter: it is prose, and prose starting at x=0 reads
+   as a layout fault whatever the media beside it is doing.
+
+   Until now `full` was only ever used by .reveal, which brings its own
+   framing -- this is what a full-bleed `fig` needs.
+   --------------------------------------------------------------------------- */
+.section:not(.wrap) > .fig > .frame {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+.section:not(.wrap) > .fig > .frame > .clip { border-radius: 0; }
+.section:not(.wrap) > .fig > figcaption { padding-inline: var(--gutter); }
 /* ---------------------------------------------------------------------------
    The black corner, properly.
 
@@ -458,6 +502,74 @@ figure { margin: 0; }
   aspect-ratio: var(--ar, 702 / 439);
   object-fit: cover;
   object-position: center var(--op, center);
+}
+
+/* ---------------------------------------------------------------------------
+   Media that must not lose a pixel.
+
+   The default above crops twice over. `object-fit: cover` trims whichever
+   axis overflows when --ar and the file's own shape disagree, and the
+   scale(1.021) shaves about 2% off every edge -- which exists to hide a
+   rounded corner baked into a screenshot's pixels.
+
+   A recording of a live page has no baked corner and no margin to give away:
+   the phone inside it is already near the edge of frame. So both come off and
+   the media is fitted inside the frame instead of filling it. Set by
+   `"fit": "contain"` on the figure dict.
+   --------------------------------------------------------------------------- */
+.fig.contain .frame > .clip > img,
+.fig.contain .frame > .clip > video {
+  object-fit: contain;
+  transform: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Plain media -- `"media": "plain"` on the case study, so class on <body>.
+
+   The default .fig .frame is a panel: a tint, a hairline and 20px of padding.
+   The media is a specimen on a tray. That reads well for a dense interface
+   shot, and badly for a case study carrying mostly full-screen recordings,
+   where the tray competes with the screen inside it.
+
+   This drops the panel and raises the media instead: the media's own edges
+   become the figure's edges (so they line up with the text column, and so
+   with the top bar's name and About link), with a small corner and a soft
+   shadow holding them against the page.
+
+   8px, not the 16px used everywhere else: a large corner on a photograph of
+   a screen fights the device's own rounded corner inside it. --r-sm already
+   is 8px, so this borrows a step rather than inventing one.
+
+   Scoped to the body class on purpose. The published case studies use the
+   card and are not being restyled.
+
+   Each selector here matches the shape of the rule it overrides
+   (`.fig .frame > .clip`, three classes) -- a shorter one loses whatever the
+   source order. Same trap as `.feature.rev`.
+   --------------------------------------------------------------------------- */
+.media-plain .fig .frame {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.media-plain .fig .frame > .clip {
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow-media);
+}
+
+/* ---------------------------------------------------------------------------
+   An embedded live page, for a demo that runs rather than plays.
+
+   No `transform: scale()` here, unlike the img/video rule above. That scale
+   exists to crop a rounded corner baked into a screenshot's pixels; an embed
+   has no baked corner, and scaling it would blur live text and push the
+   edges of the frame out of the clip.
+   --------------------------------------------------------------------------- */
+.fig .frame > .clip > .embed {
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--ar, 4 / 5);
+  border: 0;
 }
 
 /* an empty slot Maxine left in the design with no source yet */
@@ -691,9 +803,32 @@ figure { margin: 0; }
 /* media-first row: same two tracks, sizes swapped to match, DOM order swapped too */
 .feature.rev { grid-template-columns: minmax(0, 520px) minmax(0, 384px); }
 
+/* ---------------------------------------------------------------------------
+   Rows pushed to the column edges, opted into per section with "rows-flush".
+
+   A feature row is 384 + 64 + 520 = 968, centred in the 1160 column, so it
+   sits 96px in from each side. Against a full-width heading above it, the
+   text starts further right than every other line on the page, which reads as
+   a misalignment rather than as an indent.
+
+   space-between keeps both track widths and spends the slack on the gap
+   instead: text on the page's left margin, media on its right. Below 1040 the
+   rows become a single 1fr track and there is no slack to distribute, so this
+   quietly stops applying, which is correct.
+
+   Opt-in rather than the default: the published case studies are laid out
+   against the centred version.
+   --------------------------------------------------------------------------- */
+.rows-flush .feature { justify-content: space-between; }
+
 /* below the two-column threshold, stack and let the media fill */
 @media (max-width: 1040px) {
-  .feature { grid-template-columns: 1fr; row-gap: 24px; }
+  /* `.feature.rev` must be named here too. Its rule above is two classes, so
+     it outranks a bare `.feature` even inside this query -- a media-first row
+     kept both tracks all the way down to 390, squeezing the media to a third
+     of the width while the text beside it ran to two or three words a line. */
+  .feature,
+  .feature.rev { grid-template-columns: 1fr; row-gap: 24px; }
 }
 
 /* plain bullet list — for problems, deliverables, learnings */
@@ -775,7 +910,12 @@ figure { margin: 0; }
 }
 .dock a { pointer-events: auto; }
 
-.dock-pill {
+/* `.cta-pill` is the same object as a dock pill, so it shares the rule rather
+   than restating it: one pill in the design system, used in two places. It
+   only differs in the two things a standalone call to action needs over a
+   navigation chip -- a little more size. */
+.dock-pill,
+.cta-pill {
   display: inline-flex; align-items: center; gap: 7px;
   background: var(--white); border: 1px solid var(--line);
   border-radius: var(--r-pill); padding: 10px 16px;
@@ -784,7 +924,10 @@ figure { margin: 0; }
   box-shadow: 0 2px 6px rgba(17,17,18,.05), 0 10px 24px -8px rgba(17,17,18,.14);
   transition: transform .18s ease;
 }
-.dock-pill:hover { transform: translateY(-2px); }
+.dock-pill:hover,
+.cta-pill:hover { transform: translateY(-2px); }
+
+.cta-pill { padding: 12px 22px; font-size: var(--t-body2); }
 
 .dock-links {
   display: flex; align-items: center; gap: 2px;

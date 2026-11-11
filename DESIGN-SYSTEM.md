@@ -117,6 +117,16 @@ what breaks a collapsible's spacing silently.
   any h3 dropped into a feature, like a "Result:" line, that was never
   meant to be that large).
 
+### Elevation
+
+| Token | Used by |
+|---|---|
+| `--shadow-media` | the `plain` figure frame — **Figure frames** below |
+
+The only shadow token on the site. The dock pills write their own inline, and
+nothing else is raised off the page at all, so treat a new shadow as a
+decision to discuss rather than a value to pick.
+
 ### Motion
 
 | Token | Value |
@@ -155,9 +165,56 @@ of `casestudy.py`.
 | `("callout", [...])` | tinted aside; use `("label", "…")` inside for its accent sub-headings |
 | `("chapter", "Phase 1 · Foundation building")` | quiet chapter divider, 20px in ink-faint. Not currently used anywhere — a phase-style heading is just a two-line `h2` (`"Phase 1\nFoundation building"`, one literal `\n`, which `rich()` turns into a `<br>`) directly in a `features` row |
 | `("features", [(text, fig), …])` | text 384 / gap 64 / media 520, centre-aligned rows. Swap the pair to `(fig, text)` to put the media on the **left** instead — both the column widths and the DOM order flip together |
-| `("fig", {…})` | one framed, clipped, captioned figure |
+| `("fig", {…})` | one framed, clipped, captioned figure — see **Figure frames** below for the two frame variants |
+| `("cta", {"label": "…", "href": "…"})` | pill-shaped link, sharing the `.dock-pill` rule. The **only** block that emits an `<a>` — `rich()` escapes everything else, so a link cannot be written as copy. An `http` href opens in a new tab |
 | `("scrolly", [(labels, fig), …])` | **the sticky pattern** |
 | `("reveal", {"before": {…}, "after": {…}})` | **full-bleed before/after crossfade** |
+
+### Figure frames — `card` and `plain`
+
+Two variants. The frame is chosen **per case study, not per figure**: a page
+that mixes them reads as an oversight rather than a decision.
+
+| | `card` (default) | `plain` |
+|---|---|---|
+| Panel | `--surface` fill, 1px `--line`, 20px padding | none |
+| Media corner | `--r-lg` (16px) | `--r-sm` (8px) |
+| Edge | the panel's hairline | `--shadow-media` |
+| Media edges sit | 21px inside the text column | **on** the text column |
+
+**`card`** is the default and needs nothing in the content file. The inset is
+the point of it: the media is a specimen on a tray, which suits a dense
+interface shot that would otherwise bleed into the page.
+
+**`plain`** drops the panel and raises the media instead. Opt in with one key
+on the case study dict, beside `slug` and `title`:
+
+```python
+"media": "plain",
+```
+
+That puts `class="media-plain"` on `<body>`; the overrides live under
+`.media-plain` in `case-study.css`. No other case study is affected, and
+leaving the key out is how every existing one stays on `card`.
+
+Use it when the case study is carrying mostly full-screen recordings and
+device shots, where the tray competes with the screen inside it. Because the
+media's own edges become the figure's edges, a full-width figure then lines up
+exactly with the text column — and so with the top bar's name and About link.
+
+**Why 8px and not 16px.** A large corner on a photograph of a screen fights
+the device's own rounded corner inside it. 8px is `--r-sm`, already in the
+scale, so this borrows a step rather than inventing one.
+
+**`--shadow-media`** is five stacked shadows, not one. A single large blur
+reads as grey haze; short layers stacked read as a soft edge. It is grey
+(`186,186,186`) rather than black, so it tints `--bg` instead of dirtying it,
+and is offset slightly right as well as down. Values measured from
+`niklas.space/canvas`.
+
+> Overriding `.clip` needs **`.media-plain .fig .frame > .clip`**, matching the
+> shape of the rule it beats. A shorter selector loses to the three-class
+> default whatever the source order — the same trap as `.feature.rev`.
 
 ### Chapter + feature rows
 
@@ -176,6 +233,24 @@ Huxe's own sizes are 28/17; this system uses 26/16 so the page stays inside
 Maxine's tokens. The tracks are `minmax(0, …)` so they shrink rather than
 overflow between the two-column breakpoint and the 1248px at which
 384 + 64 + 520 genuinely fits.
+
+#### `rows-flush`
+
+A feature row is 384 + 64 + 520 = 968, centred in the 1160 column, so it sits
+96px in from each side. Under a full-width heading that reads as a
+misalignment rather than an indent.
+
+Add `rows-flush` to the **section's** `classes` and the row keeps both track
+widths but spends the slack on the gap instead, putting the text on the page's
+left margin and the media on its right:
+
+```python
+"classes": ["pad-lg", "gap-lg", "rows-flush"],
+```
+
+Opt-in, because the published case studies are laid out against the centred
+version. Below 1040px the rows are a single `1fr` track with no slack to
+distribute, so it stops applying on its own.
 
 ### Before / after reveal
 

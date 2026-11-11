@@ -50,6 +50,11 @@ BLOCK REFERENCE — the vocabulary available in `body`
                                                          swap the pair -- (figure, text_blocks)
                                                          -- to put the media on the left
 ("label", "What happened")                              accent label inside a callout
+("cta", {"label": "Try prototype",                      pill-shaped link, styled
+         "href": "https://..."})                         like the dock pills. The
+                                                         only block that emits an
+                                                         <a> -- everything else is
+                                                         escaped by rich().
 
 ("fig",   {...})                            one figure, full width
 ("scrolly", [ (label_blocks, figure), ... ]) sticky label per figure
@@ -59,6 +64,18 @@ A figure dict:
     {"img": "file.jpg", "alt": "...", "caption": "..."}
     {"video": "file.mp4", "poster": "file.jpg", "ar": "1500 / 853",
      "op": "bottom", "caption": "..."}
+    {"embed": "https://...", "ar": "4 / 5", "alt": "...", "caption": "..."}
+
+`fit: "contain"` on any of them fits the media inside the frame instead of
+filling it, and drops the 1.021 scale. Use it when the source has no baked-in
+rounded corner to hide and nothing to spare -- a recording of a live page,
+say. The default crops roughly 2% off every edge.
+
+`embed` is a live page in a sandboxed, lazy-loaded iframe, for a demo that
+should keep running rather than be filmed. It works anywhere a figure does --
+`fig`, a `features` row, `scrolly` -- because they all go through figure().
+`alt` becomes the iframe title. Anything embeddable must be published: the
+page is built static, so there is no dev server to point it at.
 
 `ar` is the CONTENT aspect ratio — the frame minus any black letterbox bar —
 and `op` pushes the crop against that edge. See MEDIA.md for how to measure a
@@ -67,6 +84,10 @@ new recording.
 --------------------------------------------------------------------------
 CASE_STUDY dict — optional top-level keys beyond slug/project/title/summary
 --------------------------------------------------------------------------
+"media": "plain"         adds class="media-plain" to <body>: every figure on
+                         the page loses the card and gets a small corner and a
+                         soft shadow instead. Per page, not per figure -- a
+                         case study that mixes the two reads as a mistake.
 "dark": True             adds class="theme-dark" to <body>, for a case study
                           that overrides the light tokens (see a "extra_css"
                           stylesheet that defines what theme-dark means).
@@ -108,6 +129,7 @@ ANALYTICS = (
 # The homepage's own preview image for each case study, reused as its OG
 # image -- already the right shape (1200x750-ish) and already exists.
 OG_IMAGE = {
+    "screen-free-audio": "home-screen-free-audio.jpg",
     "launchpad": "home-launchpad.jpg",
     "design-system-migration": "home-design-system-migration.jpg",
     "analyser": "home-analyser.jpg",
@@ -156,7 +178,28 @@ def figure(f, reveal=True):
     cap = f.get("caption")
     caption = f'<figcaption>{rich(cap)}</figcaption>' if cap else ""
 
-    if "video" in f:
+    if "embed" in f:
+        # A live page rather than a picture of one. Used for the flow demos,
+        # which run the real prototype in their own iframe -- so the chrome,
+        # the sheets and every transition on this page are the product's own,
+        # and they cannot go stale the way a recording would.
+        #
+        # loading="lazy" keeps it off the wire until the reader is near it,
+        # which is what preload="none" does for the videos above. The demos
+        # pause themselves when off-screen and honour prefers-reduced-motion,
+        # so nothing extra is needed here.
+        #
+        # The sandbox allows what the demo needs and nothing else: scripts to
+        # drive it, same-origin so its own inner iframe resolves. Forms,
+        # popups, downloads and top-level navigation stay blocked.
+        st = f' style="--ar: {f["ar"]}"' if f.get("ar") else ""
+        media = (
+            f'<iframe class="embed" src="{e(f["embed"])}"{st}'
+            f' title="{e(f.get("alt", ""))}" loading="lazy"'
+            f' sandbox="allow-scripts allow-same-origin"'
+            f' scrolling="no" tabindex="-1"></iframe>'
+        )
+    elif "video" in f:
         style = []
         if f.get("ar"):
             style.append(f'--ar: {f["ar"]}')
@@ -182,7 +225,11 @@ def figure(f, reveal=True):
             f'{wh} loading="lazy" decoding="async">'
         )
 
-    return (f'<figure class="fig{rv}">'
+    # "fit": "contain" for media that must not lose a pixel -- see the
+    # .fig.contain rule in case-study.css for what the default would crop.
+    fit = " contain" if f.get("fit") == "contain" else ""
+
+    return (f'<figure class="fig{rv}{fit}">'
             f'<div class="frame"><div class="clip">{media}</div></div>'
             f"{caption}</figure>")
 
@@ -245,6 +292,20 @@ def render(blocks, indent=2):
                     inner = f"<{tag}>" + "".join(f"<li>{rich(i)}</li>" for i in items) + f"</{tag}>"
                 cols.append(f'<div class="ov"><h3>{rich(label)}</h3>{inner}</div>')
             out.append(f'{pad}<div class="overview rv">{"".join(cols)}</div>')
+
+        elif kind == "cta":
+            # The one place a content file can emit a link. rich() escapes
+            # everything except **bold** by design, so a CTA written as copy
+            # cannot be a link -- it needs its own block or it cannot exist.
+            #
+            # SUPERSEDES the 9 Nov decision to leave the prototype link as
+            # plain text. Maxine asked for a real button on 11 Nov.
+            cfg = b[1]
+            href = cfg["href"]
+            ext = ' target="_blank" rel="noopener"' if href.startswith("http") else ""
+            out.append(f'{pad}<p class="cta rv">'
+                       f'<a class="cta-pill" href="{e(href)}"{ext}>'
+                       f'{e(cfg["label"])}</a></p>')
 
         elif kind == "findings":
             items = "".join(f"<li>{rich(i)}</li>" for i in b[1])
@@ -410,7 +471,13 @@ def build(cs):
         f'\n<link rel="stylesheet" href="../assets/css/{e(name)}">'
         for name in cs.get("extra_css", [])
     )
-    body_class = ' class="theme-dark"' if cs.get("dark") else ""
+    # Page-level switches, both opt-in from the case study's own dict.
+    body_classes = []
+    if cs.get("dark"):
+        body_classes.append("theme-dark")
+    if cs.get("media") == "plain":
+        body_classes.append("media-plain")
+    body_class = f' class="{" ".join(body_classes)}"' if body_classes else ""
 
     canon = ""
     if BASE_URL:
